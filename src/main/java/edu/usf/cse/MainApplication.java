@@ -1,4 +1,4 @@
-package edu.usf.cse.Driver;
+package edu.usf.cse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
