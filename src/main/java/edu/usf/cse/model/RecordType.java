@@ -1,6 +1,6 @@
 package edu.usf.cse.model;
 
-enum RecordType {
+public enum RecordType {
     CUSTOMER,
     TRANSACTION
 }
