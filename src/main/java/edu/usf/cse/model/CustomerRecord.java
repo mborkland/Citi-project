@@ -1,5 +1,6 @@
 package edu.usf.cse.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,88 +11,130 @@ public class CustomerRecord {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="ID")
     private Integer id;
 
-    private int csiId;
+    @Column(name="CSI ID")
+    private String csiId;
 
+    @Column(name="CS Instance")
     private String csInstance;
 
+    @Column(name="BUSINESS_ID")
     private String businessId;
 
+    @Column(name="BIZ_UNIT_ID")
     private String bizUnitId;
 
+    @Column(name="PRODUCT_ID")
     private String productId;
 
+    @Column(name="BIZ_PROD_ID")
     private String bizProdId;
 
+    @Column(name="Cx Business Unit Name")
     private String cxBusinessUnitName;
 
+    @Column(name="Cx Business Unit Name Display Value")
     private String cxBusinessUnitNameDisplayValue;
 
+    @Column(name="Cx Business Greenzone")
     private String cxBusinessGreenzone;
 
+    @Column(name="Ruleset Mapped")
     private String rulesetMapped;
 
+    @Column(name="REGION")
     private String region;
 
+    @Column(name="COUNTRY")
     private String country;
 
+    @Column(name="SECTOR")
     private String sector;
 
-    private boolean workflowFlag;
+    @Column(name="Workflow Flag")
+    private String workflowFlag;
 
+    @Column(name="Workflow Instance")
     private String workflowInstance;
 
+    @Column(name="WF Business Unit Name")
     private String wfBusinessUnitName;
 
+    @Column(name="WF Business Unit Name Display Value")
     private String wfBusinesUnitNameDisplayValue;
 
+    @Column(name="WF Business Greenzone")
     private String wfBusinessGreenzone;
 
+    @Column(name="Interface Des.")
     private String interfaceDescription;
 
-    private int interfaceAppId;
+    @Column(name="Interface App ID")
+    private String interfaceAppId;
 
+    @Column(name="Interface Application Name")
     private String interfaceApplicationName;
 
+    @Column(name="Operation Entity")
     private String operationEntity;
 
+    @Column(name="CBUSOL")
     private String cbusol;
 
+    @Column(name="Ops/Compliance Contacts")
     private String opsComplianceContacts;
 
+    @Column(name="Cw V1/V2")
     private String cwVersion;
 
-    private boolean gomCompliant;
+    @Column(name="GOM Compliant?")
+    private String gomCompliant;
 
+    @Column(name="Cw UAT Contacts")
     private String cwUatContacts;
 
+    @Column(name="Source Tech Contacts")
     private String sourceTechContacts;
 
+    @Column(name="Impact to Business")
     private String impactToBusiness;
 
+    @Column(name="Business Escalation Contacts")
     private String businessEscalationContacts;
 
+    @Column(name="Timezone")
     private String timezone;
 
+    @Column(name="Impact to Product Processor")
     private String impactToProductProcessor;
 
+    @Column(name="Product Processor Escalation Contacts")
     private String productProcessorEscalationContacts;
 
+    @Column(name="Product Processor Group DL")
     private String productProcessorGroupDl;
 
+    @Column(name="Product Processor SNOW Group Name")
     private String productProcessorSnowGroupName;
 
+    @Column(name="Product Processor SLA")
     private String productProcessorSla;
 
+    @Column(name="Frequency")
     private String frequency;
 
+    @Column(name="File Scheduled Date and Time")
     private String fileScheduledDateAndTime;
 
+    @Column(name="File 2nd Scheduled Date and Time")
     private String file2ndScheduledDateAndTime;
 
+    @Column(name="Avg Volume")
     private String averageVolume;
 
+    @Column(name="Avg Runtime")
     private String averageRuntime;
 
 
@@ -103,11 +146,11 @@ public class CustomerRecord {
         this.id = id;
     }
 
-    public int getCsiId() {
+    public String getCsiId() {
         return csiId;
     }
 
-    public void setCsiId(int csiId) {
+    public void setCsiId(String csiId) {
         this.csiId = csiId;
     }
 
@@ -207,11 +250,11 @@ public class CustomerRecord {
         this.sector = sector;
     }
 
-    public boolean isWorkflowFlag() {
+    public String  getWorkflowFlag() {
         return workflowFlag;
     }
 
-    public void setWorkflowFlag(boolean workflowFlag) {
+    public void setWorkflowFlag(String  workflowFlag) {
         this.workflowFlag = workflowFlag;
     }
 
@@ -255,11 +298,11 @@ public class CustomerRecord {
         this.interfaceDescription = interfaceDescription;
     }
 
-    public int getInterfaceAppId() {
+    public String getInterfaceAppId() {
         return interfaceAppId;
     }
 
-    public void setInterfaceAppId(int interfaceAppId) {
+    public void setInterfaceAppId(String interfaceAppId) {
         this.interfaceAppId = interfaceAppId;
     }
 
@@ -303,11 +346,11 @@ public class CustomerRecord {
         this.cwVersion = cwVersion;
     }
 
-    public boolean isGomCompliant() {
+    public String  getGomCompliant() {
         return gomCompliant;
     }
 
-    public void setGomCompliant(boolean gomCompliant) {
+    public void setGomCompliant(String  gomCompliant) {
         this.gomCompliant = gomCompliant;
     }
 
