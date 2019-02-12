@@ -16,11 +16,15 @@ import java.util.List;
 @RestController
 public class MainController {
 
-    @Autowired
     private CustomerRecordService customerRecordService;
 
-    @Autowired
     private TransactionRecordService transactionRecordService;
+
+    @Autowired
+    public MainController(CustomerRecordService customerRecordService, TransactionRecordService transactionRecordService) {
+        this.customerRecordService = customerRecordService;
+        this.transactionRecordService = transactionRecordService;
+    }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields) {
@@ -28,7 +32,7 @@ public class MainController {
 
     }
 
-    public RecordService getServiceType(RecordType recordType) {
+    private RecordService getServiceType(RecordType recordType) {
         switch (recordType) {
             case CUSTOMER:
                 return customerRecordService;
