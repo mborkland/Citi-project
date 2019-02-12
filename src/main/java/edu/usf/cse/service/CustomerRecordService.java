@@ -18,6 +18,7 @@ public class CustomerRecordService implements RecordService {
         this.customerRecordRepository = customerRecordRepository;
     }
 
+    @Override
     public String createRecord(List<String> fields) {
         CustomerRecord customerRecord = new CustomerRecord();
         Iterator<String> iterator = fields.iterator();

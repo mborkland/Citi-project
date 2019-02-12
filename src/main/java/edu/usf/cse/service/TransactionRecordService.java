@@ -18,6 +18,7 @@ public class TransactionRecordService implements RecordService {
         this.transactionRecordRepository = transactionRecordRepository;
     }
 
+    @Override
     public String createRecord(List<String> fields) {
         TransactionRecord transactionRecord = new TransactionRecord();
         Iterator<String> iterator = fields.iterator();

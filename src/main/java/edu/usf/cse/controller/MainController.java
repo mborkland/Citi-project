@@ -29,7 +29,6 @@ public class MainController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields) {
         return getServiceType(recordType).createRecord(fields);
-
     }
 
     private RecordService getServiceType(RecordType recordType) {
