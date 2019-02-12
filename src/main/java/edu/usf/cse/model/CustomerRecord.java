@@ -1,23 +1,20 @@
 package edu.usf.cse.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name="CX_BU_DETAILS")
 public class CustomerRecord {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="ID")
     private Integer id;
 
-    @Column(name="CSI ID")
+    @Column(name="CSI_ID")
     private String csiId;
 
-    @Column(name="CS Instance")
+    @Column(name="CS_Instance")
     private String csInstance;
 
     @Column(name="BUSINESS_ID")
@@ -32,16 +29,16 @@ public class CustomerRecord {
     @Column(name="BIZ_PROD_ID")
     private String bizProdId;
 
-    @Column(name="Cx Business Unit Name")
+    @Column(name="Cx_Business_Unit_Name")
     private String cxBusinessUnitName;
 
-    @Column(name="Cx Business Unit Name Display Value")
+    @Column(name="Cx_Business_Unit_Name_Display_Value")
     private String cxBusinessUnitNameDisplayValue;
 
-    @Column(name="Cx Business Greenzone")
+    @Column(name="Cx_Business_Greenzone")
     private String cxBusinessGreenzone;
 
-    @Column(name="Ruleset Mapped")
+    @Column(name="Ruleset_Mapped")
     private String rulesetMapped;
 
     @Column(name="REGION")
@@ -53,89 +50,89 @@ public class CustomerRecord {
     @Column(name="SECTOR")
     private String sector;
 
-    @Column(name="Workflow Flag")
+    @Column(name="Workflow_Flag")
     private String workflowFlag;
 
-    @Column(name="Workflow Instance")
+    @Column(name="Workflow_Instance")
     private String workflowInstance;
 
-    @Column(name="WF Business Unit Name")
+    @Column(name="WF_Business_Unit_Name")
     private String wfBusinessUnitName;
 
-    @Column(name="WF Business Unit Name Display Value")
-    private String wfBusinesUnitNameDisplayValue;
+    @Column(name="WF_Business_Unit_Name_Display_Value")
+    private String wfBusinessUnitNameDisplayValue;
 
-    @Column(name="WF Business Greenzone")
+    @Column(name="WF_Business_Greenzone")
     private String wfBusinessGreenzone;
 
-    @Column(name="Interface Des.")
+    @Column(name="Interface_Description")
     private String interfaceDescription;
 
-    @Column(name="Interface App ID")
+    @Column(name="Interface_App_ID")
     private String interfaceAppId;
 
-    @Column(name="Interface Application Name")
+    @Column(name="Interface_Application_Name")
     private String interfaceApplicationName;
 
-    @Column(name="Operation Entity")
+    @Column(name="Operation_Entity")
     private String operationEntity;
 
     @Column(name="CBUSOL")
     private String cbusol;
 
-    @Column(name="Ops/Compliance Contacts")
+    @Column(name="Ops_Compliance_Contacts")
     private String opsComplianceContacts;
 
-    @Column(name="Cw V1/V2")
+    @Column(name="Cw_V1_V2")
     private String cwVersion;
 
-    @Column(name="GOM Compliant?")
+    @Column(name="GOM_Compliant")
     private String gomCompliant;
 
-    @Column(name="Cw UAT Contacts")
+    @Column(name="Cw_UAT_Contacts")
     private String cwUatContacts;
 
-    @Column(name="Source Tech Contacts")
+    @Column(name="Source_Tech_Contacts")
     private String sourceTechContacts;
 
-    @Column(name="Impact to Business")
+    @Column(name="Impact_to_Business")
     private String impactToBusiness;
 
-    @Column(name="Business Escalation Contacts")
+    @Column(name="Business_Escalation_Contacts")
     private String businessEscalationContacts;
 
     @Column(name="Timezone")
     private String timezone;
 
-    @Column(name="Impact to Product Processor")
+    @Column(name="Impact_to_Product_Processor")
     private String impactToProductProcessor;
 
-    @Column(name="Product Processor Escalation Contacts")
+    @Column(name="Product_Processor_Escalation_Contacts")
     private String productProcessorEscalationContacts;
 
-    @Column(name="Product Processor Group DL")
+    @Column(name="Product_Processor_Group_DL")
     private String productProcessorGroupDl;
 
-    @Column(name="Product Processor SNOW Group Name")
+    @Column(name="Product_Processor_SNOW_Group_Name")
     private String productProcessorSnowGroupName;
 
-    @Column(name="Product Processor SLA")
+    @Column(name="Product_Processor_SLA")
     private String productProcessorSla;
 
     @Column(name="Frequency")
     private String frequency;
 
-    @Column(name="File Scheduled Date and Time")
+    @Column(name="File_Scheduled_Date_and_Time")
     private String fileScheduledDateAndTime;
 
-    @Column(name="File 2nd Scheduled Date and Time")
-    private String file2ndScheduledDateAndTime;
-
-    @Column(name="Avg Volume")
+    @Column(name="Avg_Volume")
     private String averageVolume;
 
-    @Column(name="Avg Runtime")
+    @Column(name="Avg_Runtime")
     private String averageRuntime;
+
+    @Column(name="File_2nd_Scheduled_Date_and_Time")
+    private String file2ndScheduledDateAndTime;
 
 
     public Integer getId() {
@@ -274,12 +271,12 @@ public class CustomerRecord {
         this.wfBusinessUnitName = wfBusinessUnitName;
     }
 
-    public String getWfBusinesUnitNameDisplayValue() {
-        return wfBusinesUnitNameDisplayValue;
+    public String getWfBusinessUnitNameDisplayValue() {
+        return wfBusinessUnitNameDisplayValue;
     }
 
-    public void setWfBusinesUnitNameDisplayValue(String wfBusinesUnitNameDisplayValue) {
-        this.wfBusinesUnitNameDisplayValue = wfBusinesUnitNameDisplayValue;
+    public void setWfBusinessUnitNameDisplayValue(String wfBusinessUnitNameDisplayValue) {
+        this.wfBusinessUnitNameDisplayValue = wfBusinessUnitNameDisplayValue;
     }
 
     public String getWfBusinessGreenzone() {

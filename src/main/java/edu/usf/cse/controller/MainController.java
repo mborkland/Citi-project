@@ -40,7 +40,7 @@ public class MainController {
             customerRecord.setWorkflowFlag(iterator.next());
             customerRecord.setWorkflowInstance(iterator.next());
             customerRecord.setWfBusinessUnitName(iterator.next());
-            customerRecord.setWfBusinesUnitNameDisplayValue(iterator.next());
+            customerRecord.setWfBusinessUnitNameDisplayValue(iterator.next());
             customerRecord.setWfBusinessGreenzone(iterator.next());
             customerRecord.setInterfaceDescription(iterator.next());
             customerRecord.setInterfaceAppId(iterator.next());
