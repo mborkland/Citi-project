@@ -27,8 +27,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields) {
-        return getServiceType(recordType).createRecord(fields);
+    public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields,
+                         @RequestParam String author) {
+        String success = getServiceType(recordType).createRecord(fields);
+        // TODO: add author to last modified table
+        return success;
     }
 
     private RecordService getServiceType(RecordType recordType) {
