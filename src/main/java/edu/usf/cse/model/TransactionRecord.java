@@ -134,7 +134,7 @@ public class TransactionRecord {
     @Column(name="Batches_or_Peaks_for_Realtime_Volumes")
     private String batchesOrPeaksForRealtimeVolumes;
 
-    @Column(name="Inital_Screening_Response_SLA")
+    @Column(name="Initial_Screening_Response_SLA")
     private String initialScreeningResponseSla;
 
     @Column(name="Threshold_Set_for_Timeouts")
