@@ -12,4 +12,6 @@ public interface RecordService {
     Record getRecord(List<SearchParameter> searchParameters);
 
     String updateRecord(Record record, String field, String newValue);
+
+    String deleteRecord(Record record);
 }

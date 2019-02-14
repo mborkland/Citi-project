@@ -81,4 +81,10 @@ public class CustomerRecordService implements RecordService {
         // TODO: add logic to update the given field of the given record with new value
         return "Customer record updated successfully";
     }
+
+    @Override
+    public String deleteRecord(Record record) {
+        // TODO: add logic to delete the given record
+        return "Customer record deleted successfully";
+    }
 }
