@@ -1,7 +1,10 @@
 package edu.usf.cse.service;
 
+import edu.usf.cse.model.Record;
+import edu.usf.cse.model.SearchParameter;
 import edu.usf.cse.model.TransactionRecord;
 import edu.usf.cse.persistence.TransactionRecordRepository;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -70,5 +73,11 @@ public class TransactionRecordService implements RecordService {
 
         transactionRecordRepository.save(transactionRecord);
         return "Transaction record created successfully";
+    }
+
+    @Override
+    public TransactionRecord getRecord(List<SearchParameter> searchParameters) {
+        // TODO: add logic to search database for record based on search parameters
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 package edu.usf.cse.controller;
 
-import edu.usf.cse.model.RecordType;
+import edu.usf.cse.model.*;
 import edu.usf.cse.service.CustomerRecordService;
 import edu.usf.cse.service.RecordService;
 import edu.usf.cse.service.TransactionRecordService;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -29,12 +28,19 @@ public class MainController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields,
                          @RequestParam String author) {
-        String success = getServiceType(recordType).createRecord(fields);
+        String success = getRecordServiceType(recordType).createRecord(fields);
         // TODO: add author to last modified table
         return success;
     }
 
-    private RecordService getServiceType(RecordType recordType) {
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public Record searchCustomer(@RequestParam RecordType recordType,
+                                 @RequestParam List<SearchParameter> searchParameters)
+    {
+        return getRecordServiceType(recordType).getRecord(searchParameters);
+    }
+
+    private RecordService getRecordServiceType(RecordType recordType) {
         switch (recordType) {
             case CUSTOMER:
                 return customerRecordService;
@@ -44,6 +50,4 @@ public class MainController {
                 throw new IllegalArgumentException("Invalid record type.");
         }
     }
-
-
 }
