@@ -43,7 +43,6 @@ public class MainController {
     public String update(@RequestParam RecordType recordType, @RequestParam Record record, @RequestParam String field,
                          @RequestParam String newValue, @RequestParam String author)
     {
-
         String success = getRecordServiceType(recordType).updateRecord(record, field, newValue);
         // TODO: add author to last modified table
         return success;
