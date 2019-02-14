@@ -9,7 +9,7 @@ public interface RecordService {
 
     String createRecord(List<String> fields);
 
-    Record getRecord(List<SearchParameter> searchParameters);
+    List<Record> getRecords(List<SearchParameter> searchParameters);
 
     String updateRecord(Record record, String field, String newValue);
 

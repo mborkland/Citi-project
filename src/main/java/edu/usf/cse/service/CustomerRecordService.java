@@ -71,7 +71,7 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public CustomerRecord getRecord(List<SearchParameter> searchParameters) {
+    public List<Record> getRecords(List<SearchParameter> searchParameters) {
         // TODO: add logic to search database for record based on search parameters
         return null;
     }

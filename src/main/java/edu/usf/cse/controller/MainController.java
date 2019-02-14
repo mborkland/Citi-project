@@ -34,9 +34,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
-    public Record read(@RequestParam RecordType recordType, @RequestParam List<SearchParameter> searchParameters)
+    public List<Record> read(@RequestParam RecordType recordType, @RequestParam List<SearchParameter> searchParameters)
     {
-        return getRecordService(recordType).getRecord(searchParameters);
+        return getRecordService(recordType).getRecords(searchParameters);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
