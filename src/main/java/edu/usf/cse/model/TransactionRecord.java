@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="TX_BU_DETAILS")
-public class TransactionRecord {
+public class TransactionRecord implements Record {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
