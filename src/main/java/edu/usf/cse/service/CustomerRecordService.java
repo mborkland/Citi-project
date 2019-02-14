@@ -75,4 +75,10 @@ public class CustomerRecordService implements RecordService {
         // TODO: add logic to search database for record based on search parameters
         return null;
     }
+
+    @Override
+    public String updateRecord(Record record, String field, String newValue) {
+        // TODO: add logic to update the given field of the given record with new value
+        return "Customer record updated successfully";
+    }
 }
