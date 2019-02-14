@@ -28,7 +28,7 @@ public class MainController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields,
                          @RequestParam String requester) {
-        String success = getRecordServiceType(recordType).createRecord(fields);
+        String success = getRecordService(recordType).createRecord(fields);
         // TODO: add requester to last modified table
         return success;
     }
@@ -36,14 +36,14 @@ public class MainController {
     @RequestMapping(value = "/read", method = RequestMethod.GET)
     public Record read(@RequestParam RecordType recordType, @RequestParam List<SearchParameter> searchParameters)
     {
-        return getRecordServiceType(recordType).getRecord(searchParameters);
+        return getRecordService(recordType).getRecord(searchParameters);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
     public String update(@RequestParam RecordType recordType, @RequestParam Record record, @RequestParam String field,
                          @RequestParam String newValue, @RequestParam String requester)
     {
-        String success = getRecordServiceType(recordType).updateRecord(record, field, newValue);
+        String success = getRecordService(recordType).updateRecord(record, field, newValue);
         // TODO: add requester to last modified table
         return success;
     }
@@ -51,12 +51,12 @@ public class MainController {
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public String delete(@RequestParam RecordType recordType, @RequestParam Record record, @RequestParam String requester)
     {
-        String success = getRecordServiceType(recordType).deleteRecord(record);
+        String success = getRecordService(recordType).deleteRecord(record);
         // TODO: add record and requester to deleted record table
         return success;
     }
 
-    private RecordService getRecordServiceType(RecordType recordType) {
+    private RecordService getRecordService(RecordType recordType) {
         switch (recordType) {
             case CUSTOMER:
                 return customerRecordService;
