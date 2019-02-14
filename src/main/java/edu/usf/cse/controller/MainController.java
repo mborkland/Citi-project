@@ -33,11 +33,20 @@ public class MainController {
         return success;
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public Record searchCustomer(@RequestParam RecordType recordType,
-                                 @RequestParam List<SearchParameter> searchParameters)
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    public Record read(@RequestParam RecordType recordType, @RequestParam List<SearchParameter> searchParameters)
     {
         return getRecordServiceType(recordType).getRecord(searchParameters);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.PATCH)
+    public String update(@RequestParam RecordType recordType, @RequestParam Record record, @RequestParam String field,
+                         @RequestParam String newValue, @RequestParam String author)
+    {
+
+        String success = getRecordServiceType(recordType).updateRecord(record, field, newValue);
+        // TODO: add author to last modified table
+        return success;
     }
 
     private RecordService getRecordServiceType(RecordType recordType) {
