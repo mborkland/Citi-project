@@ -4,6 +4,7 @@ import edu.usf.cse.model.Record;
 import edu.usf.cse.model.SearchParameter;
 import edu.usf.cse.model.TransactionRecord;
 import edu.usf.cse.persistence.TransactionRecordRepository;
+import edu.usf.cse.specification.RecordSpecification;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -77,8 +78,8 @@ public class TransactionRecordService implements RecordService {
 
     @Override
     public List<Record> getRecords(List<SearchParameter> searchParameters) {
-        // TODO: add logic to search database for record based on search parameters
-        return null;
+        RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
+        return transactionRecordRepository.findAll(recordSpecification);
     }
 
     @Override

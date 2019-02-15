@@ -4,6 +4,7 @@ import edu.usf.cse.model.CustomerRecord;
 import edu.usf.cse.model.Record;
 import edu.usf.cse.model.SearchParameter;
 import edu.usf.cse.persistence.CustomerRecordRepository;
+import edu.usf.cse.specification.RecordSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -72,8 +73,8 @@ public class CustomerRecordService implements RecordService {
 
     @Override
     public List<Record> getRecords(List<SearchParameter> searchParameters) {
-        // TODO: add logic to search database for record based on search parameters
-        return null;
+        RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
+        return customerRecordRepository.findAll(recordSpecification);
     }
 
     @Override
