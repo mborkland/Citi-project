@@ -78,6 +78,19 @@ public class CustomerRecordService implements RecordService {
         return "Customer record created successfully";
     }
 
+    private void addInfoToUpdateHistory(CustomerRecord record, String fieldName, String newValue, String requestor) {
+    	CustomerRecordUpdateHistory updateInfo = new CustomerRecordUpdateHistory();
+        updateInfo.setId(record.getId());
+        updateInfo.setCsiId(record.getCsiId());
+        updateInfo.setCsInstance(record.getCsInstance());
+        updateInfo.setFieldName(fieldName);
+        updateInfo.setNewValue(newValue);
+        updateInfo.setRequestor(requestor);
+        updateInfo.setTimeOfChange(new Timestamp(System.currentTimeMillis()));
+        
+        customerRecordUpdateHistoryRepository.save(updateInfo);
+    }
+    
     @Override
     public List<Record> getRecords(List<SearchParameter> searchParameters) {
         RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
@@ -88,16 +101,7 @@ public class CustomerRecordService implements RecordService {
     public String updateRecord(Record record, String field, String newValue, String requestor) {
         // TODO: add logic to update the given field of the given record with new value
         CustomerRecord recordToUpdate = customerRecordRepository.findOne(record.getId());
-        
-    	CustomerRecordUpdateHistory updateInfo = new CustomerRecordUpdateHistory();
-        updateInfo.setId(record.getId());
-        updateInfo.setCsiId(record.getCsiId());
-        updateInfo.setCsInstance(record.getCsInstance());
-        updateInfo.setFieldName(field);
-        updateInfo.setNewValue(newValue);
-        updateInfo.setRequestor(requestor);
-        updateInfo.setTimeOfChange(new Timestamp(System.currentTimeMillis()));
-    	
+       
     	switch(field) {
         case "CSI_ID": 
         	recordToUpdate.setCsiId(newValue);
@@ -225,7 +229,7 @@ public class CustomerRecordService implements RecordService {
         }
         
         customerRecordRepository.save(recordToUpdate);
-        customerRecordUpdateHistoryRepository.save(updateInfo);
+        addInfoToUpdateHistory(recordToUpdate, field, newValue, requestor);
         
     	return "Customer record updated successfully";
     }
