@@ -43,7 +43,8 @@ public class MainController {
     public String update(@RequestParam RecordType recordType, @RequestParam Record record, @RequestParam String field,
                          @RequestParam String newValue, @RequestParam String requestor)
     {
-        String success = getRecordService(recordType).updateRecord(record, field, newValue);
+        String success = getRecordService(recordType).updateRecord(record, field, newValue, requestor);
+        //addUpdateInfo(record, field, newValue, requestor);
         // TODO: add requestor to last modified table
         return success;
     }

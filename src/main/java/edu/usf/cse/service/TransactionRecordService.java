@@ -83,7 +83,7 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String updateRecord(Record record, String field, String newValue) {
+    public String updateRecord(Record record, String field, String newValue, String requestor) {
         // TODO: add logic to update the given field of the given record with new value
         return "Transaction record updated successfully";
     }
