@@ -49,7 +49,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public String delete(@RequestParam RecordType recordType, @RequestParam Record record, @RequestParam String requestor)
+    public String delete(@RequestParam RecordType recordType, @RequestParam Integer record, @RequestParam String requestor)
     {
         String success = getRecordService(recordType).deleteRecord(record);
         // TODO: add record and requestor to deleted record table

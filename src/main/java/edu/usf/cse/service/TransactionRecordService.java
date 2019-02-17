@@ -89,8 +89,9 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String deleteRecord(Record record) {
+    public String deleteRecord(Integer record) {
         // TODO: add logic to delete the given record
+        transactionRecordRepository.delete(record);
         return "Transaction record deleted successfully";
     }
 }
