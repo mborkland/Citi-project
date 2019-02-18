@@ -1,6 +1,0 @@
-{"155094", "AML-NS BytyScreening NAM", "GTS_USCARDS", "usgtb", "GTSUSWEEKLYTS2", "usgSTT2wp", "GTS US COMMERCIAL",
-"GTS US COMMERCIAL", "24/7", "ISP NAM US GTS COMM CARD WEEKLY", "NAM", "USA",	"ISP", "Y", "Cw NAM", "GTS US COMM WKLY TS2",
-"GTS US COMM WKLY TS2",	 "24/7", "NDM", "34897", "Commercial Cards File Delivery", "Business Ops", "N/A", "Borkland, Michael",
-"V2", "Y", "Khalil, Christopher", "Bhat, Sanjeeth", "Business cannot open accounts until file has been screened.",
-"Winkler-Malcom, Ethan", "NAM", "N/A", "Christensen, Kenneth", "N/A", "N/A", "1 second", "Weekly", "Tuesday AM", "6K",
-"N/A", "N/A"}
