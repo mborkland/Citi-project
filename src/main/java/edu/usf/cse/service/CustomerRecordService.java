@@ -79,7 +79,7 @@ public class CustomerRecordService implements RecordService {
         return "Customer record created successfully";
     }
 
-    private void addCreatedInfoToUpdateHistory(CustomerRecord record, List<String> fields, String requestor) {
+    public void addCreatedInfoToUpdateHistory(CustomerRecord record, List<String> fields, String requestor) {
     	Iterator<String> iterator = fields.iterator();
     	
     	addInfoToUpdateHistory(record, "CSI_ID", iterator.next(), requestor); 
@@ -125,9 +125,9 @@ public class CustomerRecordService implements RecordService {
 	    addInfoToUpdateHistory(record, "File_2nd_Scheduled_Date_and_Time", iterator.next(), requestor); 	
     }
     
-    private void addInfoToUpdateHistory(CustomerRecord record, String fieldName, String newValue, String requestor) {
+    public void addInfoToUpdateHistory(CustomerRecord record, String fieldName, String newValue, String requestor) {
     	CustomerRecordUpdateHistory updateInfo = new CustomerRecordUpdateHistory();
-        updateInfo.setId(record.getId());
+        updateInfo.setRecordId(record.getId());
         updateInfo.setCsiId(record.getCsiId());
         updateInfo.setCsInstance(record.getCsInstance());
         updateInfo.setFieldName(fieldName);
@@ -145,9 +145,9 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String updateRecord(Record record, String field, String newValue, String requestor) {
+    public String updateRecord(Integer recordId, String field, String newValue, String requestor) {
         // TODO: add logic to update the given field of the given record with new value
-        CustomerRecord recordToUpdate = customerRecordRepository.findOne(record.getId());
+        CustomerRecord recordToUpdate = customerRecordRepository.findOne(recordId);
        
     	switch(field) {
         case "CSI_ID": 

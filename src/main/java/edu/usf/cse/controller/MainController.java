@@ -28,7 +28,7 @@ public class MainController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields,
                          @RequestParam String requestor) {
-        String success = getRecordService(recordType).createRecord(fields);
+        String success = getRecordService(recordType).createRecord(fields, requestor);
         // TODO: add requestor to last modified table
         return success;
     }
@@ -40,10 +40,10 @@ public class MainController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
-    public String update(@RequestParam RecordType recordType, @RequestParam Record record, @RequestParam String field,
+    public String update(@RequestParam RecordType recordType, @RequestParam Integer recordId, @RequestParam String field,
                          @RequestParam String newValue, @RequestParam String requestor)
     {
-        String success = getRecordService(recordType).updateRecord(record, field, newValue, requestor);
+        String success = getRecordService(recordType).updateRecord(recordId, field, newValue, requestor);
         //addUpdateInfo(record, field, newValue, requestor);
         // TODO: add requestor to last modified table
         return success;
