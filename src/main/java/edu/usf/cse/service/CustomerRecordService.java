@@ -84,9 +84,8 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String deleteRecord(Integer record) {
-        // TODO: add logic to delete the given record
-        customerRecordRepository.delete(record);
+    public String deleteRecord(Integer id) {
+        customerRecordRepository.delete(id);
         return "Customer record deleted successfully";
     }
 }

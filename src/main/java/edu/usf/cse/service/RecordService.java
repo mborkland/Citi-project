@@ -13,5 +13,5 @@ public interface RecordService {
 
     String updateRecord(Record record, String field, String newValue);
 
-    String deleteRecord(Integer record);
+    String deleteRecord(Integer id);
 }
