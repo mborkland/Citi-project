@@ -79,7 +79,7 @@ public class CustomerRecordService implements RecordService {
         return "Customer record created successfully";
     }
 
-    public void addCreatedInfoToUpdateHistory(CustomerRecord record, List<String> fields, String requestor) {
+    private void addCreatedInfoToUpdateHistory(CustomerRecord record, List<String> fields, String requestor) {
     	Iterator<String> iterator = fields.iterator();
     	
     	addInfoToUpdateHistory(record, "CSI_ID", iterator.next(), requestor); 
@@ -125,7 +125,7 @@ public class CustomerRecordService implements RecordService {
 	    addInfoToUpdateHistory(record, "File_2nd_Scheduled_Date_and_Time", iterator.next(), requestor); 	
     }
     
-    public void addInfoToUpdateHistory(CustomerRecord record, String fieldName, String newValue, String requestor) {
+    private void addInfoToUpdateHistory(CustomerRecord record, String fieldName, String newValue, String requestor) {
     	CustomerRecordUpdateHistory updateInfo = new CustomerRecordUpdateHistory();
         updateInfo.setRecordId(record.getId());
         updateInfo.setCsiId(record.getCsiId());
@@ -148,133 +148,178 @@ public class CustomerRecordService implements RecordService {
     public String updateRecord(Integer recordId, String field, String newValue, String requestor) {
         // TODO: add logic to update the given field of the given record with new value
         CustomerRecord recordToUpdate = customerRecordRepository.findOne(recordId);
+        String oldValue = "";
        
     	switch(field) {
         case "CSI_ID": 
+        	oldValue = recordToUpdate.getCsiId();
         	recordToUpdate.setCsiId(newValue);
         	break;
         case "CS_Instance":
+        	oldValue = recordToUpdate.getCsInstance();
         	recordToUpdate.setCsInstance(newValue);
         	break;
         case "BUSINESS_ID":
+        	oldValue = recordToUpdate.getBusinessId();
         	recordToUpdate.setBusinessId(newValue);
         	break;
         case "BIZ_UNIT_ID":
+        	oldValue = recordToUpdate.getBizUnitId();
         	recordToUpdate.setBizUnitId(newValue);
         	break;
         case "PRODUCT_ID":
+        	oldValue = recordToUpdate.getProductId();
         	recordToUpdate.setProductId(newValue);
         	break;
         case "BIZ_PROD_ID":
+        	oldValue = recordToUpdate.getBizProdId();
         	recordToUpdate.setBizProdId(newValue);
         	break;
         case "Cx_Business_Unit_Name":
+        	oldValue = recordToUpdate.getCxBusinessUnitName();
         	recordToUpdate.setCxBusinessUnitName(newValue);
         	break;
         case "Cx_Business_Unit_Name_Display_Value":
+        	oldValue = recordToUpdate.getCxBusinessUnitNameDisplayValue();
         	recordToUpdate.setCxBusinessUnitNameDisplayValue(newValue);
         	break;
         case "Cx_Business_Greenzone":
+        	oldValue = recordToUpdate.getCxBusinessGreenzone();
         	recordToUpdate.setCxBusinessGreenzone(newValue);
         	break;
         case "Ruleset_Mapped":
+        	oldValue = recordToUpdate.getRulesetMapped();
         	recordToUpdate.setRulesetMapped(newValue);
         	break;
         case "REGION":
+        	oldValue = recordToUpdate.getRegion();
         	recordToUpdate.setRegion(newValue);
         	break;
         case "COUNTRY":
+        	oldValue = recordToUpdate.getCountry();
         	recordToUpdate.setCountry(newValue);
         	break;
         case "SECTOR":
+        	oldValue = recordToUpdate.getSector();
         	recordToUpdate.setSector(newValue);
         	break;
         case "Workflow_Flag":
+        	oldValue = recordToUpdate.getWorkflowFlag();
         	recordToUpdate.setWorkflowFlag(newValue);
         	break;
         case "Workflow_Instance":
+        	oldValue = recordToUpdate.getWorkflowInstance();
         	recordToUpdate.setWorkflowInstance(newValue);
         	break;
         case "WF_Business_Unit_Name":
+        	oldValue = recordToUpdate.getWfBusinessUnitName();
         	recordToUpdate.setWfBusinessUnitName(newValue);
         	break;
         case "WF_Business_Unit_Name_Display_Value":
+        	oldValue = recordToUpdate.getWfBusinessUnitNameDisplayValue();
         	recordToUpdate.setWfBusinessUnitNameDisplayValue(newValue);
         	break;
         case "WF_Business_Greenzone":
+        	oldValue = recordToUpdate.getWfBusinessGreenzone();
         	recordToUpdate.setWfBusinessGreenzone(newValue);
         	break;
         case "Interface_Description":
+        	oldValue = recordToUpdate.getInterfaceDescription();
         	recordToUpdate.setInterfaceDescription(newValue);
         	break;
         case "Interface_App_ID":
+        	oldValue = recordToUpdate.getInterfaceAppId();
         	recordToUpdate.setInterfaceAppId(newValue);
         	break;
         case "Interface_Application_Name":
+        	oldValue = recordToUpdate.getInterfaceApplicationName();
         	recordToUpdate.setInterfaceApplicationName(newValue);
         	break;
         case "Operation_Entity":
+        	oldValue = recordToUpdate.getOperationEntity();
         	recordToUpdate.setOperationEntity(newValue);
         	break;
         case "CBUSOL":
+        	oldValue = recordToUpdate.getCbusol();
         	recordToUpdate.setCbusol(newValue);
         	break;
         case "Ops_Compliance_Contacts":
+        	oldValue = recordToUpdate.getOpsComplianceContacts();
         	recordToUpdate.setOpsComplianceContacts(newValue);
         	break;
         case "Cw_V1_V2":
+        	oldValue = recordToUpdate.getCwVersion();
         	recordToUpdate.setCwVersion(newValue);
         	break;
         case "GOM_Compliant":
+        	oldValue = recordToUpdate.getGomCompliant();
         	recordToUpdate.setGomCompliant(newValue);
         	break;
         case "Cw_UAT_Contacts":
+        	oldValue = recordToUpdate.getCwUatContacts();
         	recordToUpdate.setCwUatContacts(newValue);
         	break;
         case "Source_Tech_Contacts":
+        	oldValue = recordToUpdate.getSourceTechContacts();
         	recordToUpdate.setSourceTechContacts(newValue);
         	break;
         case "Impact_to_Business":
+        	oldValue = recordToUpdate.getImpactToBusiness();
         	recordToUpdate.setImpactToBusiness(newValue);
         	break;
         case "Business_Escalation_Contacts":
+        	oldValue = recordToUpdate.getBusinessEscalationContacts();
         	recordToUpdate.setBusinessEscalationContacts(newValue);
         	break;
         case "Timezone":
+        	oldValue = recordToUpdate.getTimezone();
         	recordToUpdate.setTimezone(newValue);
         	break;
         case "Impact_to_Product_Processor":
+        	oldValue = recordToUpdate.getImpactToProductProcessor();
         	recordToUpdate.setImpactToProductProcessor(newValue);
         	break;
         case "Product_Processor_Escalation_Contacts":
+        	oldValue = recordToUpdate.getProductProcessorEscalationContacts();
         	recordToUpdate.setProductProcessorEscalationContacts(newValue);
         	break;
         case "Product_Processor_Group_DL":
+        	oldValue = recordToUpdate.getProductProcessorGroupDl();
         	recordToUpdate.setProductProcessorGroupDl(newValue);
         	break;
         case "Product_Processor_SNOW_Group_Name":
+        	oldValue = recordToUpdate.getProductProcessorSnowGroupName();
         	recordToUpdate.setProductProcessorSnowGroupName(newValue);
         	break;
         case "Product_Processor_SLA":
+        	oldValue = recordToUpdate.getProductProcessorSla();
         	recordToUpdate.setProductProcessorSla(newValue);
         	break;
         case "Frequency":
+        	oldValue = recordToUpdate.getFrequency();
         	recordToUpdate.setFrequency(newValue);
         	break;
         case "File_Scheduled_Date_and_Time":
+        	oldValue = recordToUpdate.getFileScheduledDateAndTime();
         	recordToUpdate.setFileScheduledDateAndTime(newValue);
         	break;
         case "Avg_Volume":
+        	oldValue = recordToUpdate.getAverageVolume();
         	recordToUpdate.setAverageVolume(newValue);
         	break;
         case "Avg_Runtime":
+        	oldValue = recordToUpdate.getAverageRuntime();
         	recordToUpdate.setAverageRuntime(newValue);
         	break;
         case "File_2nd_Scheduled_Date_and_Time":
+        	oldValue = recordToUpdate.getFile2ndScheduledDateAndTime();
         	recordToUpdate.setFile2ndScheduledDateAndTime(newValue);
         	break;
         }
         
+    	if(oldValue.equalsIgnoreCase(newValue))
+			return "Transaction record not updated. The updated value is the old value.";
+    	
         customerRecordRepository.save(recordToUpdate);
         addInfoToUpdateHistory(recordToUpdate, field, newValue, requestor);
         

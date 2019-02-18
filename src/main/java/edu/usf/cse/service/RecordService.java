@@ -1,5 +1,6 @@
 package edu.usf.cse.service;
 
+import edu.usf.cse.model.CustomerRecord;
 import edu.usf.cse.model.Record;
 import edu.usf.cse.model.SearchParameter;
 
