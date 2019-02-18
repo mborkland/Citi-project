@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RecordService {
 
-    String createRecord(List<String> fields);
+    String createRecord(List<String> fields, String requestor);
 
     List<Record> getRecords(List<SearchParameter> searchParameters);
 

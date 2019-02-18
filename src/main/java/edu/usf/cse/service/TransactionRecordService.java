@@ -23,7 +23,7 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String createRecord(List<String> fields) {
+    public String createRecord(List<String> fields, String requestor) {
         TransactionRecord transactionRecord = new TransactionRecord();
         Iterator<String> iterator = fields.iterator();
         transactionRecord.setCsiId(iterator.next());

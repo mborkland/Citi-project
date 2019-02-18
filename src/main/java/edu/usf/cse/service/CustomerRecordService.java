@@ -29,7 +29,7 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String createRecord(List<String> fields) {
+    public String createRecord(List<String> fields, String requestor) {
         CustomerRecord customerRecord = new CustomerRecord();
         Iterator<String> iterator = fields.iterator();
         customerRecord.setCsiId(iterator.next());
@@ -75,9 +75,56 @@ public class CustomerRecordService implements RecordService {
         customerRecord.setFile2ndScheduledDateAndTime(iterator.next());
 
         customerRecordRepository.save(customerRecord);
+    	addCreatedInfoToUpdateHistory(customerRecord, fields, requestor);
         return "Customer record created successfully";
     }
 
+    private void addCreatedInfoToUpdateHistory(CustomerRecord record, List<String> fields, String requestor) {
+    	Iterator<String> iterator = fields.iterator();
+    	
+    	addInfoToUpdateHistory(record, "CSI_ID", iterator.next(), requestor); 
+    	addInfoToUpdateHistory(record, "CS_Instance", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "BUSINESS_ID", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "BIZ_UNIT_ID", iterator.next(), requestor);
+	    addInfoToUpdateHistory(record, "PRODUCT_ID", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "BIZ_PROD_ID", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Cx_Business_Unit_Name", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Cx_Business_Unit_Name_Display_Value", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Cx_Business_Greenzone", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Ruleset_Mapped", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "REGION", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "COUNTRY", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "SECTOR", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Workflow_Flag", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Workflow_Instance", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "WF_Business_Unit_Name", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "WF_Business_Unit_Name_Display_Value", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "WF_Business_Greenzone", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Interface_Description", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Interface_App_ID", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Interface_Application_Name", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Operation_Entity", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "CBUSOL", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Ops_Compliance_Contacts", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Cw_V1_V2", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "GOM_Compliant", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Cw_UAT_Contacts", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Source_Tech_Contacts", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Impact_to_Business", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Business_Escalation_Contacts", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Timezone", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Impact_to_Product_Processor", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Product_Processor_Escalation_Contacts", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Product_Processor_Group_DL", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Product_Processor_SNOW_Group_Name", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Product_Processor_SLA", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Frequency", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "File_Scheduled_Date_and_Time", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Avg_Volume", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "Avg_Runtime", iterator.next(), requestor); 
+	    addInfoToUpdateHistory(record, "File_2nd_Scheduled_Date_and_Time", iterator.next(), requestor); 	
+    }
+    
     private void addInfoToUpdateHistory(CustomerRecord record, String fieldName, String newValue, String requestor) {
     	CustomerRecordUpdateHistory updateInfo = new CustomerRecordUpdateHistory();
         updateInfo.setId(record.getId());
