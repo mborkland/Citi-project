@@ -4,7 +4,11 @@ app.controller('RecordCRUDCtrl', ['$scope', 'RecordCRUDService', function ($scop
 
     $scope.createRecord = function () {
 
-    }
+    };
+    
+    $scope.updateRecord = function () {
+    	
+    };
 
 }]);
 
@@ -16,6 +20,14 @@ app.service('RecordCRUDService', ['$http', function($http) {
             url: 'create',
             data: {type:type, fields:fields, author:author}
         });
-    }
+    };
+    
+    this.updateRecord = function updateRecord(type, fields, author) {
+    	return $http({
+    		method: 'PATCH',
+    		url: 'update',
+    		data: {type:type, fields:fields, author:author}
+    	});
+    };
 
 }]);
