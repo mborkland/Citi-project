@@ -4,9 +4,13 @@ app.controller('RecordCRUDCtrl', ['$scope', 'RecordCRUDService', function ($scop
 
     $scope.createRecord = function () {
 
-    };
+    }
 
     $scope.deleteRecord = function () {
+
+    };
+
+    $scope.updateRecord = function () {
 
     };
 
@@ -14,19 +18,27 @@ app.controller('RecordCRUDCtrl', ['$scope', 'RecordCRUDService', function ($scop
 
 app.service('RecordCRUDService', ['$http', function($http) {
 
-    this.createRecord = function createRecord(type, fields, author) {
+    this.createRecord = function createRecord(type, fields, requestor) {
         return $http({
             method: 'POST',
             url: 'create',
-            data: {type:type, fields:fields, author:author}
+            data: {type:type, fields:fields, requestor:requestor}
+        });
+    }
+
+    this.deleteRecord = function deleteRecord(type, fields, requestor) {
+        return $http({
+            method: 'DELETE',
+            url: 'delete',
+            data: {type:type, fields:fields, requestor:requestor}
         });
     };
 
-    this.deleteRecord = function deleteRecord(type, fields, author) {
+    this.updateRecord = function updateRecord(type, fields, requestor) {
         return $http({
-           method: 'DELETE',
-           url: 'delete',
-           data: {type:type, fields:fields, author:author}
+            method: 'PATCH',
+            url: 'update',
+            data: {type:type, fields:fields, requestor:requestor}
         });
     };
 
