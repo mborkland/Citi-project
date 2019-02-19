@@ -28,9 +28,7 @@ public class MainController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields,
                          @RequestParam String requestor) {
-        String success = getRecordService(recordType).createRecord(fields, requestor);
-        // TODO: add requestor to last modified table
-        return success;
+        return getRecordService(recordType).createRecord(fields, requestor);
     }
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)

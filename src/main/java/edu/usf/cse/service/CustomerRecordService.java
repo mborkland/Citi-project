@@ -20,6 +20,7 @@ import javax.persistence.Column;
 public class CustomerRecordService implements RecordService {
 
     private CustomerRecordRepository customerRecordRepository;
+
     private CustomerRecordUpdateHistoryRepository customerRecordUpdateHistoryRepository;
 
     @Autowired
@@ -145,9 +146,8 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String updateRecord(Integer recordId, String field, String newValue, String requestor) {
-        // TODO: add logic to update the given field of the given record with new value
-        CustomerRecord recordToUpdate = customerRecordRepository.findOne(recordId);
+    public String updateRecord(Integer id, String field, String newValue, String requestor) {
+        CustomerRecord recordToUpdate = customerRecordRepository.findOne(id);
         String oldValue = "";
        
     	switch(field) {
@@ -317,9 +317,10 @@ public class CustomerRecordService implements RecordService {
         	break;
         }
         
-    	if(oldValue.equalsIgnoreCase(newValue))
-			return "Transaction record not updated. The updated value is the old value.";
-    	
+    	if (oldValue.equalsIgnoreCase(newValue)) {
+			return "Customer record not updated. The updated value is the old value.";
+		}
+
         customerRecordRepository.save(recordToUpdate);
         addInfoToUpdateHistory(recordToUpdate, field, newValue, requestor);
         

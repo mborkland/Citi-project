@@ -156,9 +156,9 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String updateRecord(Integer recordId, String field, String newValue, String requestor) {
+    public String updateRecord(Integer id, String field, String newValue, String requestor) {
         // TODO: add logic to update the given field of the given record with new value
-    	TransactionRecord recordToUpdate = transactionRecordRepository.findOne(recordId);
+    	TransactionRecord recordToUpdate = transactionRecordRepository.findOne(id);
         String oldValue = "";
     	
     	switch(field) {

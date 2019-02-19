@@ -12,7 +12,7 @@ public interface RecordService {
 
     List<Record> getRecords(List<SearchParameter> searchParameters);
 
-    String updateRecord(Integer recordId, String field, String newValue, String requestor);
+    String updateRecord(Integer id, String field, String newValue, String requestor);
 
     String deleteRecord(Integer id);
 }
