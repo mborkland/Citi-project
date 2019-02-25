@@ -1,10 +1,14 @@
 package edu.usf.cse.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class SearchParameter {
 
     private String fieldName;
 
     private String fieldValue;
+
+    public SearchParameter() { }
 
     public SearchParameter(String fieldName, String fieldValue) {
         this.fieldName = fieldName;

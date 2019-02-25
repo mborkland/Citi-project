@@ -5,11 +5,10 @@ import edu.usf.cse.service.CustomerRecordService;
 import edu.usf.cse.service.RecordService;
 import edu.usf.cse.service.TransactionRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -26,21 +25,18 @@ public class MainController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields,
-                         @RequestParam String requestor) {
+    public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields, @RequestParam String requestor) {
         return getRecordService(recordType).createRecord(fields, requestor);
     }
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
-    public List<Record> read(@RequestParam RecordType recordType, @RequestParam List<SearchParameter> searchParameters)
-    {
-        return getRecordService(recordType).getRecords(searchParameters);
+    public List<Record> read(@RequestParam RecordType recordType, SearchParameterWrapper searchParameterWrapper) {
+        return getRecordService(recordType).getRecords(searchParameterWrapper.getSearchParameters());
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
     public String update(@RequestParam RecordType recordType, @RequestParam Integer recordId, @RequestParam String field,
-                         @RequestParam String newValue, @RequestParam String requestor)
-    {
+                         @RequestParam String newValue, @RequestParam String requestor) {
         String success = getRecordService(recordType).updateRecord(recordId, field, newValue, requestor);
         //addUpdateInfo(record, field, newValue, requestor);
         // TODO: add requestor to last modified table
@@ -48,8 +44,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public String delete(@RequestParam RecordType recordType, @RequestParam Integer id, @RequestParam String requestor)
-    {
+    public String delete(@RequestParam RecordType recordType, @RequestParam Integer id, @RequestParam String requestor) {
         String success = getRecordService(recordType).deleteRecord(id);
         // TODO: add record and requestor to deleted record table
         return success;
