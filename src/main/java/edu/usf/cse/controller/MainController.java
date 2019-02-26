@@ -37,10 +37,7 @@ public class MainController {
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
     public String update(@RequestParam RecordType recordType, @RequestParam Integer recordId, @RequestParam String field,
                          @RequestParam String newValue, @RequestParam String requestor) {
-        String success = getRecordService(recordType).updateRecord(recordId, field, newValue, requestor);
-        //addUpdateInfo(record, field, newValue, requestor);
-        // TODO: add requestor to last modified table
-        return success;
+        return getRecordService(recordType).updateRecord(recordId, field, newValue, requestor);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
