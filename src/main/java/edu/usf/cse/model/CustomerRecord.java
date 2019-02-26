@@ -134,8 +134,10 @@ public class CustomerRecord implements Record {
     @Column(name="File_2nd_Scheduled_Date_and_Time")
     private String file2ndScheduledDateAndTime;
 
+    @Column(name="Update_History")
+    private String updateHistory;
 
-    public Integer getId() {
+	public Integer getId() {
         return id;
     }
 
@@ -470,4 +472,12 @@ public class CustomerRecord implements Record {
     public void setFile2ndScheduledDateAndTime(String file2ndScheduledDateAndTime) {
         this.file2ndScheduledDateAndTime = file2ndScheduledDateAndTime;
     }
+    
+    public String getUpdateHistory() {
+		return updateHistory;
+	}
+
+	public void setUpdateHistory(String updateHistory) {
+		this.updateHistory = updateHistory;
+	}
 }

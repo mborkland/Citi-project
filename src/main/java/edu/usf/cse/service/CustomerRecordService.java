@@ -3,9 +3,9 @@ package edu.usf.cse.service;
 import edu.usf.cse.model.CustomerRecord;
 import edu.usf.cse.model.Record;
 import edu.usf.cse.model.SearchParameter;
-import edu.usf.cse.model.CustomerRecordUpdateHistory;
+//import edu.usf.cse.model.CustomerRecordUpdateHistory;
 import edu.usf.cse.persistence.CustomerRecordRepository;
-import edu.usf.cse.persistence.CustomerRecordUpdateHistoryRepository;
+//import edu.usf.cse.persistence.CustomerRecordUpdateHistoryRepository;
 import edu.usf.cse.specification.RecordSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,12 +21,12 @@ public class CustomerRecordService implements RecordService {
 
     private CustomerRecordRepository customerRecordRepository;
 
-    private CustomerRecordUpdateHistoryRepository customerRecordUpdateHistoryRepository;
+    //private CustomerRecordUpdateHistoryRepository customerRecordUpdateHistoryRepository;
 
     @Autowired
-    public CustomerRecordService(CustomerRecordRepository customerRecordRepository, CustomerRecordUpdateHistoryRepository customerRecordUpdateHistoryRepository) {
+    public CustomerRecordService(CustomerRecordRepository customerRecordRepository) {
         this.customerRecordRepository = customerRecordRepository;
-        this.customerRecordUpdateHistoryRepository = customerRecordUpdateHistoryRepository;
+        //this.customerRecordUpdateHistoryRepository = customerRecordUpdateHistoryRepository;
     }
 
     @Override
@@ -74,13 +74,14 @@ public class CustomerRecordService implements RecordService {
         customerRecord.setAverageVolume(iterator.next());
         customerRecord.setAverageRuntime(iterator.next());
         customerRecord.setFile2ndScheduledDateAndTime(iterator.next());
+        customerRecord.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
         customerRecordRepository.save(customerRecord);
-    	addCreatedInfoToUpdateHistory(customerRecord, fields, requestor);
+    	//addCreatedInfoToUpdateHistory(customerRecord, fields, requestor);
         return "Customer record created successfully";
     }
 
-    private void addCreatedInfoToUpdateHistory(CustomerRecord record, List<String> fields, String requestor) {
+    /*private void addCreatedInfoToUpdateHistory(CustomerRecord record, List<String> fields, String requestor) {
     	Iterator<String> iterator = fields.iterator();
     	
     	addInfoToUpdateHistory(record, "CSI_ID", iterator.next(), requestor); 
@@ -137,7 +138,7 @@ public class CustomerRecordService implements RecordService {
         updateInfo.setTimeOfChange(new Timestamp(System.currentTimeMillis()));
         
         customerRecordUpdateHistoryRepository.save(updateInfo);
-    }
+    }*/
     
     @Override
     public List<Record> getRecords(List<SearchParameter> searchParameters) {
@@ -321,8 +322,12 @@ public class CustomerRecordService implements RecordService {
 			return "Customer record not updated. The updated value is the old value.";
 		}
 
+    	String updateHistory = recordToUpdate.getUpdateHistory();
+    	updateHistory = updateHistory + ", Record updated on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor;
+    	recordToUpdate.setUpdateHistory(updateHistory);
+    	
         customerRecordRepository.save(recordToUpdate);
-        addInfoToUpdateHistory(recordToUpdate, field, newValue, requestor);
+        //addInfoToUpdateHistory(recordToUpdate, field, newValue, requestor);
         
     	return "Customer record updated successfully";
     }

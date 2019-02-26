@@ -1,13 +1,11 @@
 package edu.usf.cse.service;
 
-import edu.usf.cse.model.CustomerRecord;
-import edu.usf.cse.model.CustomerRecordUpdateHistory;
 import edu.usf.cse.model.Record;
 import edu.usf.cse.model.SearchParameter;
 import edu.usf.cse.model.TransactionRecord;
-import edu.usf.cse.model.TransactionRecordUpdateHistory;
+//import edu.usf.cse.model.TransactionRecordUpdateHistory;
 import edu.usf.cse.persistence.TransactionRecordRepository;
-import edu.usf.cse.persistence.TransactionRecordUpdateHistoryRepository;
+//import edu.usf.cse.persistence.TransactionRecordUpdateHistoryRepository;
 import edu.usf.cse.specification.RecordSpecification;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +21,12 @@ import javax.persistence.Column;
 public class TransactionRecordService implements RecordService {
 
     private TransactionRecordRepository transactionRecordRepository;
-    private TransactionRecordUpdateHistoryRepository transactionRecordUpdateHistoryRepository;
+    //private TransactionRecordUpdateHistoryRepository transactionRecordUpdateHistoryRepository;
 
     @Autowired
-    public TransactionRecordService(TransactionRecordRepository transactionRecordRepository, TransactionRecordUpdateHistoryRepository transactionRecordUpdateHistoryRepository) {
+    public TransactionRecordService(TransactionRecordRepository transactionRecordRepository) {
         this.transactionRecordRepository = transactionRecordRepository;
-        this.transactionRecordUpdateHistoryRepository = transactionRecordUpdateHistoryRepository;
+        //this.transactionRecordUpdateHistoryRepository = transactionRecordUpdateHistoryRepository;
     }
 
     @Override
@@ -80,13 +78,14 @@ public class TransactionRecordService implements RecordService {
         transactionRecord.setThresholdSetForTimeouts(iterator.next());
         transactionRecord.setAnyBatchComponent(iterator.next());
         transactionRecord.setWorkflowOperationsWorkSchedule(iterator.next());
-
+        transactionRecord.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
+        
         transactionRecordRepository.save(transactionRecord);
-        addCreatedInfoToUpdateHistory(transactionRecord, fields, requestor);
+        //addCreatedInfoToUpdateHistory(transactionRecord, fields, requestor);
         return "Transaction record created successfully";
     }
 
-    private void addCreatedInfoToUpdateHistory(TransactionRecord record, List<String> fields, String requestor) {
+    /*private void addCreatedInfoToUpdateHistory(TransactionRecord record, List<String> fields, String requestor) {
     	Iterator<String> iterator = fields.iterator();
     	
     	addInfoToUpdateHistory(record, "CSI_ID", iterator.next(), requestor); 
@@ -147,7 +146,7 @@ public class TransactionRecordService implements RecordService {
         updateInfo.setTimeOfChange(new Timestamp(System.currentTimeMillis()));
         
         transactionRecordUpdateHistoryRepository.save(updateInfo);
-    }
+    }*/
     
     @Override
     public List<Record> getRecords(List<SearchParameter> searchParameters) {
@@ -347,8 +346,12 @@ public class TransactionRecordService implements RecordService {
     	if(oldValue.equalsIgnoreCase(newValue))
     			return "Transaction record not updated. The updated value is the old value.";
     	
+    	String updateHistory = recordToUpdate.getUpdateHistory();
+    	updateHistory = updateHistory + ", Record updated on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor;
+    	recordToUpdate.setUpdateHistory(updateHistory);
+    	
         transactionRecordRepository.save(recordToUpdate);
-        addInfoToUpdateHistory(recordToUpdate, field, newValue, requestor);
+        //addInfoToUpdateHistory(recordToUpdate, field, newValue, requestor);
         
     	return "Transaction record updated successfully";
     }

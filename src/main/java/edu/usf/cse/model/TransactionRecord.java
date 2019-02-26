@@ -146,6 +146,8 @@ public class TransactionRecord implements Record {
     @Column(name="Workflow_Operations_Work_Schedule")
     private String workflowOperationsWorkSchedule;
 
+    @Column(name="Update_History")
+    private String updateHistory;
 
     public Integer getId() {
         return id;
@@ -514,4 +516,12 @@ public class TransactionRecord implements Record {
     public void setWorkflowOperationsWorkSchedule(String workflowOperationsWorkSchedule) {
         this.workflowOperationsWorkSchedule = workflowOperationsWorkSchedule;
     }
+
+	public String getUpdateHistory() {
+		return updateHistory;
+	}
+
+	public void setUpdateHistory(String updateHistory) {
+		this.updateHistory = updateHistory;
+	}
 }
