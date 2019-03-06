@@ -52,6 +52,11 @@ public class MainController {
         return getRecordService(recordType).clearDeletedRecords();
     }
 
+    @RequestMapping(value = "/restore", method = RequestMethod.PATCH)
+    public String restore(@RequestParam RecordType recordType, @RequestParam Integer id, @RequestParam String requestor) {
+        return getRecordService(recordType).restoreDeletedRecord(id, requestor);
+    }
+
     private RecordService getRecordService(RecordType recordType) {
         switch (recordType) {
             case CUSTOMER:

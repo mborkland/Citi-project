@@ -145,4 +145,22 @@ public class TransactionRecordService implements RecordService {
         deletedTransactionRecordRepository.deleteAll();
         return "Deleted records cleared successfully";
     }
+
+    @Override
+    public String restoreDeletedRecord(Integer id, String requestor)
+    {
+        DeletedTransactionRecord deletedTransactionRecord = deletedTransactionRecordRepository.findOne(id);
+        String deletionDetails = deletedTransactionRecord.getDeletionDetails();
+        TxBuDetails txBuDetails = (TxBuDetails) deletedTransactionRecord.getBuDetails();
+
+        TransactionRecord transactionRecord = new TransactionRecord();
+        StringBuilder updateHistory = new StringBuilder(txBuDetails.getUpdateHistory());
+        updateHistory.append(historyDelimiter).append(deletionDetails).append(historyDelimiter)
+                .append("Record restored on ").append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
+        txBuDetails.setUpdateHistory(updateHistory.toString());
+        transactionRecord.setBuDetails(txBuDetails);
+        transactionRecordRepository.save(transactionRecord);
+        deletedTransactionRecordRepository.delete(id);
+        return "Deleted record restored successfully";
+    }
 }

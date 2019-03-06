@@ -140,4 +140,22 @@ public class CustomerRecordService implements RecordService {
         deletedCustomerRecordRepository.deleteAll();
         return "Deleted records cleared successfully";
     }
+
+    @Override
+    public String restoreDeletedRecord(Integer id, String requestor)
+    {
+        DeletedCustomerRecord deletedCustomerRecord = deletedCustomerRecordRepository.findOne(id);
+        String deletionDetails = deletedCustomerRecord.getDeletionDetails();
+        CxBuDetails cxBuDetails = (CxBuDetails) deletedCustomerRecord.getBuDetails();
+
+        CustomerRecord customerRecord = new CustomerRecord();
+        StringBuilder updateHistory = new StringBuilder(cxBuDetails.getUpdateHistory());
+        updateHistory.append(historyDelimiter).append(deletionDetails).append(historyDelimiter).append("Record restored on ")
+                .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
+        cxBuDetails.setUpdateHistory(updateHistory.toString());
+        customerRecord.setBuDetails(cxBuDetails);
+        customerRecordRepository.save(customerRecord);
+        deletedCustomerRecordRepository.delete(id);
+        return "Deleted record restored successfully";
+    }
 }

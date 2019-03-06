@@ -22,4 +22,6 @@ public interface RecordService {
     String saveDeletedRecord(BuDetails buDetails, String requestor);
 
     String clearDeletedRecords();
+
+    String restoreDeletedRecord(Integer id, String requestor);
 }
