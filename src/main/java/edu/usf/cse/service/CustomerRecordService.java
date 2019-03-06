@@ -133,4 +133,11 @@ public class CustomerRecordService implements RecordService {
         deletedCustomerRecordRepository.save(deletedCustomerRecord);
         return "Deleted record saved successfully";
     }
+
+    @Override
+    public String clearDeletedRecords()
+    {
+        deletedCustomerRecordRepository.deleteAll();
+        return "Deleted records cleared successfully";
+    }
 }

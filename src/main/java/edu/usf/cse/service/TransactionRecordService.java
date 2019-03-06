@@ -138,4 +138,11 @@ public class TransactionRecordService implements RecordService {
         deletedTransactionRecordRepository.save(deletedTransactionRecord);
         return "Deleted record saved successfully";
     }
+
+    @Override
+    public String clearDeletedRecords()
+    {
+        deletedTransactionRecordRepository.deleteAll();
+        return "Deleted records cleared successfully";
+    }
 }

@@ -20,4 +20,6 @@ public interface RecordService {
     String deleteRecord(Integer id);
 
     String saveDeletedRecord(BuDetails buDetails, String requestor);
+
+    String clearDeletedRecords();
 }

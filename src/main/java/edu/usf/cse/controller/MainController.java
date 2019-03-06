@@ -47,6 +47,11 @@ public class MainController {
         return deleteSuccess + ". " + saveSuccess;
     }
 
+    @RequestMapping(value = "/clear", method = RequestMethod.DELETE)
+    public String clear(@RequestParam RecordType recordType) {
+        return getRecordService(recordType).clearDeletedRecords();
+    }
+
     private RecordService getRecordService(RecordType recordType) {
         switch (recordType) {
             case CUSTOMER:
