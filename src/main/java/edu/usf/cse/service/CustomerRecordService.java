@@ -1,11 +1,8 @@
 package edu.usf.cse.service;
 
-import edu.usf.cse.model.CustomerRecord;
-import edu.usf.cse.model.Record;
-import edu.usf.cse.model.SearchParameter;
-//import edu.usf.cse.model.CustomerRecordUpdateHistory;
+import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.CustomerRecordRepository;
-//import edu.usf.cse.persistence.CustomerRecordUpdateHistoryRepository;
+import edu.usf.cse.persistence.DeletedCustomerRecordRepository;
 import edu.usf.cse.specification.RecordSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +12,6 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
@@ -26,65 +22,76 @@ public class CustomerRecordService implements RecordService {
 
     private CustomerRecordRepository customerRecordRepository;
 
+    private DeletedCustomerRecordRepository deletedCustomerRecordRepository;
+
     private EntityManager entityManager;
 
     private static final char historyDelimiter = ';';
 
     @Autowired
-    public CustomerRecordService(CustomerRecordRepository customerRecordRepository, EntityManager entityManager) {
+    public CustomerRecordService(CustomerRecordRepository customerRecordRepository,
+                                 DeletedCustomerRecordRepository deletedCustomerRecordRepository, EntityManager entityManager) {
         this.customerRecordRepository = customerRecordRepository;
+        this.deletedCustomerRecordRepository = deletedCustomerRecordRepository;
         this.entityManager = entityManager;
     }
 
     @Override
     public String createRecord(List<String> fields, String requestor) {
-        CustomerRecord customerRecord = new CustomerRecord();
+        CxBuDetails cxBuDetails = new CxBuDetails();
         Iterator<String> iterator = fields.iterator();
-        customerRecord.setCsiId(iterator.next());
-        customerRecord.setCsInstance(iterator.next());
-        customerRecord.setBusinessId(iterator.next());
-        customerRecord.setBizUnitId(iterator.next());
-        customerRecord.setProductId(iterator.next());
-        customerRecord.setBizProdId(iterator.next());
-        customerRecord.setCxBusinessUnitName(iterator.next());
-        customerRecord.setCxBusinessUnitNameDisplayValue(iterator.next());
-        customerRecord.setCxBusinessGreenzone(iterator.next());
-        customerRecord.setRulesetMapped(iterator.next());
-        customerRecord.setRegion(iterator.next());
-        customerRecord.setCountry(iterator.next());
-        customerRecord.setSector(iterator.next());
-        customerRecord.setWorkflowFlag(iterator.next());
-        customerRecord.setWorkflowInstance(iterator.next());
-        customerRecord.setWfBusinessUnitName(iterator.next());
-        customerRecord.setWfBusinessUnitNameDisplayValue(iterator.next());
-        customerRecord.setWfBusinessGreenzone(iterator.next());
-        customerRecord.setInterfaceDescription(iterator.next());
-        customerRecord.setInterfaceAppId(iterator.next());
-        customerRecord.setInterfaceApplicationName(iterator.next());
-        customerRecord.setOperationEntity(iterator.next());
-        customerRecord.setCbusol(iterator.next());
-        customerRecord.setOpsComplianceContacts(iterator.next());
-        customerRecord.setCwVersion(iterator.next());
-        customerRecord.setGomCompliant(iterator.next());
-        customerRecord.setCwUatContacts(iterator.next());
-        customerRecord.setSourceTechContacts(iterator.next());
-        customerRecord.setImpactToBusiness(iterator.next());
-        customerRecord.setBusinessEscalationContacts(iterator.next());
-        customerRecord.setTimezone(iterator.next());
-        customerRecord.setImpactToProductProcessor(iterator.next());
-        customerRecord.setProductProcessorEscalationContacts(iterator.next());
-        customerRecord.setProductProcessorGroupDl(iterator.next());
-        customerRecord.setProductProcessorSnowGroupName(iterator.next());
-        customerRecord.setProductProcessorSla(iterator.next());
-        customerRecord.setFrequency(iterator.next());
-        customerRecord.setFileScheduledDateAndTime(iterator.next());
-        customerRecord.setAverageVolume(iterator.next());
-        customerRecord.setAverageRuntime(iterator.next());
-        customerRecord.setFile2ndScheduledDateAndTime(iterator.next());
-        customerRecord.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
+        cxBuDetails.setCsiId(iterator.next());
+        cxBuDetails.setCsInstance(iterator.next());
+        cxBuDetails.setBusinessId(iterator.next());
+        cxBuDetails.setBizUnitId(iterator.next());
+        cxBuDetails.setProductId(iterator.next());
+        cxBuDetails.setBizProdId(iterator.next());
+        cxBuDetails.setCxBusinessUnitName(iterator.next());
+        cxBuDetails.setCxBusinessUnitNameDisplayValue(iterator.next());
+        cxBuDetails.setCxBusinessGreenzone(iterator.next());
+        cxBuDetails.setRulesetMapped(iterator.next());
+        cxBuDetails.setRegion(iterator.next());
+        cxBuDetails.setCountry(iterator.next());
+        cxBuDetails.setSector(iterator.next());
+        cxBuDetails.setWorkflowFlag(iterator.next());
+        cxBuDetails.setWorkflowInstance(iterator.next());
+        cxBuDetails.setWfBusinessUnitName(iterator.next());
+        cxBuDetails.setWfBusinessUnitNameDisplayValue(iterator.next());
+        cxBuDetails.setWfBusinessGreenzone(iterator.next());
+        cxBuDetails.setInterfaceDescription(iterator.next());
+        cxBuDetails.setInterfaceAppId(iterator.next());
+        cxBuDetails.setInterfaceApplicationName(iterator.next());
+        cxBuDetails.setOperationEntity(iterator.next());
+        cxBuDetails.setCbusol(iterator.next());
+        cxBuDetails.setOpsComplianceContacts(iterator.next());
+        cxBuDetails.setCwVersion(iterator.next());
+        cxBuDetails.setGomCompliant(iterator.next());
+        cxBuDetails.setCwUatContacts(iterator.next());
+        cxBuDetails.setSourceTechContacts(iterator.next());
+        cxBuDetails.setImpactToBusiness(iterator.next());
+        cxBuDetails.setBusinessEscalationContacts(iterator.next());
+        cxBuDetails.setTimezone(iterator.next());
+        cxBuDetails.setImpactToProductProcessor(iterator.next());
+        cxBuDetails.setProductProcessorEscalationContacts(iterator.next());
+        cxBuDetails.setProductProcessorGroupDl(iterator.next());
+        cxBuDetails.setProductProcessorSnowGroupName(iterator.next());
+        cxBuDetails.setProductProcessorSla(iterator.next());
+        cxBuDetails.setFrequency(iterator.next());
+        cxBuDetails.setFileScheduledDateAndTime(iterator.next());
+        cxBuDetails.setAverageVolume(iterator.next());
+        cxBuDetails.setAverageRuntime(iterator.next());
+        cxBuDetails.setFile2ndScheduledDateAndTime(iterator.next());
+        cxBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
+        CustomerRecord customerRecord = new CustomerRecord();
+        customerRecord.setBuDetails(cxBuDetails);
         customerRecordRepository.save(customerRecord);
         return "Customer record created successfully";
+    }
+
+    @Override
+    public Record getRecordById(Integer id) {
+        return customerRecordRepository.findOne(id);
     }
     
     @Override
@@ -115,5 +122,15 @@ public class CustomerRecordService implements RecordService {
     public String deleteRecord(Integer id) {
         customerRecordRepository.delete(id);
         return "Customer record deleted successfully";
+    }
+
+    @Override
+    public String saveDeletedRecord(BuDetails buDetails, String requestor) {
+        DeletedCustomerRecord deletedCustomerRecord = new DeletedCustomerRecord();
+        deletedCustomerRecord.setBuDetails((CxBuDetails) buDetails);
+        deletedCustomerRecord.setDeletionDetails("Record deleted on " + new Timestamp(System.currentTimeMillis()) +
+                " by " + requestor);
+        deletedCustomerRecordRepository.save(deletedCustomerRecord);
+        return "Deleted record saved successfully";
     }
 }

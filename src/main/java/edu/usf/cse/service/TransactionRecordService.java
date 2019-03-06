@@ -1,14 +1,10 @@
 package edu.usf.cse.service;
 
+import edu.usf.cse.model.*;
 import edu.usf.cse.model.TransactionRecord;
-import edu.usf.cse.model.Record;
-import edu.usf.cse.model.SearchParameter;
-import edu.usf.cse.model.TransactionRecord;
-//import edu.usf.cse.model.TransactionRecordUpdateHistory;
+import edu.usf.cse.persistence.DeletedTransactionRecordRepository;
 import edu.usf.cse.persistence.TransactionRecordRepository;
-//import edu.usf.cse.persistence.TransactionRecordUpdateHistoryRepository;
 import edu.usf.cse.specification.RecordSpecification;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +13,6 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
@@ -27,73 +22,83 @@ import javax.persistence.criteria.Root;
 public class TransactionRecordService implements RecordService {
 
     private TransactionRecordRepository transactionRecordRepository;
+
+    private DeletedTransactionRecordRepository deletedTransactionRecordRepository;
     
     private EntityManager entityManager;
 
 	private static final char historyDelimiter = ';';
 
     @Autowired
-    public TransactionRecordService(TransactionRecordRepository transactionRecordRepository, EntityManager entityManager) {
+    public TransactionRecordService(TransactionRecordRepository transactionRecordRepository,
+                                    DeletedTransactionRecordRepository deletedTransactionRecordRepository, EntityManager entityManager) {
         this.transactionRecordRepository = transactionRecordRepository;
+        this.deletedTransactionRecordRepository = deletedTransactionRecordRepository;
         this.entityManager = entityManager;
     }
 
     @Override
     public String createRecord(List<String> fields, String requestor) {
-        TransactionRecord transactionRecord = new TransactionRecord();
+        TxBuDetails txBuDetails = new TxBuDetails();
         Iterator<String> iterator = fields.iterator();
-        transactionRecord.setCsiId(iterator.next());
-        transactionRecord.setCsInstance(iterator.next());
-        transactionRecord.setBusinessUnitId(iterator.next());
-        transactionRecord.setBusinessProductId(iterator.next());
-        transactionRecord.setCorrectedBuName(iterator.next());
-        transactionRecord.setMxBusinessGreenzone(iterator.next());
-        transactionRecord.setRulesetMapped(iterator.next());
-        transactionRecord.setRegion(iterator.next());
-        transactionRecord.setCountry(iterator.next());
-        transactionRecord.setSector(iterator.next());
-        transactionRecord.setWorkflowFlag(iterator.next());
-        transactionRecord.setWorkflowInstance(iterator.next());
-        transactionRecord.setWfBusinessUnitName(iterator.next());
-        transactionRecord.setWfBusinessUnitNameDisplayValue(iterator.next());
-        transactionRecord.setWfBusinessGreenzone(iterator.next());
-        transactionRecord.setInterfaceAppId(iterator.next());
-        transactionRecord.setInterfaceApplicationName(iterator.next());
-        transactionRecord.setOperationEntity(iterator.next());
-        transactionRecord.setCsWf(iterator.next());
-        transactionRecord.setInterfaceDescription(iterator.next());
-        transactionRecord.setWorkflowOperationsContacts(iterator.next());
-        transactionRecord.setSourceTechContacts(iterator.next());
-        transactionRecord.setImpactToBusiness(iterator.next());
-        transactionRecord.setBusinessHotline(iterator.next());
-        transactionRecord.setBusinessEscalationContacts(iterator.next());
-        transactionRecord.setTimezone(iterator.next());
-        transactionRecord.setImpactToProductProcessor(iterator.next());
-        transactionRecord.setProductProcessorContacts(iterator.next());
-        transactionRecord.setEscalationPath1stLevelContacts(iterator.next());
-        transactionRecord.setEscalationPath2ndLevelContacts(iterator.next());
-        transactionRecord.setEscalationPath1stLevelApplicationManager(iterator.next());
-        transactionRecord.setEscalationPath2ndLevelApplicationManager(iterator.next());
-        transactionRecord.setProductProcessorGroupDl(iterator.next());
-        transactionRecord.setProductProcessorSnowGroupName(iterator.next());
-        transactionRecord.setProductProcessorScreeningResponseCutoffTime(iterator.next());
-        transactionRecord.setProductProcessorStandardGreenzones(iterator.next());
-        transactionRecord.setInterfaceConnectivityDoc(iterator.next());
-        transactionRecord.setRetryMechanism(iterator.next());
-        transactionRecord.setDailyOnlineVolumesExpected(iterator.next());
-        transactionRecord.setScheduleForRealtimeVolumes(iterator.next());
-        transactionRecord.setBatchesOrPeaksForRealtimeVolumes(iterator.next());
-        transactionRecord.setInitialScreeningResponseSla(iterator.next());
-        transactionRecord.setThresholdSetForTimeouts(iterator.next());
-        transactionRecord.setAnyBatchComponent(iterator.next());
-        transactionRecord.setWorkflowOperationsWorkSchedule(iterator.next());
-        transactionRecord.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
-        
+        txBuDetails.setCsiId(iterator.next());
+        txBuDetails.setCsInstance(iterator.next());
+        txBuDetails.setBusinessUnitId(iterator.next());
+        txBuDetails.setBusinessProductId(iterator.next());
+        txBuDetails.setCorrectedBuName(iterator.next());
+        txBuDetails.setMxBusinessGreenzone(iterator.next());
+        txBuDetails.setRulesetMapped(iterator.next());
+        txBuDetails.setRegion(iterator.next());
+        txBuDetails.setCountry(iterator.next());
+        txBuDetails.setSector(iterator.next());
+        txBuDetails.setWorkflowFlag(iterator.next());
+        txBuDetails.setWorkflowInstance(iterator.next());
+        txBuDetails.setWfBusinessUnitName(iterator.next());
+        txBuDetails.setWfBusinessUnitNameDisplayValue(iterator.next());
+        txBuDetails.setWfBusinessGreenzone(iterator.next());
+        txBuDetails.setInterfaceAppId(iterator.next());
+        txBuDetails.setInterfaceApplicationName(iterator.next());
+        txBuDetails.setOperationEntity(iterator.next());
+        txBuDetails.setCsWf(iterator.next());
+        txBuDetails.setInterfaceDescription(iterator.next());
+        txBuDetails.setWorkflowOperationsContacts(iterator.next());
+        txBuDetails.setSourceTechContacts(iterator.next());
+        txBuDetails.setImpactToBusiness(iterator.next());
+        txBuDetails.setBusinessHotline(iterator.next());
+        txBuDetails.setBusinessEscalationContacts(iterator.next());
+        txBuDetails.setTimezone(iterator.next());
+        txBuDetails.setImpactToProductProcessor(iterator.next());
+        txBuDetails.setProductProcessorContacts(iterator.next());
+        txBuDetails.setEscalationPath1stLevelContacts(iterator.next());
+        txBuDetails.setEscalationPath2ndLevelContacts(iterator.next());
+        txBuDetails.setEscalationPath1stLevelApplicationManager(iterator.next());
+        txBuDetails.setEscalationPath2ndLevelApplicationManager(iterator.next());
+        txBuDetails.setProductProcessorGroupDl(iterator.next());
+        txBuDetails.setProductProcessorSnowGroupName(iterator.next());
+        txBuDetails.setProductProcessorScreeningResponseCutoffTime(iterator.next());
+        txBuDetails.setProductProcessorStandardGreenzones(iterator.next());
+        txBuDetails.setInterfaceConnectivityDoc(iterator.next());
+        txBuDetails.setRetryMechanism(iterator.next());
+        txBuDetails.setDailyOnlineVolumesExpected(iterator.next());
+        txBuDetails.setScheduleForRealtimeVolumes(iterator.next());
+        txBuDetails.setBatchesOrPeaksForRealtimeVolumes(iterator.next());
+        txBuDetails.setInitialScreeningResponseSla(iterator.next());
+        txBuDetails.setThresholdSetForTimeouts(iterator.next());
+        txBuDetails.setAnyBatchComponent(iterator.next());
+        txBuDetails.setWorkflowOperationsWorkSchedule(iterator.next());
+        txBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
+
+        TransactionRecord transactionRecord = new TransactionRecord();
+        transactionRecord.setBuDetails(txBuDetails);
         transactionRecordRepository.save(transactionRecord);
-        //addCreatedInfoToUpdateHistory(transactionRecord, fields, requestor);
         return "Transaction record created successfully";
     }
-    
+
+    @Override
+    public Record getRecordById(Integer id) {
+        return transactionRecordRepository.findOne(id);
+    }
+
     @Override
     public List<Record> getRecords(List<SearchParameter> searchParameters) {
         RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
@@ -122,5 +127,15 @@ public class TransactionRecordService implements RecordService {
     public String deleteRecord(Integer id) {
         transactionRecordRepository.delete(id);
         return "Transaction record deleted successfully";
+    }
+
+    @Override
+    public String saveDeletedRecord(BuDetails buDetails, String requestor) {
+        DeletedTransactionRecord deletedTransactionRecord = new DeletedTransactionRecord();
+        deletedTransactionRecord.setBuDetails((TxBuDetails) buDetails);
+        deletedTransactionRecord.setDeletionDetails("Record deleted on " + new Timestamp(System.currentTimeMillis()) +
+                " by " + requestor);
+        deletedTransactionRecordRepository.save(deletedTransactionRecord);
+        return "Deleted record saved successfully";
     }
 }

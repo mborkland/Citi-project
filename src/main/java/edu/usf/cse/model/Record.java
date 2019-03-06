@@ -6,11 +6,7 @@ public interface Record {
 
     void setId(Integer id);
 
-    String getCsiId();
+    BuDetails getBuDetails();
 
-    void setCsiId(String csiId);
-
-    String getCsInstance();
-
-    void setCsInstance(String csInstance);
+    void setBuDetails(BuDetails buDetails);
 }

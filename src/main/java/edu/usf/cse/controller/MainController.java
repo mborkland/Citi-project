@@ -40,9 +40,11 @@ public class MainController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public String delete(@RequestParam RecordType recordType, @RequestParam Integer id, @RequestParam String requestor) {
-        String success = getRecordService(recordType).deleteRecord(id);
-        // TODO: add record and requestor to deleted record table
-        return success;
+        RecordService recordService = getRecordService(recordType);
+        BuDetails buDetails = recordService.getRecordById(id).getBuDetails();
+        String deleteSuccess = recordService.deleteRecord(id);
+        String saveSuccess = recordService.saveDeletedRecord(buDetails, requestor);
+        return deleteSuccess + ". " + saveSuccess;
     }
 
     private RecordService getRecordService(RecordType recordType) {
