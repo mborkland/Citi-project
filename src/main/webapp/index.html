@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/styles.css">
     <style type="text/css">
         [ng\:cloak], [ng-cloak], .ng-cloak {
             display: none !important;
@@ -19,7 +21,7 @@
             <div class="navbar-brand">
                 <img src="images/citi-logo.png" width="56" height="36" alt="Citi logo">
             </div>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="background-color: #00BDF2">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item" ng-if="userService.getAuthenticated()">
                         <a class="nav-link" href="">CREATE</a>
@@ -45,7 +47,7 @@
         </nav>
     </div>
 
-    <p class="h1" align="center" style="color: #002d72; padding: 30px">CitiScreening Records Management System</p>
+    <p class="h1" align="center" style="color: #002d72; padding: 30px; font-weight: bold">CitiScreening Records Management System</p>
 
     <div ng-view class="container"></div>
 
@@ -61,5 +63,4 @@
     <script src="js/home.controller.js"></script>
     <script src="js/login.controller.js"></script>
 </body>
-
 </html>
