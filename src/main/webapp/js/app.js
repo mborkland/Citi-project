@@ -11,12 +11,12 @@
         $routeProvider
             .when('/', {
                 controller: 'HomeController',
-                templateUrl: 'home/home.view.html',
+                templateUrl: 'html/home.view.html',
                 controllerAs: 'vm'
             })
             .when('/login', {
                 controller: 'LoginController',
-                templateUrl: 'login/login.view.html',
+                templateUrl: 'html/login.view.html',
                 controllerAs: 'vm'
             })
             .otherwise({ redirectTo: '/login' });
