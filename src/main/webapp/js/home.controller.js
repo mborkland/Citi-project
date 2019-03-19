@@ -5,8 +5,8 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$window', '$http', '$scope'];
-    function HomeController($window, $http, $scope) {
+    HomeController.$inject = ['$window', '$http', '$scope', 'userService'];
+    function HomeController($window, $http, $scope, userService) {
         var vm = this;
 
         vm.user = null;
@@ -24,11 +24,5 @@
                 console.log(error);
             });
         };
-
-        $scope.logout = function(){
-            $window.sessionStorage.setItem('userData', '');
-            $http.defaults.headers.common['Authorization'] = 'Basic';
-        }
     }
-
 })();

@@ -4,6 +4,8 @@
     angular
         .module('app', ['ngRoute'])
         .config(config)
+        .service('userService', UserService)
+        .controller('AppController', AppController)
         .run(run);
 
     config.$inject = ['$routeProvider', '$locationProvider'];
@@ -22,8 +24,9 @@
             .otherwise({ redirectTo: '/login' });
     }
 
-    run.$inject = ['$rootScope', '$location', '$http', '$window'];
-    function run($rootScope, $location, $http, $window) {
+    run.$inject = ['$rootScope', '$location', '$http', '$window', 'userService'];
+    function run($rootScope, $location, $http, $window, userService) {
+        $rootScope.userService = userService;
         var userData = $window.sessionStorage.getItem('userData');
         if (userData) {
             $http.defaults.headers.common['Authorization'] = 'Basic ' + JSON.parse(userData).authData;
@@ -36,5 +39,40 @@
                 $location.path('/login');
             }
         });
+    }
+
+    function UserService() {
+        var authenticated = false;
+        var admin = false;
+
+        return {
+            getAuthenticated: function() {
+                return authenticated;
+            },
+            setAuthenticated: function() {
+                authenticated = true;
+            },
+            clearAuthenticated: function() {
+                authenticated = false;
+            },
+            getAdmin: function () {
+                return admin;
+            },
+            setAdmin: function () {
+                admin = true;
+            },
+            clearAdmin: function () {
+                admin = false;
+            }
+        };
+    }
+
+    AppController.$inject = ['$http', '$window', '$scope', 'userService'];
+    function AppController($http, $window, $scope, userService) {
+        $scope.logout = function(){
+            userService.clearAuthenticated();
+            $window.sessionStorage.setItem('userData', '');
+            $http.defaults.headers.common['Authorization'] = 'Basic';
+        }
     }
 })();

@@ -5,8 +5,8 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$location', '$window', '$http'];
-    function LoginController($location, $window, $http) {
+    LoginController.$inject = ['$location', '$window', '$http', 'userService'];
+    function LoginController($location, $window, $http, userService) {
         var vm = this;
         vm.login = login;
 
@@ -21,6 +21,7 @@
                 data: { 'userName': vm.username, 'password': vm.password }
             }).then(function (response) {
                 if (response.data) {
+                    userService.setAuthenticated();
                     var token = $window.btoa(vm.username + ':' + vm.password);
                     var userData = {
                         userName: vm.username,
