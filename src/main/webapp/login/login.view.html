@@ -1,0 +1,22 @@
+﻿<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <form name="form" class="form-signin" ng-submit="vm.login()" role="form">
+                <h1 class="h3 mb-3 font-weight-normal" align="center">Please sign in</h1>
+                <label for="username" class="sr-only">Username</label>
+                <input type="text" name="username" id="username" ng-model="vm.username" placeholder="Username" class="form-control" required autofocus />
+                <span ng-show="form.username.$dirty && form.username.$error.required">Username is required</span>
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" name="password" id="password" ng-model="vm.password" placeholder="Password" class="form-control" required />
+                <span ng-show="form.password.$dirty && form.password.$error.required">Password is required</span>
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block form-actions" type="submit" ng-disabled="form.$invalid || vm.dataLoading">Login</button>
+                <p class="mt-5 mb-3 text-muted">&copy; 2019</p>
+            </form>
+        </div>
+    </div>
+</div>
