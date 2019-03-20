@@ -75,6 +75,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.DELETE, "/delete", "/clear").access("hasRole('ROLE_ADMIN')")
 
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
+                        "/configuration/security", "/swagger-ui.html", "/webjars/**",
+                        "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security").permitAll()   // for testing
+
                 .anyRequest()
                 .authenticated()
                 .and()
