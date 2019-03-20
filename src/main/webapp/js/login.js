@@ -1,39 +1,31 @@
-﻿(function () {
-    'use strict';
+﻿app.controller('LoginController', ['$rootScope', '$scope', '$http', '$state', 'TokenStore', 'UserService',
+function($rootScope, $scope, $http, $state, TokenStore, UserService) {
+    if ($rootScope.currentUser) {
+        $state.go('home');
+    }
 
-    angular
-        .module('app')
-        .controller('LoginController', LoginController);
-
-    LoginController.$inject = ['$location', '$window', '$http', 'userService'];
-    function LoginController($location, $window, $http, userService) {
-        var vm = this;
-        vm.login = login;
-
-        (function initController() {
-            $window.localStorage.setItem('token', '');
-        })();
-
-        function login() {
-            $http({
-                url: '/login',
-                method: "POST",
-                data: { 'userName': vm.username, 'password': vm.password }
-            }).then(function (response) {
-                if (response.data) {
-                    userService.setAuthenticated();
-                    var token = $window.btoa(vm.username + ':' + vm.password);
-                    var userData = {
-                        userName: vm.username,
-                        authData: token
-                    }
-                    $window.sessionStorage.setItem('userData', JSON.stringify(userData));
-                    $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
-                    $location.path('/');
-                } else {
-                    alert("Authentication failed.")
+    $scope.login = function() {
+        $http({
+            url: '/user/login',
+            method: 'POST',
+            data: {'username': $scope.username, 'password': $scope.password}
+        }).then(function (response) {
+            var authToken = response.headers()['x-auth-token'];
+            if (authToken) {
+                UserService.setAuthenticated();
+                TokenStore.save(authToken);
+                return $http.get('/user/current');
+            }
+        }).then(function (response) {
+            var user = response.data;
+            $rootScope.currentUser = user;
+            angular.forEach(user.authorities, function (value, key) {
+                if (value.authority === 'ROLE_ADMIN') {
+                    UserService.setAdmin();
                 }
             });
-        };
+
+            $state.go('home');
+        });
     }
-})();
+}]);

@@ -1,28 +1,17 @@
-﻿(function () {
-    'use strict';
-
-    angular
-        .module('app')
-        .controller('HomeController', HomeController);
-
-    HomeController.$inject = ['$window', '$http', '$scope', 'userService'];
-    function HomeController($window, $http, $scope, userService) {
-        var vm = this;
-
-        vm.user = null;
-
-        initController();
-
-        function initController() {
-
+﻿app.controller('HomeController', ['$rootScope', '$state', '$http', 'TokenStore',
+function ($rootScope, $state, $http, TokenStore) {
+    if ($rootScope.currentUser === undefined) {
+        if (TokenStore.get()) {
             $http({
-                url: '/user',
-                method: "GET"
+                url: '/user/current',
+                method: 'GET'
             }).then(function (response) {
-                vm.user = response.data.name;
-            },function(error){
+                $rootScope.currentUser = response.data;
+            }, function(error) {
                 console.log(error);
             });
-        };
+        } else {
+            $state.go('login');
+        }
     }
-})();
+}]);

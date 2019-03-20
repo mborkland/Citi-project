@@ -1,80 +1,115 @@
-﻿(function () {
-    'use strict';
+﻿'use strict';
 
-    angular
-        .module('app', ['ngRoute'])
-        .config(config)
-        .service('userService', UserService)
-        .controller('AppController', AppController)
-        .run(run);
+var app = angular.module('app', ['ui.router']);
 
-    config.$inject = ['$routeProvider', '$locationProvider', '$httpProvider'];
-    function config($routeProvider, $locationProvider, $httpProvider) {
-        $routeProvider
-            .when('/', {
-                controller: 'HomeController',
-                templateUrl: 'html/home.html',
-                controllerAs: 'vm'
-            })
-            .when('/login', {
-                controller: 'LoginController',
-                templateUrl: 'html/login.html',
-                controllerAs: 'vm'
-            })
-            .otherwise({ redirectTo: '/login' });
-
-        //$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-    }
-
-    run.$inject = ['$rootScope', '$location', '$http', '$window', 'userService'];
-    function run($rootScope, $location, $http, $window, userService) {
-        $rootScope.userService = userService;
-        var userData = $window.sessionStorage.getItem('userData');
-        if (userData) {
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + JSON.parse(userData).authData;
+app.factory('TokenStore', function ($window) {
+    var storageKey = 'auth_token';
+    return {
+        save: function (token) {
+            return $window.localStorage.setItem(storageKey, token);
+        },
+        get: function () {
+            return $window.localStorage.getItem(storageKey);
+        },
+        clear: function () {
+            return $window.localStorage.removeItem(storageKey);
         }
+    };
+});
 
-        $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-            var loggedIn = $window.sessionStorage.getItem('userData');;
-            if (restrictedPage && !loggedIn) {
-                $location.path('/login');
+app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            if (TokenStore.get()) {
+                config.headers['X-Auth-Token'] = TokenStore.get();
             }
+            return config;
+        },
+        response: function (response) {
+            if (response.status === 401) {
+                // handle the case where the user is not authenticated
+            }
+            return response || $q.when(response);
+        }
+    };
+});
+
+app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
+
+    $httpProvider.interceptors.push('authInterceptor');
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+        .state('home', {
+            url: '/',
+            templateUrl: 'html/home.html',
+            controller: 'HomeController'
+        })
+        .state('login', {
+            url: '/login',
+            templateUrl: 'html/login.html',
+            controller: 'LoginController'
         });
-    }
+}]);
 
-    function UserService() {
-        var authenticated = false;
-        var admin = false;
+app.service('UserService', function () {
+    var authenticated = false;
+    var admin = false;
 
-        return {
-            getAuthenticated: function() {
-                return authenticated;
-            },
-            setAuthenticated: function() {
-                authenticated = true;
-            },
-            clearAuthenticated: function() {
-                authenticated = false;
-            },
-            getAdmin: function () {
-                return admin;
-            },
-            setAdmin: function () {
-                admin = true;
-            },
-            clearAdmin: function () {
-                admin = false;
-            }
-        };
-    }
-
-    AppController.$inject = ['$http', '$window', '$scope', 'userService'];
-    function AppController($http, $window, $scope, userService) {
-        $scope.logout = function(){
-            userService.clearAuthenticated();
-            $window.sessionStorage.setItem('userData', '');
-            $http.defaults.headers.common['Authorization'] = 'Basic';
+    return {
+        getAuthenticated: function() {
+            return authenticated;
+        },
+        setAuthenticated: function() {
+            authenticated = true;
+        },
+        clearAuthenticated: function() {
+            authenticated = false;
+        },
+        getAdmin: function () {
+            return admin;
+        },
+        setAdmin: function () {
+            admin = true;
+        },
+        clearAdmin: function () {
+            admin = false;
         }
+    };
+});
+
+app.controller('AppController', ['$rootScope', '$scope', '$state', 'TokenStore', 'UserService',
+function($rootScope, $scope, $state, TokenStore, UserService) {
+    $scope.logout = function () {
+        TokenStore.clear();
+        UserService.clearAuthenticated();
+        UserService.clearAdmin();
+        delete $rootScope.currentUser;
+        $state.go('login');
     }
-})();
+}]);
+
+app.run(['$rootScope', '$location', '$http', '$window', 'UserService',
+function run($rootScope, $location, $http, $window, UserService) {
+    $rootScope.UserService = UserService;
+}]);
+
+
+/*
+run.$inject = ['$rootScope', '$location', '$http', '$window', 'UserService'];
+function run($rootScope, $location, $http, $window, UserService) {
+    $rootScope.UserService = UserService;
+    var userData = $window.sessionStorage.getItem('userData');
+    if (userData) {
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + JSON.parse(userData).authData;
+    }
+
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+        var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+        var loggedIn = $window.sessionStorage.getItem('userData');;
+        if (restrictedPage && !loggedIn) {
+            $location.path('/login');
+        }
+    });
+}*/
