@@ -64,10 +64,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().cacheControl().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/js/**", "/css/**", "/html/**", "/images/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/", "/index.html").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/login").permitAll()
-                .antMatchers( "/favicon.ico").permitAll()
+
+                .antMatchers("/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico").permitAll()
+
+                .antMatchers(HttpMethod.GET, "/", "/index.html", "/user/current", "/create").permitAll()
+
+                .antMatchers(HttpMethod.POST, "/user/login", "/read").permitAll()
+
+                .antMatchers(HttpMethod.PATCH, "/update", "/restore").access("hasRole('ROLE_ADMIN')")
+
+                .antMatchers(HttpMethod.DELETE, "/delete", "/clear").access("hasRole('ROLE_ADMIN')")
+
                 .anyRequest()
                 .authenticated()
                 .and()
