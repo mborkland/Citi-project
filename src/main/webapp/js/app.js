@@ -8,20 +8,22 @@
         .controller('AppController', AppController)
         .run(run);
 
-    config.$inject = ['$routeProvider', '$locationProvider'];
-    function config($routeProvider, $locationProvider) {
+    config.$inject = ['$routeProvider', '$locationProvider', '$httpProvider'];
+    function config($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider
             .when('/', {
                 controller: 'HomeController',
-                templateUrl: 'html/home.view.html',
+                templateUrl: 'html/home.html',
                 controllerAs: 'vm'
             })
             .when('/login', {
                 controller: 'LoginController',
-                templateUrl: 'html/login.view.html',
+                templateUrl: 'html/login.html',
                 controllerAs: 'vm'
             })
             .otherwise({ redirectTo: '/login' });
+
+        //$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     }
 
     run.$inject = ['$rootScope', '$location', '$http', '$window', 'userService'];
