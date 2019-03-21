@@ -12,10 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.session.SessionManagementFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String secretToken;
 
     private final UserDetailsService userDetailsService;
+
+    private final String[] permitAllPatterns = {
+            "/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico", "/", "/index.html", "/user/current",
+            "/user/login"
+    };
 
     @Autowired
     public WebSecurityConfig(@Value("${token.secretToken") String secretToken, UserDetailsService userDetailsService) {
@@ -54,6 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public TokenAuthenticationProcessingFilter tokenAuthenticationProcessingFilter() throws Exception {
+        TokenHandler tokenhandler = new TokenHandler(secretToken, userDetailsService);
+        TokenAuthenticationService authenticationService = new TokenAuthenticationService(tokenhandler);
         return new TokenAuthenticationProcessingFilter("/user/login",
                 tokenAuthenticationService(), authenticationManager());
     }
@@ -65,11 +75,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                .antMatchers("/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico").permitAll()
+                .antMatchers("/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico", "/").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/", "/index.html", "/user/current", "/create").permitAll()
+                .antMatchers(HttpMethod.GET, "/index.html", "/user/current").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/user/login", "/read").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/login").permitAll()
+
+                .antMatchers(HttpMethod.GET, "/create").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+
+                .antMatchers(HttpMethod.POST, "/read").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 
                 .antMatchers(HttpMethod.PATCH, "/update", "/restore").access("hasRole('ROLE_ADMIN')")
 
@@ -85,17 +99,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .csrf().disable()/*.csrfTokenRepository(csrfTokenRepository())
-                .and()*/
+                .csrf().csrfTokenRepository(csrfTokenRepository())
+                .requireCsrfProtectionMatcher(new NoAntPathRequestMatcher(permitAllPatterns))
+                .and()
                 .addFilterBefore(tokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                /*.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)*/;
+                .addFilterAfter(csrfFilter(permitAllPatterns), FilterSecurityInterceptor.class)
+                .addFilterAfter(new CsrfHeaderFilter(), SessionManagementFilter.class);
+    }
+
+    private RequestMatcher csrfProtectionMatcher(String[] patterns) {
+        return new NoAntPathRequestMatcher(patterns);
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");
         return repository;
+    }
+
+    private CsrfFilter csrfFilter(String[] patterns) {
+        CsrfFilter csrfFilter = new CsrfFilter(csrfTokenRepository());
+        csrfFilter.setRequireCsrfProtectionMatcher(csrfProtectionMatcher(patterns));
+        return csrfFilter;
     }
 
 }
