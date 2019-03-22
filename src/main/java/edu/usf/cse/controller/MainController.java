@@ -7,7 +7,6 @@ import edu.usf.cse.service.TransactionRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -67,5 +66,10 @@ public class MainController {
             default:
                 throw new IllegalArgumentException("Invalid record type.");
         }
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public String test(@RequestParam String test) {
+        return test;
     }
 }

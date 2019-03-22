@@ -13,5 +13,7 @@ function ($rootScope, $state, $http, TokenStore) {
         } else {
             $state.go('login');
         }
+    } else {
+        $state.go('read');
     }
 }]);

@@ -29,14 +29,14 @@
                             CREATE
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Customer Screening</a>
+                            <a class="dropdown-item" ui-sref="create-cx">Customer Screening</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Transaction Screening</a>
+                            <a class="dropdown-item" ui-sref="create-tx">Transaction Screening</a>
                         </div>
                     </li>
 
                     <li class="nav-item" ng-if="UserService.getAuthenticated()">
-                        <a class="nav-link" href="#">SEARCH</a>
+                        <a class="nav-link" ui-sref="read">SEARCH</a>
                     </li>
                     <li class="nav-item dropdown" ng-if="UserService.getAdmin()">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -74,5 +74,7 @@
     <script src="js/app.js"></script>
     <script src="js/home.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/read.js"></script>
+    <script src="js/create.js"></script>
 </body>
 </html>

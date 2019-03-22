@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] permitAllPatterns = {
             "/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico", "/", "/index.html", "/user/current",
-            "/user/login"
+            "/user/login", "/create-cx", "/create", "/test"
     };
 
     @Autowired
@@ -75,13 +75,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                .antMatchers("/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico", "/").permitAll()
+                .antMatchers("/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico", "/", "/create-cx").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/index.html", "/user/current").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/user/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/login", "/create").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/create").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+                //.antMatchers(HttpMethod.GET, "/create").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 
                 .antMatchers(HttpMethod.POST, "/read").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 

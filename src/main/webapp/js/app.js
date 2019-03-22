@@ -36,7 +36,6 @@ app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
 });
 
 app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
-
     $httpProvider.interceptors.push('authInterceptor');
     $urlRouterProvider.otherwise('/');
 
@@ -50,6 +49,21 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($
             url: '/login',
             templateUrl: 'html/login.html',
             controller: 'LoginController'
+        })
+        .state('read', {
+            url: '/read',
+            templateUrl: 'html/read.html',
+            controller: 'ReadController'
+        })
+        .state('create-cx', {
+            url: '/create-cx',
+            templateUrl: 'html/create/create-cx.html',
+            controller: 'CreateController'
+        })
+        .state('create-tx', {
+            url: '/create-tx',
+            templateUrl: 'html/create/create-tx.html',
+            controller: 'CreateController'
         });
 }]);
 
