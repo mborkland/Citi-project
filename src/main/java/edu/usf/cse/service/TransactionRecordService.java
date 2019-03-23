@@ -14,7 +14,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 
@@ -108,12 +110,19 @@ public class TransactionRecordService implements RecordService {
 	@Override
 	@Transactional
 	public String updateRecord(Integer id, String field, String newValue, String requestor) {
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaUpdate<TransactionRecord> criteria = builder.createCriteriaUpdate(TransactionRecord.class);
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<TransactionRecord> criteriaQuery = builder.createQuery(TransactionRecord.class);
+        Root<TransactionRecord> queryRoot = criteriaQuery.from(TransactionRecord.class);
+        criteriaQuery.select(queryRoot.get(field));
+        criteriaQuery.where(builder.equal(queryRoot.get("id"), id));
+        Query query = entityManager.createQuery(criteriaQuery);
+        Object oldValue = query.getResultList().get(0);
+
+        CriteriaUpdate<TransactionRecord> criteria = builder.createCriteriaUpdate(TransactionRecord.class);
 		Root<TransactionRecord> root = criteria.from(TransactionRecord.class);
 		StringBuilder updateHistory = new StringBuilder(transactionRecordRepository.getUpdateHistory(id));
-		updateHistory.append(historyDelimiter).append("Record updated on ").append(new Timestamp(System.currentTimeMillis()))
-				.append(" by ").append(requestor);
+        updateHistory.append(historyDelimiter).append(field).append(" field changed from ").append(oldValue).append(" to ")
+                .append(newValue).append(" on ").append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
 
 		criteria.set(root.get(field), newValue);
 		criteria.set(root.get("updateHistory"), updateHistory.toString());
