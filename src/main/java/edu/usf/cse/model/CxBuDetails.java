@@ -7,10 +7,10 @@ import javax.persistence.Embeddable;
 public class CxBuDetails implements BuDetails {
 
     @Column(name="CSI_ID")
-    private String csiId;
+    private Integer csiId;
 
     @Column(name="CS_Instance")
-    private Integer csInstance;
+    private String csInstance;
 
     @Column(name="BUSINESS_ID")
     private String businessId;
@@ -96,19 +96,19 @@ public class CxBuDetails implements BuDetails {
     @Column(name="Update_History")
     private String updateHistory;
 
-    public String getCsiId() {
+    public Integer getCsiId() {
         return csiId;
     }
 
-    public void setCsiId(String csiId) {
+    public void setCsiId(Integer csiId) {
         this.csiId = csiId;
     }
 
-    public Integer getCsInstance() {
+    public String getCsInstance() {
         return csInstance;
     }
 
-    public void setCsInstance(Integer csInstance) {
+    public void setCsInstance(String csInstance) {
         this.csInstance = csInstance;
     }
 

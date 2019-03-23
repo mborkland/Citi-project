@@ -2,11 +2,11 @@ package edu.usf.cse.model;
 
 public interface BuDetails {
 
-    String getCsiId();
+    Integer getCsiId();
 
-    void setCsiId(String csiId);
+    void setCsiId(Integer csiId);
 
-    Integer getCsInstance();
+    String getCsInstance();
 
-    void setCsInstance(Integer csInstance);
+    void setCsInstance(String csInstance);
 }

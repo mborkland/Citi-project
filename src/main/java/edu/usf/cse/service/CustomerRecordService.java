@@ -42,8 +42,8 @@ public class CustomerRecordService implements RecordService {
     public String createRecord(List<String> fields, String requestor) {
         CxBuDetails cxBuDetails = new CxBuDetails();
         Iterator<String> iterator = fields.iterator();
-        cxBuDetails.setCsiId(iterator.next());
-        cxBuDetails.setCsInstance(Integer.parseInt(iterator.next()));
+        cxBuDetails.setCsiId(Integer.parseInt(iterator.next()));
+        cxBuDetails.setCsInstance(iterator.next());
         cxBuDetails.setBusinessId(iterator.next());
         cxBuDetails.setBizUnitId(iterator.next());
         cxBuDetails.setProductId(iterator.next());
