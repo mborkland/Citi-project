@@ -6,7 +6,7 @@ public interface BuDetails {
 
     void setCsiId(String csiId);
 
-    String getCsInstance();
+    Integer getCsInstance();
 
-    void setCsInstance(String csInstance);
+    void setCsInstance(Integer csInstance);
 }

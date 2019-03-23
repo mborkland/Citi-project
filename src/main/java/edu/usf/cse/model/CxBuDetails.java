@@ -10,7 +10,7 @@ public class CxBuDetails implements BuDetails {
     private String csiId;
 
     @Column(name="CS_Instance")
-    private String csInstance;
+    private Integer csInstance;
 
     @Column(name="BUSINESS_ID")
     private String businessId;
@@ -24,11 +24,8 @@ public class CxBuDetails implements BuDetails {
     @Column(name="BIZ_PROD_ID")
     private String bizProdId;
 
-    @Column(name="Cx_Business_Unit_Name")
-    private String cxBusinessUnitName;
-
-    @Column(name="Cx_Business_Unit_Name_Display_Value")
-    private String cxBusinessUnitNameDisplayValue;
+    @Column(name="Cx_Screening_Business_Unit_Name")
+    private String cxScreeningBusinessUnitName;
 
     @Column(name="Cx_Business_Greenzone")
     private String cxBusinessGreenzone;
@@ -46,13 +43,10 @@ public class CxBuDetails implements BuDetails {
     private String sector;
 
     @Column(name="Workflow_Flag")
-    private String workflowFlag;
+    private Boolean workflowFlag;
 
     @Column(name="Workflow_Instance")
     private String workflowInstance;
-
-    @Column(name="WF_Business_Unit_Name")
-    private String wfBusinessUnitName;
 
     @Column(name="WF_Business_Unit_Name_Display_Value")
     private String wfBusinessUnitNameDisplayValue;
@@ -60,20 +54,17 @@ public class CxBuDetails implements BuDetails {
     @Column(name="WF_Business_Greenzone")
     private String wfBusinessGreenzone;
 
-    @Column(name="Interface_Description")
-    private String interfaceDescription;
+    @Column(name="Connectivity_Protocol")
+    private String connectivityProtocol;
 
     @Column(name="Interface_App_ID")
-    private String interfaceAppId;
+    private Integer interfaceAppId;
 
     @Column(name="Interface_Application_Name")
     private String interfaceApplicationName;
 
     @Column(name="Operation_Entity")
     private String operationEntity;
-
-    @Column(name="CBUSOL")
-    private String cbusol;
 
     @Column(name="Ops_Compliance_Contacts")
     private String opsComplianceContacts;
@@ -82,52 +73,25 @@ public class CxBuDetails implements BuDetails {
     private String cwVersion;
 
     @Column(name="GOM_Compliant")
-    private String gomCompliant;
+    private Boolean gomCompliant;
 
-    @Column(name="Cw_UAT_Contacts")
-    private String cwUatContacts;
+    @Column(name="Cw_UAT_Contact_Name")
+    private String cwUatContactName;
 
-    @Column(name="Source_Tech_Contacts")
-    private String sourceTechContacts;
+    @Column(name="Source_Tech_Contact")
+    private String sourceTechContact;
 
     @Column(name="Impact_to_Business")
     private String impactToBusiness;
 
-    @Column(name="Business_Escalation_Contacts")
-    private String businessEscalationContacts;
+    @Column(name="Business_Escalation_Point_of_Contact")
+    private String businessEscalationPointOfContact;
 
     @Column(name="Timezone")
     private String timezone;
 
-    @Column(name="Impact_to_Product_Processor")
-    private String impactToProductProcessor;
-
-    @Column(name="Product_Processor_Escalation_Contacts")
-    private String productProcessorEscalationContacts;
-
-    @Column(name="Product_Processor_Group_DL")
-    private String productProcessorGroupDl;
-
-    @Column(name="Product_Processor_SNOW_Group_Name")
-    private String productProcessorSnowGroupName;
-
-    @Column(name="Product_Processor_SLA")
-    private String productProcessorSla;
-
-    @Column(name="Frequency")
-    private String frequency;
-
-    @Column(name="File_Scheduled_Date_and_Time")
-    private String fileScheduledDateAndTime;
-
-    @Column(name="Avg_Volume")
-    private String averageVolume;
-
-    @Column(name="Avg_Runtime")
-    private String averageRuntime;
-
-    @Column(name="File_2nd_Scheduled_Date_and_Time")
-    private String file2ndScheduledDateAndTime;
+    @Column(name="Contacts_Checked")
+    private Boolean contactsChecked;
 
     @Column(name="Update_History")
     private String updateHistory;
@@ -140,11 +104,11 @@ public class CxBuDetails implements BuDetails {
         this.csiId = csiId;
     }
 
-    public String getCsInstance() {
+    public Integer getCsInstance() {
         return csInstance;
     }
 
-    public void setCsInstance(String csInstance) {
+    public void setCsInstance(Integer csInstance) {
         this.csInstance = csInstance;
     }
 
@@ -180,20 +144,12 @@ public class CxBuDetails implements BuDetails {
         this.bizProdId = bizProdId;
     }
 
-    public String getCxBusinessUnitName() {
-        return cxBusinessUnitName;
+    public String getCxScreeningBusinessUnitName() {
+        return cxScreeningBusinessUnitName;
     }
 
-    public void setCxBusinessUnitName(String cxBusinessUnitName) {
-        this.cxBusinessUnitName = cxBusinessUnitName;
-    }
-
-    public String getCxBusinessUnitNameDisplayValue() {
-        return cxBusinessUnitNameDisplayValue;
-    }
-
-    public void setCxBusinessUnitNameDisplayValue(String cxBusinessUnitNameDisplayValue) {
-        this.cxBusinessUnitNameDisplayValue = cxBusinessUnitNameDisplayValue;
+    public void setCxScreeningBusinessUnitName(String cxScreeningBusinessUnitName) {
+        this.cxScreeningBusinessUnitName = cxScreeningBusinessUnitName;
     }
 
     public String getCxBusinessGreenzone() {
@@ -236,11 +192,11 @@ public class CxBuDetails implements BuDetails {
         this.sector = sector;
     }
 
-    public String  getWorkflowFlag() {
+    public Boolean getWorkflowFlag() {
         return workflowFlag;
     }
 
-    public void setWorkflowFlag(String  workflowFlag) {
+    public void setWorkflowFlag(Boolean workflowFlag) {
         this.workflowFlag = workflowFlag;
     }
 
@@ -250,14 +206,6 @@ public class CxBuDetails implements BuDetails {
 
     public void setWorkflowInstance(String workflowInstance) {
         this.workflowInstance = workflowInstance;
-    }
-
-    public String getWfBusinessUnitName() {
-        return wfBusinessUnitName;
-    }
-
-    public void setWfBusinessUnitName(String wfBusinessUnitName) {
-        this.wfBusinessUnitName = wfBusinessUnitName;
     }
 
     public String getWfBusinessUnitNameDisplayValue() {
@@ -276,19 +224,19 @@ public class CxBuDetails implements BuDetails {
         this.wfBusinessGreenzone = wfBusinessGreenzone;
     }
 
-    public String getInterfaceDescription() {
-        return interfaceDescription;
+    public String getConnectivityProtocol() {
+        return connectivityProtocol;
     }
 
-    public void setInterfaceDescription(String interfaceDescription) {
-        this.interfaceDescription = interfaceDescription;
+    public void setConnectivityProtocol(String connectivityProtocol) {
+        this.connectivityProtocol = connectivityProtocol;
     }
 
-    public String getInterfaceAppId() {
+    public Integer getInterfaceAppId() {
         return interfaceAppId;
     }
 
-    public void setInterfaceAppId(String interfaceAppId) {
+    public void setInterfaceAppId(Integer interfaceAppId) {
         this.interfaceAppId = interfaceAppId;
     }
 
@@ -308,14 +256,6 @@ public class CxBuDetails implements BuDetails {
         this.operationEntity = operationEntity;
     }
 
-    public String getCbusol() {
-        return cbusol;
-    }
-
-    public void setCbusol(String cbusol) {
-        this.cbusol = cbusol;
-    }
-
     public String getOpsComplianceContacts() {
         return opsComplianceContacts;
     }
@@ -332,28 +272,28 @@ public class CxBuDetails implements BuDetails {
         this.cwVersion = cwVersion;
     }
 
-    public String  getGomCompliant() {
+    public Boolean getGomCompliant() {
         return gomCompliant;
     }
 
-    public void setGomCompliant(String  gomCompliant) {
+    public void setGomCompliant(Boolean gomCompliant) {
         this.gomCompliant = gomCompliant;
     }
 
-    public String getCwUatContacts() {
-        return cwUatContacts;
+    public String getCwUatContactName() {
+        return cwUatContactName;
     }
 
-    public void setCwUatContacts(String cwUatContacts) {
-        this.cwUatContacts = cwUatContacts;
+    public void setCwUatContactName(String cwUatContactName) {
+        this.cwUatContactName = cwUatContactName;
     }
 
-    public String getSourceTechContacts() {
-        return sourceTechContacts;
+    public String getSourceTechContact() {
+        return sourceTechContact;
     }
 
-    public void setSourceTechContacts(String sourceTechContacts) {
-        this.sourceTechContacts = sourceTechContacts;
+    public void setSourceTechContact(String sourceTechContact) {
+        this.sourceTechContact = sourceTechContact;
     }
 
     public String getImpactToBusiness() {
@@ -364,12 +304,12 @@ public class CxBuDetails implements BuDetails {
         this.impactToBusiness = impactToBusiness;
     }
 
-    public String getBusinessEscalationContacts() {
-        return businessEscalationContacts;
+    public String getBusinessEscalationPointOfContact() {
+        return businessEscalationPointOfContact;
     }
 
-    public void setBusinessEscalationContacts(String businessEscalationContacts) {
-        this.businessEscalationContacts = businessEscalationContacts;
+    public void setBusinessEscalationPointOfContact(String businessEscalationPointOfContact) {
+        this.businessEscalationPointOfContact = businessEscalationPointOfContact;
     }
 
     public String getTimezone() {
@@ -380,84 +320,12 @@ public class CxBuDetails implements BuDetails {
         this.timezone = timezone;
     }
 
-    public String getImpactToProductProcessor() {
-        return impactToProductProcessor;
+    public Boolean getContactsChecked() {
+        return contactsChecked;
     }
 
-    public void setImpactToProductProcessor(String impactToProductProcessor) {
-        this.impactToProductProcessor = impactToProductProcessor;
-    }
-
-    public String getProductProcessorEscalationContacts() {
-        return productProcessorEscalationContacts;
-    }
-
-    public void setProductProcessorEscalationContacts(String productProcessorEscalationContacts) {
-        this.productProcessorEscalationContacts = productProcessorEscalationContacts;
-    }
-
-    public String getProductProcessorGroupDl() {
-        return productProcessorGroupDl;
-    }
-
-    public void setProductProcessorGroupDl(String productProcessorGroupDl) {
-        this.productProcessorGroupDl = productProcessorGroupDl;
-    }
-
-    public String getProductProcessorSnowGroupName() {
-        return productProcessorSnowGroupName;
-    }
-
-    public void setProductProcessorSnowGroupName(String productProcessorSnowGroupName) {
-        this.productProcessorSnowGroupName = productProcessorSnowGroupName;
-    }
-
-    public String getProductProcessorSla() {
-        return productProcessorSla;
-    }
-
-    public void setProductProcessorSla(String productProcessorSla) {
-        this.productProcessorSla = productProcessorSla;
-    }
-
-    public String getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
-    }
-
-    public String getFileScheduledDateAndTime() {
-        return fileScheduledDateAndTime;
-    }
-
-    public void setFileScheduledDateAndTime(String fileScheduledDateAndTime) {
-        this.fileScheduledDateAndTime = fileScheduledDateAndTime;
-    }
-
-    public String getAverageVolume() {
-        return averageVolume;
-    }
-
-    public void setAverageVolume(String averageVolume) {
-        this.averageVolume = averageVolume;
-    }
-
-    public String getAverageRuntime() {
-        return averageRuntime;
-    }
-
-    public void setAverageRuntime(String averageRuntime) {
-        this.averageRuntime = averageRuntime;
-    }
-
-    public String getFile2ndScheduledDateAndTime() {
-        return file2ndScheduledDateAndTime;
-    }
-
-    public void setFile2ndScheduledDateAndTime(String file2ndScheduledDateAndTime) {
-        this.file2ndScheduledDateAndTime = file2ndScheduledDateAndTime;
+    public void setContactsChecked(Boolean contactsChecked) {
+        this.contactsChecked = contactsChecked;
     }
 
     public String getUpdateHistory() {
