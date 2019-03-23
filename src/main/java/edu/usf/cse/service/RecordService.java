@@ -2,12 +2,13 @@ package edu.usf.cse.service;
 
 import edu.usf.cse.model.BuDetails;
 import edu.usf.cse.model.Record;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface RecordService {
 
-    String createRecord(List<String> fields, String requestor);
+    ResponseEntity<String> createRecord(List<String> fields, String requestor);
 
     Record getRecordById(Integer id);
 

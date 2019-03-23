@@ -4,6 +4,8 @@ import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.DeletedTransactionRecordRepository;
 import edu.usf.cse.persistence.TransactionRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +32,8 @@ public class TransactionRecordService implements RecordService {
     private static final String searchDelimiter = ",";
 
     private static final String[] searchableFields = {
-            "BUSINESS_ID", "PRODUCT_ID", "CSI_ID", "Unique_Product_ID", "Tx_Screening_Business_Unit_Name",
-            "Ruleset_Mapped", "REGION", "COUNTRY", "SECTOR", "Workflow_Instance"
+            "businessId", "productId", "csiId", "uniqueProductId", "txScreeningBusinessUnitName",
+            "rulesetMapped", "region", "country", "sector", "workflowInstance"
     };
 
     @Autowired
@@ -43,7 +45,7 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String createRecord(List<String> fields, String requestor) {
+    public ResponseEntity<String> createRecord(List<String> fields, String requestor) {
         TxBuDetails txBuDetails = new TxBuDetails();
         Iterator<String> iterator = fields.iterator();
         txBuDetails.setBusinessId(iterator.next());
@@ -92,7 +94,8 @@ public class TransactionRecordService implements RecordService {
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setBuDetails(txBuDetails);
         transactionRecordRepository.save(transactionRecord);
-        return "Transaction record created successfully";
+        return new ResponseEntity<String>("{\"result\":\"Transaction record created successfully\"}", HttpStatus.OK);
+
     }
 
     @Override
@@ -119,9 +122,6 @@ public class TransactionRecordService implements RecordService {
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
         Query query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
-        
-        /*RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
-        return transactionRecordRepository.findAll(recordSpecification);*/
     }
 
 	@Override

@@ -3,9 +3,9 @@ package edu.usf.cse.service;
 import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.CustomerRecordRepository;
 import edu.usf.cse.persistence.DeletedCustomerRecordRepository;
-import edu.usf.cse.specification.RecordSpecification;
-import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +32,9 @@ public class CustomerRecordService implements RecordService {
     private static final String searchDelimiter = ",";
 
     private static final String[] searchableFields = {
-            "CSI_ID", "CS_Instance", "BUSINESS_ID", "BIZ_UNIT_ID", "PRODUCT_ID", "BIZ_PROD_ID",
-            "Cx_Screening_Business_Unit_Name", "Ruleset_Mapped", "REGION", "COUNTRY", "SECTOR",
-            "Workflow_Instance", "WF_Business_Unit_Name_Display_Value"
+            "csiId", "csInstance", "businessId", "bizUnitId", "productId", "bizProdId",
+            "cxScreeningBusinessUnitName", "rulesetMapped", "region", "country", "sector",
+            "workflowInstance", "wfBusinessUnitNameDisplayValue"
     };
 
     @Autowired
@@ -46,7 +46,7 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String createRecord(List<String> fields, String requestor) {
+    public ResponseEntity<String> createRecord(List<String> fields, String requestor) {
         CxBuDetails cxBuDetails = new CxBuDetails();
         Iterator<String> iterator = fields.iterator();
         cxBuDetails.setCsiId(Integer.parseInt(iterator.next()));
@@ -83,7 +83,7 @@ public class CustomerRecordService implements RecordService {
         CustomerRecord customerRecord = new CustomerRecord();
         customerRecord.setBuDetails(cxBuDetails);
         customerRecordRepository.save(customerRecord);
-        return "Customer record created successfully";
+        return new ResponseEntity<String>("{\"result\":\"Customer record created successfully\"}", HttpStatus.OK);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class CustomerRecordService implements RecordService {
         List<Predicate> predicates = new ArrayList<>();
         for (String searchableField : searchableFields) {
             for (String searchTerm : searchTermsSplit) {
-                predicates.add(builder.equal(root.get(searchableField), searchTerm));
+                predicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm));
 
             }
         }
@@ -110,9 +110,6 @@ public class CustomerRecordService implements RecordService {
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
         Query query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
-
-        /*RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
-        return customerRecordRepository.findAll(recordSpecification);*/
     }
 
     @Override

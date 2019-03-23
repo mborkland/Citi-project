@@ -77,13 +77,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico", "/", "/create-cx").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/index.html", "/user/current").permitAll()
+                .antMatchers(HttpMethod.GET, "/index.html", "/user/current", "/read").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/user/login", "/create").permitAll()
 
                 //.antMatchers(HttpMethod.GET, "/create").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 
-                .antMatchers(HttpMethod.POST, "/read").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+                //.antMatchers(HttpMethod.POST, "/read").access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 
                 .antMatchers(HttpMethod.PATCH, "/update", "/restore").access("hasRole('ROLE_ADMIN')")
 

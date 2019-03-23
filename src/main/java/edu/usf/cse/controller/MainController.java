@@ -5,6 +5,7 @@ import edu.usf.cse.service.CustomerRecordService;
 import edu.usf.cse.service.RecordService;
 import edu.usf.cse.service.TransactionRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@RequestParam RecordType recordType, @RequestParam List<String> fields, @RequestParam String requestor) {
+    public ResponseEntity<String> create(@RequestParam RecordType recordType, @RequestParam List<String> fields, @RequestParam String requestor) {
         return getRecordService(recordType).createRecord(fields, requestor);
     }
 
