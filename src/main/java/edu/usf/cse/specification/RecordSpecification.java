@@ -1,8 +1,6 @@
 package edu.usf.cse.specification;
 
 import edu.usf.cse.model.Record;
-import edu.usf.cse.model.SearchParameter;
-import edu.usf.cse.service.RecordService;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,9 +10,9 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecordSpecification implements Specification<Record> {
+public class RecordSpecification /*implements Specification<Record>*/ {
 
-    private List<SearchParameter> searchParameters;
+    /*private List<SearchParameter> searchParameters;
 
     public RecordSpecification(List<SearchParameter> searchParameters) {
         this.searchParameters = searchParameters;
@@ -33,5 +31,5 @@ public class RecordSpecification implements Specification<Record> {
         }
 
         return builder.and(predicates.toArray(new Predicate[predicates.size()]));
-    }
+    }*/
 }

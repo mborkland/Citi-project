@@ -1,24 +1,20 @@
 package edu.usf.cse.service;
 
 import edu.usf.cse.model.*;
-import edu.usf.cse.model.TransactionRecord;
 import edu.usf.cse.persistence.DeletedTransactionRecordRepository;
 import edu.usf.cse.persistence.TransactionRecordRepository;
-import edu.usf.cse.specification.RecordSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 @Component
 public class TransactionRecordService implements RecordService {
@@ -30,6 +26,13 @@ public class TransactionRecordService implements RecordService {
     private EntityManager entityManager;
 
 	private static final char historyDelimiter = ';';
+
+    private static final String searchDelimiter = ",";
+
+    private static final String[] searchableFields = {
+            "BUSINESS_ID", "PRODUCT_ID", "CSI_ID", "Unique_Product_ID", "Tx_Screening_Business_Unit_Name",
+            "Ruleset_Mapped", "REGION", "COUNTRY", "SECTOR", "Workflow_Instance"
+    };
 
     @Autowired
     public TransactionRecordService(TransactionRecordRepository transactionRecordRepository,
@@ -98,9 +101,27 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public List<Record> getRecords(List<SearchParameter> searchParameters) {
-        RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
-        return transactionRecordRepository.findAll(recordSpecification);
+    public List<Record> getRecords(String searchTerms) {
+        String[] searchTermsSplit = searchTerms.split(searchDelimiter);
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<TransactionRecord> criteriaQuery = builder.createQuery(TransactionRecord.class);
+        Root<TransactionRecord> root = criteriaQuery.from(TransactionRecord.class);
+        criteriaQuery.select(root).distinct(true);
+
+        List<Predicate> predicates = new ArrayList<>();
+        for (String searchableField : searchableFields) {
+            for (String searchTerm : searchTermsSplit) {
+                predicates.add(builder.equal(root.get(searchableField), searchTerm));
+
+            }
+        }
+
+        criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+        Query query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
+        
+        /*RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
+        return transactionRecordRepository.findAll(recordSpecification);*/
     }
 
 	@Override

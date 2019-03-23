@@ -4,20 +4,19 @@ import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.CustomerRecordRepository;
 import edu.usf.cse.persistence.DeletedCustomerRecordRepository;
 import edu.usf.cse.specification.RecordSpecification;
+import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 @Component
 public class CustomerRecordService implements RecordService {
@@ -29,6 +28,14 @@ public class CustomerRecordService implements RecordService {
     private EntityManager entityManager;
 
     private static final char historyDelimiter = ';';
+
+    private static final String searchDelimiter = ",";
+
+    private static final String[] searchableFields = {
+            "CSI_ID", "CS_Instance", "BUSINESS_ID", "BIZ_UNIT_ID", "PRODUCT_ID", "BIZ_PROD_ID",
+            "Cx_Screening_Business_Unit_Name", "Ruleset_Mapped", "REGION", "COUNTRY", "SECTOR",
+            "Workflow_Instance", "WF_Business_Unit_Name_Display_Value"
+    };
 
     @Autowired
     public CustomerRecordService(CustomerRecordRepository customerRecordRepository,
@@ -85,9 +92,27 @@ public class CustomerRecordService implements RecordService {
     }
     
     @Override
-    public List<Record> getRecords(List<SearchParameter> searchParameters) {
-        RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
-        return customerRecordRepository.findAll(recordSpecification);
+    public List<Record> getRecords(String searchTerms) {
+        String[] searchTermsSplit = searchTerms.split(searchDelimiter);
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<CustomerRecord> criteriaQuery = builder.createQuery(CustomerRecord.class);
+        Root<CustomerRecord> root = criteriaQuery.from(CustomerRecord.class);
+        criteriaQuery.select(root).distinct(true);
+
+        List<Predicate> predicates = new ArrayList<>();
+        for (String searchableField : searchableFields) {
+            for (String searchTerm : searchTermsSplit) {
+                predicates.add(builder.equal(root.get(searchableField), searchTerm));
+
+            }
+        }
+
+        criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+        Query query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
+
+        /*RecordSpecification recordSpecification = new RecordSpecification(searchParameters);
+        return customerRecordRepository.findAll(recordSpecification);*/
     }
 
     @Override

@@ -28,8 +28,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
-    public List<Record> read(@RequestParam RecordType recordType, SearchParameterWrapper searchParameterWrapper) {
-        return getRecordService(recordType).getRecords(searchParameterWrapper.getSearchParameters());
+    public List<Record> read(@RequestParam RecordType recordType, String searchTerms) {
+        return getRecordService(recordType).getRecords(searchTerms);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
