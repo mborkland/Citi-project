@@ -6,23 +6,20 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TxBuDetails implements BuDetails {
 
+    @Column(name="BUSINESS_ID")
+    private String businessId;
+
+    @Column(name="PRODUCT_ID")
+    private String productId;
+
     @Column(name="CSI_ID")
-    private String csiId;
+    private Integer csiId;
 
-    @Column(name="CS_Instance")
-    private String csInstance;
+    @Column(name="Unique_Product_ID")
+    private String uniqueProductId;
 
-    @Column(name="BUSINESS_UNIT_ID")
-    private String businessUnitId;
-
-    @Column(name="BUSINESS_PRODUCT_ID")
-    private String businessProductId;
-
-    @Column(name="Corrected_BU_Name")
-    private String correctedBuName;
-
-    @Column(name="Mx_Business_Greenzone")
-    private String mxBusinessGreenzone;
+    @Column(name="Tx_Screening_Business_Unit_Name")
+    private String txScreeningBusinessUnitName;
 
     @Column(name="Ruleset_Mapped")
     private String rulesetMapped;
@@ -37,22 +34,16 @@ public class TxBuDetails implements BuDetails {
     private String sector;
 
     @Column(name="Workflow_Flag")
-    private String workflowFlag;
+    private Boolean workflowFlag;
 
     @Column(name="Workflow_Instance")
     private String workflowInstance;
-
-    @Column(name="WF_Business_Unit_Name")
-    private String wfBusinessUnitName;
-
-    @Column(name="WF_Business_Unit_Name_Display_Value")
-    private String wfBusinessUnitNameDisplayValue;
 
     @Column(name="WF_Business_Greenzone")
     private String wfBusinessGreenzone;
 
     @Column(name="Interface_App_ID")
-    private String interfaceAppId;
+    private Integer interfaceAppId;
 
     @Column(name="Interface_Application_Name")
     private String interfaceApplicationName;
@@ -60,11 +51,8 @@ public class TxBuDetails implements BuDetails {
     @Column(name="Operation_Entity")
     private String operationEntity;
 
-    @Column(name="CS_WF")
-    private String csWf;
-
-    @Column(name="Interface_Description")
-    private String interfaceDescription;
+    @Column(name="Connectivity_Protocol")
+    private String connectivityProtocol;
 
     @Column(name="Workflow_Operations_Contacts")
     private String workflowOperationsContacts;
@@ -72,35 +60,32 @@ public class TxBuDetails implements BuDetails {
     @Column(name="Source_Tech_Contacts")
     private String sourceTechContacts;
 
-    @Column(name="Impact_to_Business")
-    private String impactToBusiness;
-
     @Column(name="Business_Hotline")
     private String businessHotline;
 
-    @Column(name="Business_Escalation_Contacts")
-    private String businessEscalationContacts;
-
-    @Column(name="Timezone")
-    private String timezone;
+    @Column(name="Business_Escalation_Point_of_Contact")
+    private String businessEscalationPointOfContact;
 
     @Column(name="Impact_to_Product_Processor")
     private String impactToProductProcessor;
 
-    @Column(name="Product_Processor_Contacts")
-    private String productProcessorContacts;
+    @Column(name="Product_Processor")
+    private String productProcessor;
 
-    @Column(name="Escalation_Path_1st_Level_Contacts")
-    private String escalationPath1stLevelContacts;
+    @Column(name="Hotline_Number")
+    private String hotlineNumber;
 
-    @Column(name="Escalation_Path_2nd_Level_Contacts")
-    private String escalationPath2ndLevelContacts;
+    @Column(name="Escalation_Path_1st_Level_Support")
+    private String escalationPath1stLevelSupport;
 
-    @Column(name="Escalation_Path_1st_Level_Application_Manager")
-    private String escalationPath1stLevelApplicationManager;
+    @Column(name="Escalation_Path_2nd_Level_Support")
+    private String escalationPath2ndLevelSupport;
 
-    @Column(name="Escalation_Path_2nd_Level_Application_Manager")
-    private String escalationPath2ndLevelApplicationManager;
+    @Column(name="1st_Level_Escalation")
+    private String firstLevelEscalation;
+
+    @Column(name="2nd_Level_Escalation")
+    private String secondLevelEscalation;
 
     @Column(name="Product_Processor_Group_DL")
     private String productProcessorGroupDl;
@@ -136,60 +121,57 @@ public class TxBuDetails implements BuDetails {
     private String thresholdSetForTimeouts;
 
     @Column(name="Any_Batch_Component")
-    private String anyBatchComponent;
+    private Boolean anyBatchComponent;
 
     @Column(name="Workflow_Operations_Work_Schedule")
     private String workflowOperationsWorkSchedule;
 
+    @Column(name="Contacts_Checked")
+    private Boolean contactsChecked;
+
     @Column(name="Update_History")
     private String updateHistory;
 
-    public String getCsiId() {
+    public String getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    @Override
+    public Integer getCsiId() {
         return csiId;
     }
 
-    public void setCsiId(String csiId) {
+    @Override
+    public void setCsiId(Integer csiId) {
         this.csiId = csiId;
     }
 
-    public String getCsInstance() {
-        return csInstance;
+    public String getUniqueProductId() {
+        return uniqueProductId;
     }
 
-    public void setCsInstance(String csInstance) {
-        this.csInstance = csInstance;
+    public void setUniqueProductId(String uniqueProductId) {
+        this.uniqueProductId = uniqueProductId;
     }
 
-    public String getBusinessUnitId() {
-        return businessUnitId;
+    public String getTxScreeningBusinessUnitName() {
+        return txScreeningBusinessUnitName;
     }
 
-    public void setBusinessUnitId(String businessUnitId) {
-        this.businessUnitId = businessUnitId;
-    }
-
-    public String getBusinessProductId() {
-        return businessProductId;
-    }
-
-    public void setBusinessProductId(String businessProductId) {
-        this.businessProductId = businessProductId;
-    }
-
-    public String getCorrectedBuName() {
-        return correctedBuName;
-    }
-
-    public void setCorrectedBuName(String correctedBuName) {
-        this.correctedBuName = correctedBuName;
-    }
-
-    public String getMxBusinessGreenzone() {
-        return mxBusinessGreenzone;
-    }
-
-    public void setMxBusinessGreenzone(String mxBusinessGreenzone) {
-        this.mxBusinessGreenzone = mxBusinessGreenzone;
+    public void setTxScreeningBusinessUnitName(String txScreeningBusinessUnitName) {
+        this.txScreeningBusinessUnitName = txScreeningBusinessUnitName;
     }
 
     public String getRulesetMapped() {
@@ -224,11 +206,11 @@ public class TxBuDetails implements BuDetails {
         this.sector = sector;
     }
 
-    public String getWorkflowFlag() {
+    public Boolean getWorkflowFlag() {
         return workflowFlag;
     }
 
-    public void setWorkflowFlag(String workflowFlag) {
+    public void setWorkflowFlag(Boolean workflowFlag) {
         this.workflowFlag = workflowFlag;
     }
 
@@ -240,22 +222,6 @@ public class TxBuDetails implements BuDetails {
         this.workflowInstance = workflowInstance;
     }
 
-    public String getWfBusinessUnitName() {
-        return wfBusinessUnitName;
-    }
-
-    public void setWfBusinessUnitName(String wfBusinessUnitName) {
-        this.wfBusinessUnitName = wfBusinessUnitName;
-    }
-
-    public String getWfBusinessUnitNameDisplayValue() {
-        return wfBusinessUnitNameDisplayValue;
-    }
-
-    public void setWfBusinessUnitNameDisplayValue(String wfBusinessUnitNameDisplayValue) {
-        this.wfBusinessUnitNameDisplayValue = wfBusinessUnitNameDisplayValue;
-    }
-
     public String getWfBusinessGreenzone() {
         return wfBusinessGreenzone;
     }
@@ -264,11 +230,11 @@ public class TxBuDetails implements BuDetails {
         this.wfBusinessGreenzone = wfBusinessGreenzone;
     }
 
-    public String getInterfaceAppId() {
+    public Integer getInterfaceAppId() {
         return interfaceAppId;
     }
 
-    public void setInterfaceAppId(String interfaceAppId) {
+    public void setInterfaceAppId(Integer interfaceAppId) {
         this.interfaceAppId = interfaceAppId;
     }
 
@@ -288,20 +254,12 @@ public class TxBuDetails implements BuDetails {
         this.operationEntity = operationEntity;
     }
 
-    public String getCsWf() {
-        return csWf;
+    public String getConnectivityProtocol() {
+        return connectivityProtocol;
     }
 
-    public void setCsWf(String csWf) {
-        this.csWf = csWf;
-    }
-
-    public String getInterfaceDescription() {
-        return interfaceDescription;
-    }
-
-    public void setInterfaceDescription(String interfaceDescription) {
-        this.interfaceDescription = interfaceDescription;
+    public void setConnectivityProtocol(String connectivityProtocol) {
+        this.connectivityProtocol = connectivityProtocol;
     }
 
     public String getWorkflowOperationsContacts() {
@@ -320,14 +278,6 @@ public class TxBuDetails implements BuDetails {
         this.sourceTechContacts = sourceTechContacts;
     }
 
-    public String getImpactToBusiness() {
-        return impactToBusiness;
-    }
-
-    public void setImpactToBusiness(String impactToBusiness) {
-        this.impactToBusiness = impactToBusiness;
-    }
-
     public String getBusinessHotline() {
         return businessHotline;
     }
@@ -336,20 +286,12 @@ public class TxBuDetails implements BuDetails {
         this.businessHotline = businessHotline;
     }
 
-    public String getBusinessEscalationContacts() {
-        return businessEscalationContacts;
+    public String getBusinessEscalationPointOfContact() {
+        return businessEscalationPointOfContact;
     }
 
-    public void setBusinessEscalationContacts(String businessEscalationContacts) {
-        this.businessEscalationContacts = businessEscalationContacts;
-    }
-
-    public String getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
+    public void setBusinessEscalationPointOfContact(String businessEscalationPointOfContact) {
+        this.businessEscalationPointOfContact = businessEscalationPointOfContact;
     }
 
     public String getImpactToProductProcessor() {
@@ -360,44 +302,52 @@ public class TxBuDetails implements BuDetails {
         this.impactToProductProcessor = impactToProductProcessor;
     }
 
-    public String getProductProcessorContacts() {
-        return productProcessorContacts;
+    public String getProductProcessor() {
+        return productProcessor;
     }
 
-    public void setProductProcessorContacts(String productProcessorContacts) {
-        this.productProcessorContacts = productProcessorContacts;
+    public void setProductProcessor(String productProcessor) {
+        this.productProcessor = productProcessor;
     }
 
-    public String getEscalationPath1stLevelContacts() {
-        return escalationPath1stLevelContacts;
+    public String getHotlineNumber() {
+        return hotlineNumber;
     }
 
-    public void setEscalationPath1stLevelContacts(String escalationPath1stLevelContacts) {
-        this.escalationPath1stLevelContacts = escalationPath1stLevelContacts;
+    public void setHotlineNumber(String hotlineNumber) {
+        this.hotlineNumber = hotlineNumber;
     }
 
-    public String getEscalationPath2ndLevelContacts() {
-        return escalationPath2ndLevelContacts;
+    public String getEscalationPath1stLevelSupport() {
+        return escalationPath1stLevelSupport;
     }
 
-    public void setEscalationPath2ndLevelContacts(String escalationPath2ndLevelContacts) {
-        this.escalationPath2ndLevelContacts = escalationPath2ndLevelContacts;
+    public void setEscalationPath1stLevelSupport(String escalationPath1stLevelSupport) {
+        this.escalationPath1stLevelSupport = escalationPath1stLevelSupport;
     }
 
-    public String getEscalationPath1stLevelApplicationManager() {
-        return escalationPath1stLevelApplicationManager;
+    public String getEscalationPath2ndLevelSupport() {
+        return escalationPath2ndLevelSupport;
     }
 
-    public void setEscalationPath1stLevelApplicationManager(String escalationPath1stLevelApplicationManager) {
-        this.escalationPath1stLevelApplicationManager = escalationPath1stLevelApplicationManager;
+    public void setEscalationPath2ndLevelSupport(String escalationPath2ndLevelSupport) {
+        this.escalationPath2ndLevelSupport = escalationPath2ndLevelSupport;
     }
 
-    public String getEscalationPath2ndLevelApplicationManager() {
-        return escalationPath2ndLevelApplicationManager;
+    public String getFirstLevelEscalation() {
+        return firstLevelEscalation;
     }
 
-    public void setEscalationPath2ndLevelApplicationManager(String escalationPath2ndLevelApplicationManager) {
-        this.escalationPath2ndLevelApplicationManager = escalationPath2ndLevelApplicationManager;
+    public void setFirstLevelEscalation(String firstLevelEscalation) {
+        this.firstLevelEscalation = firstLevelEscalation;
+    }
+
+    public String getSecondLevelEscalation() {
+        return secondLevelEscalation;
+    }
+
+    public void setSecondLevelEscalation(String secondLevelEscalation) {
+        this.secondLevelEscalation = secondLevelEscalation;
     }
 
     public String getProductProcessorGroupDl() {
@@ -488,11 +438,11 @@ public class TxBuDetails implements BuDetails {
         this.thresholdSetForTimeouts = thresholdSetForTimeouts;
     }
 
-    public String getAnyBatchComponent() {
+    public Boolean getAnyBatchComponent() {
         return anyBatchComponent;
     }
 
-    public void setAnyBatchComponent(String anyBatchComponent) {
+    public void setAnyBatchComponent(Boolean anyBatchComponent) {
         this.anyBatchComponent = anyBatchComponent;
     }
 
@@ -502,6 +452,14 @@ public class TxBuDetails implements BuDetails {
 
     public void setWorkflowOperationsWorkSchedule(String workflowOperationsWorkSchedule) {
         this.workflowOperationsWorkSchedule = workflowOperationsWorkSchedule;
+    }
+
+    public Boolean getContactsChecked() {
+        return contactsChecked;
+    }
+
+    public void setContactsChecked(Boolean contactsChecked) {
+        this.contactsChecked = contactsChecked;
     }
 
     public String getUpdateHistory() {

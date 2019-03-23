@@ -96,10 +96,12 @@ public class CxBuDetails implements BuDetails {
     @Column(name="Update_History")
     private String updateHistory;
 
+    @Override
     public Integer getCsiId() {
         return csiId;
     }
 
+    @Override
     public void setCsiId(Integer csiId) {
         this.csiId = csiId;
     }
