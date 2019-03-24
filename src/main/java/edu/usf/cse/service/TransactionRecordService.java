@@ -50,7 +50,7 @@ public class TransactionRecordService implements RecordService {
         Iterator<String> iterator = fields.iterator();
         txBuDetails.setBusinessId(iterator.next());
         txBuDetails.setProductId(iterator.next());
-        txBuDetails.setCsiId(Integer.parseInt(iterator.next()));
+        txBuDetails.setCsiId(iterator.next());
         txBuDetails.setUniqueProductId(iterator.next());
         txBuDetails.setTxScreeningBusinessUnitName(iterator.next());
         txBuDetails.setRulesetMapped(iterator.next());
@@ -60,7 +60,7 @@ public class TransactionRecordService implements RecordService {
         txBuDetails.setWorkflowFlag(Boolean.parseBoolean(iterator.next()));
         txBuDetails.setWorkflowInstance(iterator.next());
         txBuDetails.setWfBusinessGreenzone(iterator.next());
-        txBuDetails.setInterfaceAppId(Integer.parseInt(iterator.next()));
+        txBuDetails.setInterfaceAppId(iterator.next());
         txBuDetails.setInterfaceApplicationName(iterator.next());
         txBuDetails.setOperationEntity(iterator.next());
         txBuDetails.setConnectivityProtocol(iterator.next());

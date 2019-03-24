@@ -13,7 +13,7 @@ public class TxBuDetails implements BuDetails {
     private String productId;
 
     @Column(name="CSI_ID")
-    private Integer csiId;
+    private String csiId;
 
     @Column(name="Unique_Product_ID")
     private String uniqueProductId;
@@ -43,7 +43,7 @@ public class TxBuDetails implements BuDetails {
     private String wfBusinessGreenzone;
 
     @Column(name="Interface_App_ID")
-    private Integer interfaceAppId;
+    private String interfaceAppId;
 
     @Column(name="Interface_Application_Name")
     private String interfaceApplicationName;
@@ -149,12 +149,12 @@ public class TxBuDetails implements BuDetails {
     }
 
     @Override
-    public Integer getCsiId() {
+    public String getCsiId() {
         return csiId;
     }
 
     @Override
-    public void setCsiId(Integer csiId) {
+    public void setCsiId(String csiId) {
         this.csiId = csiId;
     }
 
@@ -230,11 +230,11 @@ public class TxBuDetails implements BuDetails {
         this.wfBusinessGreenzone = wfBusinessGreenzone;
     }
 
-    public Integer getInterfaceAppId() {
+    public String getInterfaceAppId() {
         return interfaceAppId;
     }
 
-    public void setInterfaceAppId(Integer interfaceAppId) {
+    public void setInterfaceAppId(String interfaceAppId) {
         this.interfaceAppId = interfaceAppId;
     }
 

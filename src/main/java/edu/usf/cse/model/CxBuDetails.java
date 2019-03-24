@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 public class CxBuDetails implements BuDetails {
 
     @Column(name="CSI_ID")
-    private Integer csiId;
+    private String csiId;
 
     @Column(name="CS_Instance")
     private String csInstance;
@@ -58,7 +58,7 @@ public class CxBuDetails implements BuDetails {
     private String connectivityProtocol;
 
     @Column(name="Interface_App_ID")
-    private Integer interfaceAppId;
+    private String interfaceAppId;
 
     @Column(name="Interface_Application_Name")
     private String interfaceApplicationName;
@@ -97,12 +97,12 @@ public class CxBuDetails implements BuDetails {
     private String updateHistory;
 
     @Override
-    public Integer getCsiId() {
+    public String getCsiId() {
         return csiId;
     }
 
     @Override
-    public void setCsiId(Integer csiId) {
+    public void setCsiId(String csiId) {
         this.csiId = csiId;
     }
 
@@ -234,11 +234,11 @@ public class CxBuDetails implements BuDetails {
         this.connectivityProtocol = connectivityProtocol;
     }
 
-    public Integer getInterfaceAppId() {
+    public String getInterfaceAppId() {
         return interfaceAppId;
     }
 
-    public void setInterfaceAppId(Integer interfaceAppId) {
+    public void setInterfaceAppId(String interfaceAppId) {
         this.interfaceAppId = interfaceAppId;
     }
 

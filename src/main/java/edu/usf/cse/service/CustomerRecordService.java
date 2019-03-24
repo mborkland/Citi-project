@@ -49,7 +49,7 @@ public class CustomerRecordService implements RecordService {
     public ResponseEntity<String> createRecord(List<String> fields, String requestor) {
         CxBuDetails cxBuDetails = new CxBuDetails();
         Iterator<String> iterator = fields.iterator();
-        cxBuDetails.setCsiId(Integer.parseInt(iterator.next()));
+        cxBuDetails.setCsiId(iterator.next());
         cxBuDetails.setCsInstance(iterator.next());
         cxBuDetails.setBusinessId(iterator.next());
         cxBuDetails.setBizUnitId(iterator.next());
@@ -66,7 +66,7 @@ public class CustomerRecordService implements RecordService {
         cxBuDetails.setWfBusinessUnitNameDisplayValue(iterator.next());
         cxBuDetails.setWfBusinessGreenzone(iterator.next());
         cxBuDetails.setConnectivityProtocol(iterator.next());
-        cxBuDetails.setInterfaceAppId(Integer.parseInt(iterator.next()));
+        cxBuDetails.setInterfaceAppId(iterator.next());
         cxBuDetails.setInterfaceApplicationName(iterator.next());
         cxBuDetails.setOperationEntity(iterator.next());
         cxBuDetails.setOpsComplianceContacts(iterator.next());
