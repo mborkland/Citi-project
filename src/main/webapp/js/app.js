@@ -2,6 +2,9 @@
 
 var app = angular.module('app', ['ui.router']);
 
+app.constant('NUM_CUSTOMER_FIELDS', 28);
+app.constant('NUM_TRANSACTION_FIELDS', 40);
+
 app.factory('TokenStore', function ($window) {
     var storageKey = 'auth_token';
     return {
@@ -35,7 +38,8 @@ app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
     };
 });
 
-app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
+function ($stateProvider, $urlRouterProvider, $httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');
     $urlRouterProvider.otherwise('/');
 
@@ -57,7 +61,23 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($
         })
         .state('create-cx', {
             url: '/create-cx',
-            templateUrl: 'html/create/create-cx.html',
+            abstract: true,
+            templateUrl: 'html/create/create-cx/create-cx.html',
+            controller: 'CreateController',
+        })
+        .state('create-cx.section1', {
+            url: '',
+            templateUrl: 'html/create/create-cx/section1.html',
+            controller: 'CreateController'
+        })
+        .state('create-cx.section2', {
+            url: '/section2',
+            templateUrl: 'html/create/create-cx/section2.html',
+            controller: 'CreateController'
+        })
+        .state('create-cx.section3', {
+            url: '/section3',
+            templateUrl: 'html/create/create-cx/section3.html',
             controller: 'CreateController'
         })
         .state('create-tx', {
