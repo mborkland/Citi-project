@@ -79,6 +79,7 @@ function ($stateProvider, $urlRouterProvider, $httpProvider) {
         })
         .state('create-tx', {
             url: '/create-tx',
+            abstract: true,
             templateUrl: 'html/create/create-tx/create-tx.html',
             controller: 'CreateController'
         })
@@ -95,6 +96,16 @@ function ($stateProvider, $urlRouterProvider, $httpProvider) {
         .state('create-tx.section3', {
             url: '/section3',
             templateUrl: 'html/create/create-tx/section3.html',
+            controller: 'CreateController'
+        })
+        .state('create-tx.section4', {
+            url: '/section4',
+            templateUrl: 'html/create/create-tx/section4.html',
+            controller: 'CreateController'
+        })
+        .state('create-tx.section5', {
+            url: '/section5',
+            templateUrl: 'html/create/create-tx/section5.html',
             controller: 'CreateController'
         });
 }]);
