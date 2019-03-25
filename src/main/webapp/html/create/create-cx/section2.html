@@ -1,43 +1,61 @@
 <div class="form-row">
-    <div class="col-md-2 mb-4">
-        <label for="csiId">CSI ID</label>
-        <input type="text" class="form-control" name="csiId" id="csiId" ng-model="cxFields[$index]">
+    <div class="col-md-3 mb-4">
+        <label for="region">Region</label>
+        <select class="custom-select mr-sm-2" name="region" id="region" ng-model="cxData.fields[9]">
+            <option value="APAC">APAC</option>
+            <option value="EMEA">EMEA</option>
+            <option value="LATAM">LATAM</option>
+            <option value="NAM">NAM</option>
+        </select>
     </div>
-    <div class="col-md-5 mb-4">
-        <label for="csiId">CS Instance</label>
-        <input type="text" class="form-control" name="csInstance" id="csInstance" ng-model="cxFields[$index]">
+    <div class="col-md-3 mb-4">
+        <label for="country">Country</label>
+        <input type="text" class="form-control" name="country" id="country" ng-model="cxData.fields[10]">
     </div>
-    <div class="col-md-5 mb-4">
-        <label for="csiId">BUSINESS ID</label>
-        <input type="text" class="form-control" name="businessId" id="businessId" ng-model="cxFields[$index]">
+    <div class="col-md-3 mb-4">
+        <label for="sector">Sector</label>
+        <input type="text" class="form-control" name="sector" id="sector" ng-model="cxData.fields[11]">
+    </div>
+    <div class="col-md-3 mb-4 text-center">
+        Workflow Flag<br />
+        <div style="padding-top: 13px;">
+            <div class="form-check form-check-inline vertical-align">
+                <input class="form-check-input" type="radio" name="workflowFlagYes" id="workflowFlagYes" value="true" ng-model="cxData.fields[12]" checked>
+                <label class="form-check-label" for="workflowFlagYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline vertical-align">
+                <input class="form-check-input" type="radio" name="workflowFlagNo" id="workflowFlagNo" value="false" ng-model="cxData.fields[12]">
+                <label class="form-check-label" for="workflowFlagNo">No</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="workflowInstance">Workflow Instance</label>
+        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="cxData.fields[13]">
+    </div>
+    <div class="col-md-5 mb-3">
+        <label for="wfBusinessUnitNameDisplayValue">WF Business Unit Name Display Value</label>
+        <input type="text" class="form-control" name="wfBusinessUnitNameDisplayValue" id="wfBusinessUnitNameDisplayValue" ng-model="cxData.fields[14]">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="wfBusinessGreenzone">WF Business Greenzone</label>
+        <input type="text" class="form-control" name="wfBusinessGreenzone" id="wfBusinessGreenzone" ng-model="cxData.fields[15]">
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
-        <label for="bizUnitId">BIZ_UNIT_ID</label>
-        <input type="text" class="form-control" name="bizUnitId" id="bizUnitId" ng-model="cxFields[$index]">
+        <label for="connectivityProtocol">Connectivity Protocol</label>
+        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="cxData.fields[16]">
     </div>
     <div class="col-md-4 mb-3">
-        <label for="productId">PRODUCT_ID</label>
-        <input type="text" class="form-control" name="productId" id="productId" ng-model="cxFields[$index]">
+        <label for="interfaceAppId">Interface App ID</label>
+        <input type="text" class="form-control" name="interfaceAppId" id="interfaceAppId" ng-model="cxData.fields[17]">
     </div>
     <div class="col-md-4 mb-3">
-        <label for="bizProdId">BIZ_PROD_ID</label>
-        <input type="text" class="form-control" name="bizProdId" id="bizProdId" ng-model="cxFields[$index]">
-    </div>
-</div>
-<div class="form-row">
-    <div class="col-md-4 mb-3">
-        <label for="cxScreeningBusinessUnitName">Cx Screening Business Unit Name</label>
-        <input type="text" class="form-control" name="cxScreeningBusinessUnitName" id="cxScreeningBusinessUnitName" ng-model="cxFields[$index]">
-    </div>
-    <div class="col-md-4 mb-3">
-        <label for="cxBusinessGreenzone">Cx Business Greenzone</label>
-        <input type="text" class="form-control" name="cxBusinessGreenzone" id="cxBusinessGreenzone" ng-model="cxFields[$index]">
-    </div>
-    <div class="col-md-4 mb-3">
-        <label for="rulesetMapped">Ruleset Mapped</label>
-        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="cxFields[$index]">
+        <label for="interfaceApplicationName">Interface Application Name</label>
+        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="cxData.fields[18]">
     </div>
 </div>
 <div class="float-left">
@@ -49,4 +67,7 @@
     <a ui-sref="create-cx.section3">
         <button class="btn btn-primary btn-lg font-weight-bold">Next</button>
     </a>
+</div>
+<div class="progress custom-progress">
+    <div class="progress-bar" role="progressbar" style="width: 33%; background-color: #002d72;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">33%</div>
 </div>

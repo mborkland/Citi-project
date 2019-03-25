@@ -30,7 +30,6 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#!/create-cx">Customer Screening</a>
-                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" ui-sref="create-tx">Transaction Screening</a>
                         </div>
                     </li>
@@ -59,9 +58,11 @@
         </nav>
     </div>
 
-    <p class="h1" align="center" style="color: #002d72; padding: 30px; font-weight: bold">CitiScreening Records Management System</p>
-
-    <div ui-view class="container"></div>
+    <p class="h1" align="center" style="color: #002d72; padding-top: 30px; font-weight: bold">CitiScreening Records Management System</p>
+    <div class="container">
+        <hr class="my-4" />
+        <div ui-view class="container"></div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

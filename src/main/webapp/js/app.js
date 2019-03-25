@@ -2,9 +2,6 @@
 
 var app = angular.module('app', ['ui.router']);
 
-app.constant('NUM_CUSTOMER_FIELDS', 28);
-app.constant('NUM_TRANSACTION_FIELDS', 40);
-
 app.factory('TokenStore', function ($window) {
     var storageKey = 'auth_token';
     return {
