@@ -1,5 +1,5 @@
 body {
-    color: #002d72;
+    color: #011a52;
 }
 
 .login-form {
@@ -33,4 +33,8 @@ body {
     height: 30px;
     width: 33%;
     margin: 10px auto 0 auto;
+}
+
+.progress-color {
+    background-color: #011a52;
 }
