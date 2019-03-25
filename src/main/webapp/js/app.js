@@ -79,7 +79,22 @@ function ($stateProvider, $urlRouterProvider, $httpProvider) {
         })
         .state('create-tx', {
             url: '/create-tx',
-            templateUrl: 'html/create/create-tx.html',
+            templateUrl: 'html/create/create-tx/create-tx.html',
+            controller: 'CreateController'
+        })
+        .state('create-tx.section1', {
+            url: '',
+            templateUrl: 'html/create/create-tx/section1.html',
+            controller: 'CreateController'
+        })
+        .state('create-tx.section2', {
+            url: '/section2',
+            templateUrl: 'html/create/create-tx/section2.html',
+            controller: 'CreateController'
+        })
+        .state('create-tx.section3', {
+            url: '/section3',
+            templateUrl: 'html/create/create-tx/section3.html',
             controller: 'CreateController'
         });
 }]);
