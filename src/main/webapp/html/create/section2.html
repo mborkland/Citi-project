@@ -1,0 +1,52 @@
+<div class="form-row">
+    <div class="col-md-2 mb-4">
+        <label for="workflowFlag">Workflow Flag</label>
+        <input type="text" class="form-control" name="workflowFlag" id="workflowFlag" ng-model="txFields[$index]">
+    </div>
+    <div class="col-md-5 mb-4">
+        <label for="workflowInstance">Workflow Instance</label>
+        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="txFields[$index]">
+    </div>
+    <div class="col-md-5 mb-4">
+        <label for="wfBusinessGreenZone">WF Business Green Zone</label>
+        <input type="text" class="form-control" name="wfBusinessGreenZone" id="wfBusinessGreenZone" ng-model="txFields[$index]">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-4 mb-3">
+        <label for="interfaceAppID">Interface App ID</label>
+        <input type="text" class="form-control" name="interfaceAppID" id="interfaceAppID" ng-model="txFields[$index]">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="interfaceApplicationName">Interface Application Name</label>
+        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="txFields[$index]">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="operationEntity">Operation Entity</label>
+        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="txFields[$index]">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-4 mb-3">
+        <label for="connectivityProtocol">Connectivity Protocol</label>
+        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="txFields[$index]">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="workflowOperationsContacts">Workflow Operations Contacts</label>
+        <input type="text" class="form-control" name="workflowOperationsContacts" id="workflowOperationsContacts" ng-model="txFields[$index]">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="sourceTechContacts">Source Tech Contacts</label>
+        <input type="text" class="form-control" name="sourceTechContacts" id="sourceTechContacts" ng-model="txFields[$index]">
+    </div>
+</div>
+<div class="float-left">
+    <a ui-sref="create-tx.section1">
+        <button class="btn btn-primary btn-lg font-weight-bold">Previous</button>
+    </a>
+</div>
+<div class="float-right">
+    <a ui-sref="create-tx.section3">
+        <button class="btn btn-primary btn-lg font-weight-bold">Next</button>
+    </a>
+</div>
