@@ -1,1 +1,43 @@
-<h3>section 3</h3>
+<div class="form-row">
+    <div class="col-md-2 mb-4">
+        <label for="opsComplianceContacts">Ops/Compliance Contacts</label>
+        <input type="text" class="form-control" name="opsComplianceContacts" id="opsComplianceContacts" ng-model="cxFields[$index]">
+    </div>
+    <div class="col-md-5 mb-4">
+        <label for="cwV1V2">Cw V1/V2</label>
+        <input type="text" class="form-control" name="cwV1V2" id="cwV1V2" ng-model="cxFields[$index]">
+    </div>
+    <div class="col-md-5 mb-4">
+        <label for="gomCompliant">GOM Compliant</label>
+        <input type="text" class="form-control" name="gomCompliant" id="gomCompliant" ng-model="cxFields[$index]">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-4 mb-3">
+        <label for="cwUATContactName">Cw UAT Contact Name</label>
+        <input type="text" class="form-control" name="cwUATContactName" id="cwUATContactName" ng-model="cxFields[$index]">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="sourceTechContact">Source Tech Contact</label>
+        <input type="text" class="form-control" name="sourceTechContact" id="sourceTechContact" ng-model="cxFields[$index]">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="impactToBusiness">Impact To Business</label>
+        <input type="text" class="form-control" name="impactToBusiness" id="impactToBusiness" ng-model="cxFields[$index]">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-4 mb-3">
+        <label for="businessEscalationPointOfContact">Business Escalation Point Of Contact</label>
+        <input type="text" class="form-control" name="businessEscalationPointOfContact" id="businessEscalationPointOfContact" ng-model="cxFields[$index]">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="timeZone">Time zone</label>
+        <input type="text" class="form-control" name="timeZone" id="timeZone" ng-model="cxFields[$index]">
+    </div>
+</div>
+<div class="float-left">
+    <a ui-sref="create-cx.section2">
+        <button class="btn btn-primary btn-lg font-weight-bold">Previous</button>
+    </a>
+</div>
