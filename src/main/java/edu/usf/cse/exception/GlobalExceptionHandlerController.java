@@ -40,7 +40,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandlerController {
 
-    @Bean
+    /*@Bean
     public ErrorAttributes errorAttributes() {
         // Hide exception field in the return object
         return new DefaultErrorAttributes() {
@@ -66,6 +66,6 @@ public class GlobalExceptionHandlerController {
     @ExceptionHandler(Exception.class)
     public void handleException(HttpServletResponse res) throws IOException {
         res.sendError(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
-    }
+    }*/
 
 }
