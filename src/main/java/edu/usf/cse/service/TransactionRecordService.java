@@ -112,7 +112,7 @@ public class TransactionRecordService implements RecordService {
         List<Predicate> predicates = new ArrayList<>();
         for (String searchableField : searchableFields) {
             for (String searchTerm : searchTermsSplit) {
-                predicates.add(builder.equal(root.get(searchableField), searchTerm));
+                predicates.add(builder.equal(root.get(searchableField), searchTerm.trim()));
 
             }
         }
