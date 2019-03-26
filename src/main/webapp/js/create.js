@@ -35,7 +35,7 @@ app.controller('CreateController', ['$scope', '$http', '$state', function($scope
         url += 'requestor=' + $scope.txData.requestor;
         $http.post(url).then(function (response) {
             console.log(response);
-            alert('Customer screening record created successfully');
+            alert('Transaction screening record created successfully');
             $state.go('read');
         }, function (error) {
             console.log(error);
