@@ -1,43 +1,52 @@
 <div class="form-row">
-    <div class="col-md-2 mb-4">
-        <label for="workflowFlag">Workflow Flag</label>
-        <input type="text" class="form-control" name="workflowFlag" id="workflowFlag" ng-model="txFields[9]">
+    <div class="col-md-4 mb-3">
+        <label for="sector">Sector</label>
+        <input type="text" class="form-control" name="sector" id="sector" ng-model="txData.fields[8]">
+    </div>
+    <div class="col-md-3 mb-4">
+        Workflow Flag<br />
+        <div style="padding-top: 13px;">
+            <div class="form-check form-check-inline vertical-align">
+                <input class="form-check-input" type="radio" name="workflowFlagYes" id="workflowFlagYes" value="true" ng-model="txData.fields[9]" checked>
+                <label class="form-check-label" for="workflowFlagYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline vertical-align">
+                <input class="form-check-input" type="radio" name="workflowFlagNo" id="workflowFlagNo" value="false" ng-model="txData.fields[9]">
+                <label class="form-check-label" for="workflowFlagNo">No</label>
+            </div>
+        </div>
     </div>
     <div class="col-md-5 mb-4">
         <label for="workflowInstance">Workflow Instance</label>
-        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="txFields[10]">
-    </div>
-    <div class="col-md-5 mb-4">
-        <label for="wfBusinessGreenZone">WF Business Green Zone</label>
-        <input type="text" class="form-control" name="wfBusinessGreenZone" id="wfBusinessGreenZone" ng-model="txFields[11]">
+        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="txData.fields[10]">
     </div>
 </div>
 <div class="form-row">
+    <div class="col-md-4 mb-4">
+        <label for="wfBusinessGreenZone">WF Business Green Zone</label>
+        <input type="text" class="form-control" name="wfBusinessGreenZone" id="wfBusinessGreenZone" ng-model="txData.fields[11]">
+    </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceAppID">Interface App ID</label>
-        <input type="text" class="form-control" name="interfaceAppID" id="interfaceAppID" ng-model="txFields[12]">
+        <input type="text" class="form-control" name="interfaceAppID" id="interfaceAppID" ng-model="txData.fields[12]">
     </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceApplicationName">Interface Application Name</label>
-        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="txFields[13]">
-    </div>
-    <div class="col-md-4 mb-3">
-        <label for="operationEntity">Operation Entity</label>
-        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="txFields[14]">
+        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="txData.fields[13]">
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
+        <label for="operationEntity">Operation Entity</label>
+        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="txData.fields[14]">
+    </div>
+    <div class="col-md-4 mb-3">
         <label for="connectivityProtocol">Connectivity Protocol</label>
-        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="txFields[15]">
+        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="txData.fields[15]">
     </div>
     <div class="col-md-4 mb-3">
         <label for="workflowOperationsContacts">Workflow Operations Contacts</label>
-        <input type="text" class="form-control" name="workflowOperationsContacts" id="workflowOperationsContacts" ng-model="txFields[16]">
-    </div>
-    <div class="col-md-4 mb-3">
-        <label for="sourceTechContacts">Source Tech Contacts</label>
-        <input type="text" class="form-control" name="sourceTechContacts" id="sourceTechContacts" ng-model="txFields[17]">
+        <input type="text" class="form-control" name="workflowOperationsContacts" id="workflowOperationsContacts" ng-model="txData.fields[16]">
     </div>
 </div>
 <div class="float-left">
@@ -51,5 +60,5 @@
     </a>
 </div>
 <div class="progress custom-progress">
-    <div class="progress-bar progress-color" role="progressbar" style="width: 23%;" aria-valuenow="23" aria-valuemin="0" aria-valuemax="100">23%</div>
+    <div class="progress-bar progress-color" role="progressbar" style="width: 14%;" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">14%</div>
 </div>

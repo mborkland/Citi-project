@@ -1,0 +1,48 @@
+<div class="form-row">
+    <div class="col-md-6 mb-3">
+        <label for="productProcessorStandardGreenZones">Product Processor Standard Green Zones</label>
+        <input type="text" class="form-control" name="productProcessorStandardGreenZones" id="productProcessorStandardGreenZones" ng-model="txData.fields[30]">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="interfaceConnectivityDoc">Interface/Connectivity Doc (LINK)</label>
+        <input type="text" class="form-control" name="interfaceConnectivityDoc" id="interfaceConnectivityDoc" ng-model="txData.fields[31]">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-3">
+        Retry Mechanism (Y/N)<br />
+        <div style="padding-top: 13px;">
+            <div class="form-check form-check-inline vertical-align">
+                <input class="form-check-input" type="radio" name="workflowFlagYes" id="workflowFlagYes" value="true" ng-model="txData.fields[32]" checked>
+                <label class="form-check-label" for="workflowFlagYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline vertical-align">
+                <input class="form-check-input" type="radio" name="workflowFlagNo" id="workflowFlagNo" value="false" ng-model="txData.fields[32]">
+                <label class="form-check-label" for="workflowFlagNo">No</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 mb-3">
+        <label for="retryMechanismExplanation">Retry Mechanism Explanation</label>
+        <input type="text" class="form-control" name="retryMechanismExplanation" id="retryMechanismExplanation" ng-model="txData.fields[33]">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-12 mb-3">
+        <label for="dailyOnlineVolumes">Daily Online Volumes Expected Schedule for real-time volumes</label>
+        <input type="text" class="form-control" name="dailyOnlineVolumes" id="dailyOnlineVolumes" ng-model="txData.fields[34]">
+    </div>
+</div>
+<div class="float-left">
+    <a ui-sref="create-tx.section5">
+        <button class="btn btn-primary btn-lg font-weight-bold">Previous</button>
+    </a>
+</div>
+<div class="float-right">
+    <a ui-sref="create-tx.section7">
+        <button class="btn btn-primary btn-lg font-weight-bold">Next</button>
+    </a>
+</div>
+<div class="progress custom-progress">
+    <div class="progress-bar progress-color" role="progressbar" style="width: 71%;" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100">71%</div>
+</div>

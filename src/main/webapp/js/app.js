@@ -72,6 +72,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             url: '/section5',
             templateUrl: 'html/create/create-tx/section5.html',
             controller: 'CreateController'
+        })
+        .state('create-tx.section6', {
+            url: '/section6',
+            templateUrl: 'html/create/create-tx/section6.html',
+            controller: 'CreateController'
+        })
+        .state('create-tx.section7', {
+            url: '/section7',
+            templateUrl: 'html/create/create-tx/section7.html',
+            controller: 'CreateController'
         });
 }]);
 

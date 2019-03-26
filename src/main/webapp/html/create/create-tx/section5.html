@@ -1,21 +1,23 @@
 <div class="form-row">
-    <div class="col-md-2 mb-4">
-        <label for="initialScreeningResponseSLA">Initial Screening Response SLA?</label>
-        <input type="text" class="form-control" name="initialScreeningResponseSLA" id="initialScreeningResponseSLA" ng-model="txFields[36]">
-    </div>
-    <div class="col-md-5 mb-4">
-        <label for="anyThresholdSetForTimeouts">Any Threshold Set For Timeouts</label>
-        <input type="text" class="form-control" name="anyThresholdSetForTimeouts" id="anyThresholdSetForTimeouts" ng-model="txFields[37]">
-    </div>
-    <div class="col-md-5 mb-4">
-        <label for="anyBatchComponent">Any Batch Component (Y/N)</label>
-        <input type="text" class="form-control" name="anyBatchComponent" id="anyBatchComponent" ng-model="txFields[38]">
+    <div class="col-md-12 mb-3">
+        <label for="secondLevelEscalation">2nd Level Escalation: One Level Above Application Manager</label>
+        <input type="text" class="form-control" name="secondLevelEscalation" id="secondLevelEscalation" ng-model="txData.fields[26]">
     </div>
 </div>
 <div class="form-row">
-    <div class="col-md-4 mb-3">
-        <label for="workflowOperationsWorkSchedule">Workflow Operations Work Schedule (EST)</label>
-        <input type="text" class="form-control" name="workflowOperationsWorkSchedule" id="workflowOperationsWorkSchedule" ng-model="txFields[39]">
+    <div class="col-md-6 mb-4">
+        <label for="productProcessorGroupDL">Product Processor Group DL</label>
+        <input type="text" class="form-control" name="productProcessorGroupDL" id="productProcessorGroupDL" ng-model="txData.fields[27]">
+    </div>
+    <div class="col-md-6 mb-4">
+        <label for="productProcessorSNOWGroupName">Product Processor SNOW Group Name</label>
+        <input type="text" class="form-control" name="productProcessorSNOWGroupName" id="productProcessorSNOWGroupName" ng-model="txData.fields[28]">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-12 mb-4">
+        <label for="productProcessorScreeningResponseCutoffTime">Product Processor Screening Response Cut-off Time</label>
+        <input type="text" class="form-control" name="productProcessorScreeningResponseCutoffTime" id="productProcessorScreeningResponseCutoffTime" ng-model="txData.fields[29]">
     </div>
 </div>
 <div class="float-left">
@@ -23,6 +25,11 @@
         <button class="btn btn-primary btn-lg font-weight-bold">Previous</button>
     </a>
 </div>
+<div class="float-right">
+    <a ui-sref="create-tx.section6">
+        <button class="btn btn-primary btn-lg font-weight-bold">Next</button>
+    </a>
+</div>
 <div class="progress custom-progress">
-    <div class="progress-bar progress-color" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90%</div>
+    <div class="progress-bar progress-color" role="progressbar" style="width: 57%;" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100">57%</div>
 </div>
