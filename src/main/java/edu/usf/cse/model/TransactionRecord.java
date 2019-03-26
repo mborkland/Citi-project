@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class TransactionRecord implements Record {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="ID")
     private Integer id;
 
