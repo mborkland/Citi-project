@@ -5,7 +5,9 @@ import edu.usf.cse.service.CustomerRecordService;
 import edu.usf.cse.service.RecordService;
 import edu.usf.cse.service.TransactionRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,22 +25,26 @@ public class MainController {
         this.transactionRecordService = transactionRecordService;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PostMapping("/create")
     public ResponseEntity<String> create(@RequestParam RecordType recordType, @RequestParam List<String> fields, @RequestParam String requestor) {
-        return getRecordService(recordType).createRecord(fields, requestor);
+        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).createRecord(fields, requestor) + "\"}", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/read", method = RequestMethod.GET)
-    public List<Record> read(@RequestParam RecordType recordType, String searchTerms) {
-        return getRecordService(recordType).getRecords(searchTerms);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @GetMapping("/read")
+    public ResponseEntity<List<Record>> read(@RequestParam RecordType recordType, String searchTerms) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getRecords(searchTerms), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
     public String update(@RequestParam RecordType recordType, @RequestParam Integer recordId, @RequestParam String field,
                          @RequestParam String newValue, @RequestParam String requestor) {
         return getRecordService(recordType).updateRecord(recordId, field, newValue, requestor);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public String delete(@RequestParam RecordType recordType, @RequestParam Integer id, @RequestParam String requestor) {
         RecordService recordService = getRecordService(recordType);
@@ -48,11 +54,13 @@ public class MainController {
         return deleteSuccess + ". " + saveSuccess;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/clear", method = RequestMethod.DELETE)
     public String clear(@RequestParam RecordType recordType) {
         return getRecordService(recordType).clearDeletedRecords();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/restore", method = RequestMethod.PATCH)
     public String restore(@RequestParam RecordType recordType, @RequestParam Integer id, @RequestParam String requestor) {
         return getRecordService(recordType).restoreDeletedRecord(id, requestor);
@@ -67,10 +75,5 @@ public class MainController {
             default:
                 throw new IllegalArgumentException("Invalid record type.");
         }
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String test(@RequestParam String test) {
-        return test;
     }
 }

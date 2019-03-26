@@ -2,42 +2,7 @@
 
 var app = angular.module('app', ['ui.router']);
 
-app.factory('TokenStore', function ($window) {
-    var storageKey = 'auth_token';
-    return {
-        save: function (token) {
-            return $window.localStorage.setItem(storageKey, token);
-        },
-        get: function () {
-            return $window.localStorage.getItem(storageKey);
-        },
-        clear: function () {
-            return $window.localStorage.removeItem(storageKey);
-        }
-    };
-});
-
-app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
-    return {
-        request: function (config) {
-            config.headers = config.headers || {};
-            if (TokenStore.get()) {
-                config.headers['X-Auth-Token'] = TokenStore.get();
-            }
-            return config;
-        },
-        response: function (response) {
-            if (response.status === 401) {
-                // handle the case where the user is not authenticated
-            }
-            return response || $q.when(response);
-        }
-    };
-});
-
-app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
-function ($stateProvider, $urlRouterProvider, $httpProvider) {
-    $httpProvider.interceptors.push('authInterceptor');
+app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
@@ -136,18 +101,18 @@ app.service('UserService', function () {
     };
 });
 
-app.controller('AppController', ['$rootScope', '$scope', '$state', 'TokenStore', 'UserService',
-function($rootScope, $scope, $state, TokenStore, UserService) {
-    $scope.logout = function () {
-        TokenStore.clear();
+app.controller('AppController', ['$rootScope', '$http', '$scope', '$state', 'UserService',
+function($rootScope, $http, $scope, $state, UserService) {
+    $scope.logout = function() {
+        $http.defaults.headers.common.Authorization = '';
+        delete $rootScope.currentUser;
         UserService.clearAuthenticated();
         UserService.clearAdmin();
-        delete $rootScope.currentUser;
         $state.go('login');
     }
 }]);
 
-app.run(['$rootScope', '$location', '$http', '$window', 'UserService',
-function run($rootScope, $location, $http, $window, UserService) {
+app.run(['$rootScope', 'UserService',
+function run($rootScope, UserService) {
     $rootScope.UserService = UserService;
 }]);

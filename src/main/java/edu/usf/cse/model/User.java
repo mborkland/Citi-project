@@ -1,10 +1,10 @@
 package edu.usf.cse.model;
 
-import edu.usf.cse.security.Role;
-import org.hibernate.validator.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "SYSTEM_USERS")
@@ -14,29 +14,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotEmpty
+    @Size(min = 4, max = 255, message = "Minimum username length: 4 characters")
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @NotEmpty
+    @Size(min = 8, message = "Minimum password length: 8 characters")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotNull
-    private Role role;
-
-    public User() {}
-
-    public User(String username, String password, Role role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
-    public User(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.role = user.getRole();
-    }
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
     public Long getId() {
         return id;
@@ -62,11 +49,9 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
-    }
+    public List<Role> getRoles() { return roles; }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

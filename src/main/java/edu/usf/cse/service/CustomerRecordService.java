@@ -46,7 +46,7 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public ResponseEntity<String> createRecord(List<String> fields, String requestor) {
+    public String createRecord(List<String> fields, String requestor) {
         CxBuDetails cxBuDetails = new CxBuDetails();
         Iterator<String> iterator = fields.iterator();
         cxBuDetails.setCsiId(iterator.next());
@@ -83,7 +83,7 @@ public class CustomerRecordService implements RecordService {
         CustomerRecord customerRecord = new CustomerRecord();
         customerRecord.setBuDetails(cxBuDetails);
         customerRecordRepository.save(customerRecord);
-        return new ResponseEntity<String>("{\"result\":\"Customer record created successfully\"}", HttpStatus.OK);
+        return "Customer record created successfully";
     }
 
     @Override

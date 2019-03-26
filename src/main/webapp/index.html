@@ -25,7 +25,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown" ng-if="UserService.getAuthenticated()">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" roles="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             CREATE
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -38,7 +38,7 @@
                         <a class="nav-link" ui-sref="read">SEARCH</a>
                     </li>
                     <li class="nav-item dropdown" ng-if="UserService.getAdmin()">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" roles="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             ADMIN
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown" ng-if="UserService.getAdmin()">

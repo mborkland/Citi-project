@@ -4,8 +4,6 @@ import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.DeletedTransactionRecordRepository;
 import edu.usf.cse.persistence.TransactionRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +43,7 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public ResponseEntity<String> createRecord(List<String> fields, String requestor) {
+    public String createRecord(List<String> fields, String requestor) {
         TxBuDetails txBuDetails = new TxBuDetails();
         Iterator<String> iterator = fields.iterator();
         txBuDetails.setBusinessId(iterator.next());
@@ -94,7 +92,7 @@ public class TransactionRecordService implements RecordService {
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setBuDetails(txBuDetails);
         transactionRecordRepository.save(transactionRecord);
-        return new ResponseEntity<String>("{\"result\":\"Transaction record created successfully\"}", HttpStatus.OK);
+        return "Transaction record created successfully";
 
     }
 
