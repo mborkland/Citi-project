@@ -22,15 +22,19 @@
             </div>
         </div>
     </div>-->
-    <div class="col-md-9 mb-3">
+    <div class="col-md-6 mb-3">
         <label for="retryMechanism">Retry Mechanism (Y/N)</label>
         <input type="text" class="form-control" name="retryMechanism" id="retryMechanism" ng-model="txData.fields[32]">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="dailyOnlineVolumesExpected">Daily Online Volumes Expected</label>
+        <input type="text" class="form-control" name="dailyOnlineVolumesExpected" id="dailyOnlineVolumesExpected" ng-model="txData.fields[33]">
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-12 mb-3">
-        <label for="dailyOnlineVolumes">Daily Online Volumes Expected Schedule for real-time volumes</label>
-        <input type="text" class="form-control" name="dailyOnlineVolumes" id="dailyOnlineVolumes" ng-model="txData.fields[33]">
+        <label for="scheduleForRealtimeVolumes">Schedule for real-time volumes</label>
+        <input type="text" class="form-control" name="scheduleForRealtimeVolumes" id="scheduleForRealtimeVolumes" ng-model="txData.fields[34]">
     </div>
 </div>
 <div class="float-left">
