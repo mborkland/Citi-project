@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security");
 
         web.ignoring().antMatchers("/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico", "/",
-                "/index.html", "user/login");
+                "/index.html", "user/login", "/ap-mesa/**", "/fonts/**");
     }
 
     @Bean
