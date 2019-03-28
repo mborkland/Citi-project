@@ -1,47 +1,49 @@
+<ng-form name="section1">
 <div class="form-row">
     <div class="col-md-2 mb-4">
         <label for="csiId">CSI ID</label>
-        <input type="text" class="form-control" name="csiId" id="csiId" ng-model="cxData.fields[0]">
+        <input type="text" class="form-control" name="csiId" id="csiId" ng-model="cxData.fields[0]" required>
     </div>
     <div class="col-md-5 mb-4">
         <label for="csInstance">CS Instance</label>
-        <input type="text" class="form-control" name="csInstance" id="csInstance" ng-model="cxData.fields[1]">
+        <input type="text" class="form-control" name="csInstance" id="csInstance" ng-model="cxData.fields[1]" required>
     </div>
     <div class="col-md-5 mb-4">
         <label for="businessId">BUSINESS ID</label>
-        <input type="text" class="form-control" name="businessId" id="businessId" ng-model="cxData.fields[2]">
+        <input type="text" class="form-control" name="businessId" id="businessId" ng-model="cxData.fields[2]" required>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="bizUnitId">BIZ_UNIT_ID</label>
-        <input type="text" class="form-control" name="bizUnitId" id="bizUnitId" ng-model="cxData.fields[3]">
+        <input type="text" class="form-control" name="bizUnitId" id="bizUnitId" ng-model="cxData.fields[3]" required>
     </div>
     <div class="col-md-4 mb-3">
         <label for="productId">PRODUCT_ID</label>
-        <input type="text" class="form-control" name="productId" id="productId" ng-model="cxData.fields[4]">
+        <input type="text" class="form-control" name="productId" id="productId" ng-model="cxData.fields[4]" required>
     </div>
     <div class="col-md-4 mb-3">
         <label for="bizProdId">BIZ_PROD_ID</label>
-        <input type="text" class="form-control" name="bizProdId" id="bizProdId" ng-model="cxData.fields[5]">
+        <input type="text" class="form-control" name="bizProdId" id="bizProdId" ng-model="cxData.fields[5]" required>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-5 mb-3">
         <label for="cxScreeningBusinessUnitName">Cx Screening Business Unit Name</label>
-        <input type="text" class="form-control" name="cxScreeningBusinessUnitName" id="cxScreeningBusinessUnitName" ng-model="cxData.fields[6]">
+        <input type="text" class="form-control" name="cxScreeningBusinessUnitName" id="cxScreeningBusinessUnitName" ng-model="cxData.fields[6]" required>
     </div>
     <div class="col-md-4 mb-3">
         <label for="cxBusinessGreenzone">Cx Business Greenzone</label>
-        <input type="text" class="form-control" name="cxBusinessGreenzone" id="cxBusinessGreenzone" ng-model="cxData.fields[7]">
+        <input type="text" class="form-control" name="cxBusinessGreenzone" id="cxBusinessGreenzone" ng-model="cxData.fields[7]" required>
     </div>
     <div class="col-md-3 mb-3">
         <label for="rulesetMapped">Ruleset Mapped</label>
-        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="cxData.fields[8]">
+        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="cxData.fields[8]" required>
     </div>
 </div>
 <div class="form-row float-right">
     <a ui-sref="create-cx.section2">
-        <button class="btn btn-primary btn-lg font-weight-bold">Next</button>
+        <button class="btn btn-primary btn-lg font-weight-bold" ng-disabled="section1.$invalid">Next</button>
     </a>
 </div>
+</ng-form>
