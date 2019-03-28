@@ -51,7 +51,7 @@ app.controller('ReadController', ['$scope', '$http', function ($scope, $http) {
     //TODO: find the js datatype for: workflow_flag, cw_version, gom_compliant
     $scope.my_table_columns = [
         { id: 'selected', key: 'id', label: '', width: 30, lockWidth: true, selector: true },
-        { id: 'csi_id', key: 'csi_id', label: 'CSI ID', sort: 'string', filter: 'like' },
+        { id: 'csi_id', key: 'csi_id', label: 'CSI ID [test]', sort: 'string', filter: 'like' },
         { id: 'cs_instance', key: 'cs_instance', label: 'CS Instance', sort: 'string', filter: 'like' },
         { id: 'business_id', key: 'business_id', label: 'BUSINESS ID', sort: 'string', filter: 'like' },
         { id: 'biz_unit_id', key: 'biz_unit_id', label: 'BIZ_UNIT_ID', sort: 'string', filter: 'like' },
@@ -87,14 +87,14 @@ app.controller('ReadController', ['$scope', '$http', function ($scope, $http) {
 
 
     // Selected rows
-    $scope.my_selected_rows = [];
+    //$scope.my_selected_rows = [];
 
     // table options
-    $scope.my_table_options = {
+    /*$scope.my_table_options = {
         rowLimit: 10
     };
     $scope.my_table_options_paginate = angular.extend({}, $scope.my_table_options, {
         pagingStrategy: 'PAGINATE',
         rowsPerPage: 8
-    });
+    });*/
 }]);

@@ -1,15 +1,13 @@
-<h3 align="center">Search page goes here</h3>
+<!--<h3 align="center">Search page goes here</h3>-->
 
-<!--
 <form name="form" class="form-signin" ng-submit="search()" roles="form">
-    <select name="recordType" ng-model="recordType">
+    <!--<select name="recordType" ng-model="recordType">
         <option value="CUSTOMER">Customer Screening</option>
         <option value="TRANSACTION">Transaction Screening</option>
     </select><br />
     <input type="text" name="searchTerms" ng-model="searchTerms" placeholder="Enter search terms"><br />
-    <button type="submit">Submit</button>
+    <button type="submit">Submit</button>-->
 </form>
--->
 
 
 <div ng-init="pagingScheme = 'scroll'" ng-controller="BootstrapCtrl">
@@ -37,10 +35,10 @@
                     options="my_table_options"
                     table-class="table">
             </ap-mesa>
-            <div class="col-sm-3">
+            <!--<div class="col-sm-3">
                 <h4>Selected rows: </h4>
                 <pre>{{my_selected_rows | json}}</pre>
-            </div>
+            </div>-->
         </div>
 
         <div ng-if="pagingScheme == 'paginate'">
@@ -52,10 +50,10 @@
                     options="my_table_options_paginate"
                     table-class="table">
             </ap-mesa>
-            <div class="col-sm-3">
+            <!--<div class="col-sm-3">
                 <h4>Selected rows: </h4>
                 <pre>{{my_selected_rows | json}}</pre>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
