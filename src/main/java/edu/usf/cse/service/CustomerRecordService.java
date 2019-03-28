@@ -95,7 +95,6 @@ public class CustomerRecordService implements RecordService {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<CustomerRecord> criteriaQuery = builder.createQuery(CustomerRecord.class);
         Root<CustomerRecord> root = criteriaQuery.from(CustomerRecord.class);
-        criteriaQuery.select(root).distinct(true);
 
         List<Predicate> predicates = new ArrayList<>();
         for (String searchableField : searchableFields) {
@@ -105,8 +104,11 @@ public class CustomerRecordService implements RecordService {
             }
         }
 
-        criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+        Predicate orPredicate = builder.disjunction();
+        orPredicate = builder.or(predicates.toArray(new Predicate[predicates.size()]));
+        criteriaQuery.where(orPredicate);
         Query query = entityManager.createQuery(criteriaQuery);
+        System.out.println(query.getResultList().size());
         return query.getResultList();
     }
 
