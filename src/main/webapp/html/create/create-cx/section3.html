@@ -1,11 +1,12 @@
+<ng-form name="section3">
 <div class="form-row">
     <div class="col-md-3 mb-4">
         <label for="operationEntity">Operation Entity</label>
-        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="cxData.fields[19]">
+        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="cxData.fields[19]" required>
     </div>
     <div class="col-md-4 mb-4">
         <label for="opsComplianceContacts">Ops Compliance Contacts</label>
-        <input type="text" class="form-control" name="opsComplianceContacts" id="opsComplianceContacts" ng-model="cxData.fields[20]">
+        <input type="text" class="form-control" name="opsComplianceContacts" id="opsComplianceContacts" ng-model="cxData.fields[20]" required>
     </div>
     <div class="col-md-2 mb-4 text-center">
         Cw Version<br />
@@ -38,29 +39,29 @@
 
     <div class="col-md-4 mb-3">
         <label for="cwUatContactName">Cw UAT Contact Name</label>
-        <input type="text" class="form-control" name="cwUatContactName" id="cwUatContactName" ng-model="cxData.fields[23]">
+        <input type="text" class="form-control" name="cwUatContactName" id="cwUatContactName" ng-model="cxData.fields[23]" required>
     </div>
     <div class="col-md-4 mb-3">
         <label for="sourceTechContact">Source Tech Contact</label>
-        <input type="text" class="form-control" name="sourceTechContact" id="sourceTechContact" ng-model="cxData.fields[24]">
+        <input type="text" class="form-control" name="sourceTechContact" id="sourceTechContact" ng-model="cxData.fields[24]" required>
     </div>
     <div class="col-md-4 mb-3">
         <label for="impactToBusiness">Impact To Business</label>
-        <input type="text" class="form-control" name="impactToBusiness" id="impactToBusiness" ng-model="cxData.fields[25]">
+        <input type="text" class="form-control" name="impactToBusiness" id="impactToBusiness" ng-model="cxData.fields[25]" required>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-5 mb-3">
         <label for="businessEscalationPointOfContact">Business Escalation Point Of Contact</label>
-        <input type="text" class="form-control" name="businessEscalationPointOfContact" id="businessEscalationPointOfContact" ng-model="cxData.fields[26]">
+        <input type="text" class="form-control" name="businessEscalationPointOfContact" id="businessEscalationPointOfContact" ng-model="cxData.fields[26]" required>
     </div>
     <div class="col-md-3 mb-3">
         <label for="timezone">Timezone</label>
-        <input type="text" class="form-control" name="timezone" id="timezone" ng-model="cxData.fields[27]">
+        <input type="text" class="form-control" name="timezone" id="timezone" ng-model="cxData.fields[27]" required>
     </div>
     <div class="col-md-4 mb-3">
         <label for="requestor">Requestor</label>
-        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="cxData.requestor">
+        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="cxData.requestor" required>
     </div>
 </div>
 <div class="float-left">
@@ -69,8 +70,9 @@
     </a>
 </div>
 <div class="float-right">
-    <button class="btn btn-primary btn-lg font-weight-bold" type="submit">Submit</button>
+    <button class="btn btn-primary btn-lg font-weight-bold" type="submit" ng-disabled="section3.$invalid">Submit</button>
 </div>
 <div class="progress custom-progress">
     <div class="progress-bar progress-color" roles="progressbar" style="width: 67%;" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100">67%</div>
 </div>
+</ng-form>
