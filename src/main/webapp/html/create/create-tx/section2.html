@@ -1,7 +1,9 @@
+<ng-form name="section2">
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="sector">Sector</label>
-        <input type="text" class="form-control" name="sector" id="sector" ng-model="txData.fields[8]">
+        <input type="text" class="form-control" name="sector" id="sector" ng-model="txData.fields[8]" required>
+        <p ng-show="form.sector.$invalid && form.sector.$touched">Please fill in the Sector</p>
     </div>
     <div class="col-md-3 mb-4">
         Workflow Flag<br />
@@ -18,35 +20,42 @@
     </div>
     <div class="col-md-5 mb-4">
         <label for="workflowInstance">Workflow Instance</label>
-        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="txData.fields[10]">
+        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="txData.fields[10]" required>
+        <p ng-show="form.workflowInstance.$invalid && form.workflowInstance.$touched">Please fill in the Workflow Instance</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-4">
         <label for="wfBusinessGreenZone">WF Business Green Zone</label>
-        <input type="text" class="form-control" name="wfBusinessGreenZone" id="wfBusinessGreenZone" ng-model="txData.fields[11]">
+        <input type="text" class="form-control" name="wfBusinessGreenZone" id="wfBusinessGreenZone" ng-model="txData.fields[11]" required>
+        <p ng-show="form.wfBusinessGreenZone.$invalid && form.wfBusinessGreenZone.$touched">Please fill in the WF Business Green Zone</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceAppID">Interface App ID</label>
-        <input type="text" class="form-control" name="interfaceAppID" id="interfaceAppID" ng-model="txData.fields[12]">
+        <input type="text" class="form-control" name="interfaceAppID" id="interfaceAppID" ng-model="txData.fields[12]" required>
+        <p ng-show="form.interfaceAppID.$invalid && form.interfaceAppID.$touched">Please fill in the Interface App ID</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceApplicationName">Interface Application Name</label>
-        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="txData.fields[13]">
+        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="txData.fields[13]" required>
+        <p ng-show="form.interfaceApplicationName.$invalid && form.interfaceApplicationName.$touched">Please fill in the Interface Application Name</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="operationEntity">Operation Entity</label>
-        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="txData.fields[14]">
+        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="txData.fields[14]" required>
+        <p ng-show="form.operationEntity.$invalid && form.operationEntity.$touched">Please fill in the Operation Entity</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="connectivityProtocol">Connectivity Protocol</label>
-        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="txData.fields[15]">
+        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="txData.fields[15]" required>
+        <p ng-show="form.connectivityProtocol.$invalid && form.connectivityProtocol.$touched">Please fill in the Connectivity Protocol</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="workflowOperationsContacts">Workflow Operations Contacts</label>
-        <input type="text" class="form-control" name="workflowOperationsContacts" id="workflowOperationsContacts" ng-model="txData.fields[16]">
+        <input type="text" class="form-control" name="workflowOperationsContacts" id="workflowOperationsContacts" ng-model="txData.fields[16]" required>
+        <p ng-show="form.workflowOperationsContacts.$invalid && form.workflowOperationsContacts.$touched">Please fill in the Workflow Operations Contacts</p>
     </div>
 </div>
 <div class="float-left">
@@ -56,9 +65,10 @@
 </div>
 <div class="float-right">
     <a ui-sref="create-tx.section3">
-        <button class="btn btn-primary btn-lg font-weight-bold">Next</button>
+        <button class="btn btn-primary btn-lg font-weight-bold" ng-disabled="section2.$invalid">Next</button>
     </a>
 </div>
 <div class="progress custom-progress">
     <div class="progress-bar progress-color" role="progressbar" style="width: 14%;" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">14%</div>
 </div>
+</ng-form>
