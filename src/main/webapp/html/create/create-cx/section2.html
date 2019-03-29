@@ -8,14 +8,17 @@
             <option value="LATAM">LATAM</option>
             <option value="NAM">NAM</option>
         </select>
+        <p ng-show="form.region.$invalid && form.region.$touched">Please fill in the Region</p>
     </div>
     <div class="col-md-3 mb-4">
         <label for="country">Country</label>
         <input type="text" class="form-control" name="country" id="country" ng-model="cxData.fields[10]" required>
+        <p ng-show="form.country.$invalid && form.country.$touched">Please fill in the Country</p>
     </div>
     <div class="col-md-3 mb-4">
         <label for="sector">Sector</label>
         <input type="text" class="form-control" name="sector" id="sector" ng-model="cxData.fields[11]" required>
+        <p ng-show="form.sector.$invalid && form.sector.$touched">Please fill in the Sector</p>
     </div>
     <div class="col-md-3 mb-4 text-center">
         Workflow Flag<br />
@@ -35,28 +38,34 @@
     <div class="col-md-3 mb-3">
         <label for="workflowInstance">Workflow Instance</label>
         <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="cxData.fields[13]" required>
+        <p ng-show="form.workflowInstance.$invalid && form.workflowInstance.$touched">Please fill in the Workflow Instance</p>
     </div>
     <div class="col-md-5 mb-3">
         <label for="wfBusinessUnitNameDisplayValue">WF Business Unit Name Display Value</label>
         <input type="text" class="form-control" name="wfBusinessUnitNameDisplayValue" id="wfBusinessUnitNameDisplayValue" ng-model="cxData.fields[14]" required>
+        <p ng-show="form.wfBusinessUnitNameDisplayValue.$invalid && form.wfBusinessUnitNameDisplayValue.$touched">Please fill in the WF Business Unit Name Display Value</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="wfBusinessGreenzone">WF Business Greenzone</label>
         <input type="text" class="form-control" name="wfBusinessGreenzone" id="wfBusinessGreenzone" ng-model="cxData.fields[15]" required>
+        <p ng-show="form.wfBusinessGreenzone.$invalid && form.wfBusinessGreenzone.$touched">Please fill in the WF Business Greenzone</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="connectivityProtocol">Connectivity Protocol</label>
         <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="cxData.fields[16]" required>
+        <p ng-show="form.connectivityProtocol.$invalid && form.connectivityProtocol.$touched">Please fill in the Connectivity Protocol</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceAppId">Interface App ID</label>
         <input type="text" class="form-control" name="interfaceAppId" id="interfaceAppId" ng-model="cxData.fields[17]" required>
+        <p ng-show="form.interfaceAppId.$invalid && form.interfaceAppId.$touched">Please fill in the Interface App ID</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceApplicationName">Interface Application Name</label>
         <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="cxData.fields[18]" required>
+        <p ng-show="form.interfaceApplicationName.$invalid && form.interfaceApplicationName.$touched">Please fill in the Interface Application Name</p>
     </div>
 </div>
 <div class="float-left">
