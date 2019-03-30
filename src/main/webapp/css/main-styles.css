@@ -48,23 +48,7 @@ body {
     float: none;
 }
 
-.testimonial-group > .columns {
-    overflow-x: scroll;
-    flex-wrap: nowrap;
-    display: table-row-group;
-    float: none;
+.grid {
+    width: 500px;
+    height: 200px;
 }
-
-.table-fixed tbody,
-.table-fixed thead,
-.table-fixed tr {
-    overflow-x: scroll;
-    flex-wrap: nowrap;
-    display: table-row-group;
-    float: none;
-}
-/*
-.testimonial-group > .row > .col-lg-12 {
-    display: inline-block;
-    float: none;
-}*/

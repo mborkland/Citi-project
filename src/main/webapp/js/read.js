@@ -1,31 +1,33 @@
-app.controller('ReadController', ['$scope', '$http', function ($scope, $http) {
+app.controller('ReadController', ['$scope', '$http', 'uiGridConstants',
+function ($scope, $http, uiGridConstants) {
+
+    $scope.gridOptions1 = {
+        enableSorting: true,
+        columnDefs: [
+            { field: 'name' },
+            { field: 'gender' },
+            { field: 'company', enableSorting: false }
+        ],
+        onRegisterApi: function( gridApi ) {
+            this.grid1Api = gridApi;
+        },
+        data: [{name: 'Ethel', gender: 'Female', company: 'Citi'},
+               {name: 'Mike', gender: 'Male', company: 'Citi'}]
+    };
+
+
+
+
     $scope.search = function() {
         var url = '/read?recordType=';
         $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms).then(function (response) {
             console.log(response);
-            console.log($scope.recordType);
-            $scope.my_table_columns = table_columns();
-            let list = [];
-            for (let i=0; i < response.data.length; i++) {
-                list.push(getRow(response.data[i]));
-            }
-            $scope.my_table_data = list;
         }, function (error) {
             console.log(error);
         });
     };
 
-    /*function getCxRows(){
-        var retVal = [];
-        for (var i=0; i < $scope.results.data.length; i++) {
-            retVal.push(getCxRow($scope.results.data[i]));
-        }
-        return retVal;
-    }*/
-
-    // Generates a row with random data
-
-    function getCxRow(record){
+    /*function getCxRow(record){
         return {
             biz_prod_id: record.buDetails.bizProdId,
             biz_unit_id: record.buDetails.bizUnitId,
@@ -105,36 +107,9 @@ app.controller('ReadController', ['$scope', '$http', function ($scope, $http) {
             workflow_operations_contacts: record.buDetails.workflowOperationsContacts,
             workflow_operations_work_schedule: record.buDetails.workflowOperationsWorkSchedule
         }
-    }
-    /*$scope.cx_table_columns = [
-        { id: 'selected', key: 'id', label: '', width: 30, lockWidth: true, selector: true },
-        //{ id: 'selected', key: 'id', label: '', width: 30, lockWidth: true, selector: true, selectObject: true },
-        { id: 'ID', key: 'id', label: 'id', sort: 'number', filter: 'number' },
-        { id: 'first_name', key: 'first_name', label: 'First Name', sort: 'string', filter: 'like', template: '<strong>{{row[column.key]}}</strong>' },
-        { id: 'last_name', key: 'last_name', label: 'Last Name', sort: 'string', filter: 'like' },
-        { id: 'age', key: 'age', label: 'Age', sort: 'number', filter: 'number' },
-        { id: 'height', key: 'height', label: 'Height', filter: 'number', sort: 'number' },
-    ];*/
+    }*/
 
-    function table_columns() {
-        if ($scope.recordType === "CUSTOMER") {
-            return $scope.cx_table_columns;
-        }
-        else {
-            return $scope.tx_table_columns;
-        }
-    }
-
-    function getRow(record) {
-        if ($scope.recordType === "CUSTOMER") {
-            return getCxRow(record);
-        }
-        else {
-            return getTxRow(record);
-        }
-    }
-
-    //TODO: find the js datatype for: workflow_flag, cw_version, gom_compliant
+    /*TODO: find the js datatype for: workflow_flag, cw_version, gom_compliant
     $scope.cx_table_columns = [
         { id: 'selected', key: 'id', label: '', width: 30, lockWidth: true, selector: true },
         { id: 'csi_id',lockWidth: true, key: 'csi_id', label: 'CSI ID [test]', sort: 'string', filter: 'like', template: '<strong>{{row[column.key]}}</strong>' },
@@ -212,23 +187,5 @@ app.controller('ReadController', ['$scope', '$http', function ($scope, $http) {
         { id: 'workflow_instance',lockWidth: true, key: 'workflow_instance', label: 'Workflow Instance', sort: 'string', filter: 'like' },
         { id: 'workflow_operations_contacts',lockWidth: true, key: 'workflow_operations_contacts', label: 'Workflow Operations Contacts', sort: 'string', filter: 'like' },
         { id: 'workflow_operations_work_schedule',lockWidth: true, key: 'workflow_operations_work_schedule', label: 'Workflow Operations Work Schedule', sort: 'string', filter: 'like' }
-    ];
-
-    /*$scope.p-3 = {
-        padding: $spacer;
-    }*/
-
-
-
-    // Selected rows
-    $scope.my_selected_rows = [];
-
-    // table options
-    $scope.my_table_options = {
-        rowLimit: 10
-    };
-    $scope.my_table_options_paginate = angular.extend({}, $scope.my_table_options, {
-        pagingStrategy: 'PAGINATE',
-        rowsPerPage: 8
-    });
+    ];*/
 }]);

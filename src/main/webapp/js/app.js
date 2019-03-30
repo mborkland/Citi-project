@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('app', ['ui.router', 'apMesa']);
+var app = angular.module('app', ['ui.router', 'ngAnimate', 'ngTouch', 'ui.grid']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
