@@ -107,17 +107,18 @@ public class TransactionRecordService implements RecordService {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<TransactionRecord> criteriaQuery = builder.createQuery(TransactionRecord.class);
         Root<TransactionRecord> root = criteriaQuery.from(TransactionRecord.class);
-        criteriaQuery.select(root).distinct(true);
 
         List<Predicate> predicates = new ArrayList<>();
         for (String searchableField : searchableFields) {
             for (String searchTerm : searchTermsSplit) {
-                predicates.add(builder.equal(root.get(searchableField), searchTerm.trim()));
+                predicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
 
             }
         }
 
-        criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+        Predicate orPredicate = builder.disjunction();
+        orPredicate = builder.or(predicates.toArray(new Predicate[predicates.size()]));
+        criteriaQuery.where(orPredicate);
         Query query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }

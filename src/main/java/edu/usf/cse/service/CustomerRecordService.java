@@ -108,7 +108,6 @@ public class CustomerRecordService implements RecordService {
         orPredicate = builder.or(predicates.toArray(new Predicate[predicates.size()]));
         criteriaQuery.where(orPredicate);
         Query query = entityManager.createQuery(criteriaQuery);
-        System.out.println(query.getResultList().size());
         return query.getResultList();
     }
 
