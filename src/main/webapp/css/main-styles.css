@@ -39,13 +39,29 @@ body {
     background-color: #011a52;
 }
 
-.testimonial-group > .row {
+.testimonial-group > .rows {
     /*overflow-x: auto;
     white-space: nowrap;*/
+    overflow-x: scroll;
     flex-wrap: nowrap;
-    display: table;
+    display: table-row-group;
     float: none;
-    overflow-x: auto;
+}
+
+.testimonial-group > .columns {
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+    display: table-row-group;
+    float: none;
+}
+
+.table-fixed tbody,
+.table-fixed thead,
+.table-fixed tr {
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+    display: table-row-group;
+    float: none;
 }
 /*
 .testimonial-group > .row > .col-lg-12 {
