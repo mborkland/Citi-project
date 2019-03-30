@@ -38,3 +38,17 @@ body {
 .progress-color {
     background-color: #011a52;
 }
+
+.testimonial-group > .row {
+    /*overflow-x: auto;
+    white-space: nowrap;*/
+    flex-wrap: nowrap;
+    display: table;
+    float: none;
+    overflow-x: auto;
+}
+/*
+.testimonial-group > .row > .col-lg-12 {
+    display: inline-block;
+    float: none;
+}*/

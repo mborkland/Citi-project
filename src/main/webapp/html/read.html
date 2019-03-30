@@ -1,17 +1,17 @@
 <!--<h3 align="center">Search page goes here</h3>-->
 
 <form name="form" class="form-signin" ng-submit="search()" roles="form">
-    <!--<select name="recordType" ng-model="recordType">
+    <select name="recordType" ng-model="recordType">
         <option value="CUSTOMER">Customer Screening</option>
         <option value="TRANSACTION">Transaction Screening</option>
     </select><br />
     <input type="text" name="searchTerms" ng-model="searchTerms" placeholder="Enter search terms"><br />
-    <button type="submit">Submit</button>-->
+    <button type="submit">Submit</button>
 </form>
 
 
 <div ng-init="pagingScheme = 'scroll'" ng-controller="BootstrapCtrl">
-    <div scopedcss>
+    <div scopedcss class="testimonial-group">
         <div class="btn-group" role="group">
             <button
                     ng-class="{ active: pagingScheme == 'scroll' }"
@@ -31,9 +31,9 @@
                     columns="my_table_columns"
                     rows="my_table_data"
                     selected="my_selected_rows"
-                    class="col-sm-9"
+                    class="col-lg-12"
                     options="my_table_options"
-                    table-class="table">
+                    table-class="table table-responsive">
             </ap-mesa>
             <!--<div class="col-sm-3">
                 <h4>Selected rows: </h4>
@@ -46,9 +46,9 @@
                     columns="my_table_columns"
                     rows="my_table_data"
                     selected="my_selected_rows"
-                    class="col-sm-9"
+                    class="col-lg-12"
                     options="my_table_options_paginate"
-                    table-class="table">
+                    table-class="table table-responsive">
             </ap-mesa>
             <!--<div class="col-sm-3">
                 <h4>Selected rows: </h4>
