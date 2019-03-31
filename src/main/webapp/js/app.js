@@ -1,18 +1,13 @@
 ﻿'use strict';
 
-var app = angular.module('app', ['ui.router', 'ngAnimate', 'ngTouch', 'ui.grid']);
+var app = angular.module('app', ['ui.router', 'ngAnimate', 'ngTouch', 'ngCookies', 'ui.grid']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-        .state('home', {
-            url: '/',
-            templateUrl: 'html/home.html',
-            controller: 'HomeController'
-        })
         .state('login', {
-            url: '/login',
+            url: '/',
             templateUrl: 'html/login.html',
             controller: 'LoginController'
         })
@@ -85,62 +80,31 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         });
 }]);
 
-app.service('UserService', function () {
-    var authenticated = false;
-    var admin = false;
+app.controller('AppController', ['$scope', '$cookies', '$http', '$state',
+function ($scope, $cookies, $http, $state) {
+    $scope.isUser = function() {
+        return $cookies.get('isUser') === 'true';
+    }
 
-    return {
-        getAuthenticated: function() {
-            return authenticated;
-        },
-        setAuthenticated: function() {
-            authenticated = true;
-        },
-        clearAuthenticated: function() {
-            authenticated = false;
-        },
-        getAdmin: function () {
-            return admin;
-        },
-        setAdmin: function () {
-            admin = true;
-        },
-        clearAdmin: function () {
-            admin = false;
-        }
-    };
-});
+    $scope.isAdmin = function() {
+        return $cookies.get('isAdmin') === 'true';
+    }
 
-app.controller('AppController', ['$rootScope', '$http', '$scope', '$state', 'UserService',
-function($rootScope, $http, $scope, $state, UserService) {
     $scope.logout = function() {
         $http.defaults.headers.common.Authorization = '';
-        delete $rootScope.currentUser;
-        UserService.clearAuthenticated();
-        UserService.clearAdmin();
+        $cookies.remove('currentUser');
+        $cookies.remove('token');
+        $cookies.put('isUser', 'false');
+        $cookies.put('isAdmin', 'false');
         $state.go('login');
     }
 }]);
 
-app.run(['$rootScope', 'UserService',
-function run($rootScope, UserService) {
-    $rootScope.UserService = UserService;
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    /*(function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();*/
+app.run(['$state', '$cookies', '$http', function ($state, $cookies, $http) {
+    if ($cookies.get('token')) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $cookies.get('token');
+        $state.go('read');
+    } else {
+        $state.go('login');
+    }
 }]);
