@@ -122,6 +122,10 @@ public class TransactionRecordService implements RecordService {
         return query.getResultList();
     }
 
+    public List<Record> getRandomRecords(int numRandomRecords)  {
+        return transactionRecordRepository.getRandomRecords(numRandomRecords);
+    }
+
 	@Override
 	@Transactional
 	public String updateRecord(Integer id, String field, String newValue, String requestor) {

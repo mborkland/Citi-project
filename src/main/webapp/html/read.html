@@ -1,13 +1,32 @@
-<!--<h3 align="center">Search page goes here</h3>-->
+<h3 class="text-center font-weight-bold" style="padding-bottom: 30px">Search Records</h3>
 
-<form name="form" class="form-signin" ng-submit="search()" roles="form">
-    <select name="recordType" ng-model="recordType">
-        <option value="CUSTOMER">Customer Screening</option>
-        <option value="TRANSACTION">Transaction Screening</option>
-    </select><br />
-    <input type="text" name="searchTerms" ng-model="searchTerms" placeholder="Enter search terms"><br />
-    <button type="submit">Submit</button>
-</form>
+<div class="row">
+    <div class="col-md-2 mt-2 text-center">
+        <select class="bootstrap-select" name="recordType" ng-model="recordType">
+            <option value="CUSTOMER">Customer Screening</option>
+            <option value="TRANSACTION">Transaction Screening</option>
+        </select>
+    </div>
+    <div class="col-md-4 mt-1 text-center">
+        <form name="form" class="form-signin" ng-submit="search()" roles="form">
+            <input type="text" name="searchTerms" ng-model="searchTerms" placeholder="Enter search terms">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-2 pb-2 text-center">
+        <button class="btn btn-md btn-primary" ng-disabled="!rowsSelected.length">Export</button>
+    </div>
+    <div class="col-md-2 pb-2 text-center">
+        <button class="btn btn-md btn-primary" ng-disabled="!rowsSelected.length">Update</button>
+    </div>
+    <div class="col-md-2 pb-2 text-center">
+        <button class="btn btn-md btn-primary" ng-disabled="!rowsSelected.length">Delete</button>
+    </div>
+</div>
 
 
-<div id="grid1" ui-grid="gridOptions1" class="grid"></div>
+
+<div id="grid1" class="grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ng-if="recordType === 'CUSTOMER'"></div>
+<div id="grid2" class="grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ng-if="recordType === 'TRANSACTION'"></div>
+
+<div class="row my-4"></div>

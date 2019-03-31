@@ -14,6 +14,8 @@ public interface RecordService {
 
     List<Record> getRecords(String searchTerms);
 
+    List<Record> getRandomRecords(int numRandomRecords);
+
     String updateRecord(Integer id, String field, String newValue, String requestor);
 
     String deleteRecord(Integer id);

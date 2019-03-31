@@ -37,6 +37,12 @@ public class MainController {
         return new ResponseEntity<List<Record>>(getRecordService(recordType).getRecords(searchTerms), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @GetMapping("/read-random")
+    public ResponseEntity<List<Record>> readRandom(@RequestParam RecordType recordType, @RequestParam int numRandomRecords) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getRandomRecords(numRandomRecords), HttpStatus.OK);
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
     public String update(@RequestParam RecordType recordType, @RequestParam Integer recordId, @RequestParam String field,

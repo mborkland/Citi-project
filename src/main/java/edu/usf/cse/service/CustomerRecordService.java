@@ -110,6 +110,10 @@ public class CustomerRecordService implements RecordService {
         return query.getResultList();
     }
 
+    public List<Record> getRandomRecords(int numRandomRecords)  {
+        return customerRecordRepository.getRandomRecords(numRandomRecords);
+    }
+
     @Override
     @Transactional
     public String updateRecord(Integer id, String field, String newValue, String requestor) {

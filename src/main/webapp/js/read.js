@@ -1,191 +1,255 @@
 app.controller('ReadController', ['$scope', '$http', 'uiGridConstants',
 function ($scope, $http, uiGridConstants) {
+    var xsw = 90;
+    var xxsw = xsw / 2;
+    var sw = 2 * xsw;
+    var mw = 3 * xsw;
+    var lw = 4 * xsw;
+    var xlw = 4.5 * xsw;
+
+    $scope.recordType = 'CUSTOMER';
+    $scope.rowsSelected = [];
+
+    var numRandomRows = 100;
+    $scope.rowData = [];
+    populateWithRandomRows(numRandomRows);
+
+    $scope.$watch('recordType', function(newValue, oldValue) {
+        populateWithRandomRows(numRandomRows);
+    });
 
     $scope.gridOptions1 = {
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+        enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+        enableColumnResizing: true,
         enableSorting: true,
+        enableFullRowSelection: true,
+        selectionRowHeaderWidth: 35,
+        rowHeight: 35,
+        paginationPageSizes: [10, 20, 50],
+        paginationPageSize: 20,
+        enableSelectAll: true,
         columnDefs: [
-            { field: 'name' },
-            { field: 'gender' },
-            { field: 'company', enableSorting: false }
+            {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},
+            {field: 'csiId', displayName: 'CSI ID', width: xsw, enableHiding: false},
+            {field: 'csInstance', displayName: 'CS Instance', width: sw, enableHiding: false},
+            {field: 'businessId', displayName: 'BUSINESS ID', width: sw, enableHiding: false},
+            {field: 'bizUnitId', displayName: 'BIZ UNIT ID', width: sw, enableHiding: false},
+            {field: 'productId', displayName: 'PRODUCT ID', width: sw, enableHiding: false},
+            {field: 'bizProdId', displayName: 'BIZ PROD ID', width: sw, enableHiding: false},
+            {field: 'cxScreeningBusinessUnitName', displayName: 'Cx Screening Business Unit Name', width: lw, enableHiding: false},
+            {field: 'cxBusinessGreenzone', displayName: 'Cx Business Greenzone', width: mw, enableHiding: false},
+            {field: 'rulesetMapped', displayName: 'Ruleset Mapped', width: sw, enableHiding: false},
+            {field: 'region', displayName: 'Region', width: xsw, enableHiding: false},
+            {field: 'country', displayName: 'Country', width: sw, enableHiding: false},
+            {field: 'sector', displayName: 'Sector', width: xsw, enableHiding: false},
+            {field: 'workflowFlag', displayName: 'Workflow Flag', width: sw, enableHiding: false},
+            {field: 'workflowInstance', displayName: 'Workflow Instance', width: sw, enableHiding: false},
+            {field: 'wfBusinessUnitNameDisplayValue', displayName: 'WF Business Unit Name Display Value', width: lw, enableHiding: false},
+            {field: 'wfBusinessGreenzone', displayName: 'WF Business Greenzone', width: mw, enableHiding: false},
+            {field: 'connectivityProtocol', displayName: 'Connectivity Protocol', width: mw, enableHiding: false},
+            {field: 'interfaceAppId', displayName: 'Interface App ID', width: sw, enableHiding: false},
+            {field: 'interfaceApplicationName', displayName: 'Interface Application Name', width: mw, enableHiding: false},
+            {field: 'operationEntity', displayName: 'Operation Entity', width: sw, enableHiding: false},
+            {field: 'opsComplianceContacts', displayName: 'Ops Compliance Contacts', width: mw, enableHiding: false},
+            {field: 'cwVersion', displayName: 'Cw V1/V2', width: 1.5 * xsw, enableHiding: false},
+            {field: 'gomCompliant', displayName: 'GOM Compliant?', width: sw, enableHiding: false},
+            {field: 'cwUatContactName', displayName: 'Cw UAT Contact Name', width: mw, enableHiding: false},
+            {field: 'sourceTechContact', displayName: 'Source Tech Contact', width: mw, enableHiding: false},
+            {field: 'impactToBusiness', displayName: 'Impact To Business', width: mw, enableHiding: false},
+            {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
+            {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
+            {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false}
         ],
-        onRegisterApi: function( gridApi ) {
+        onRegisterApi: function (gridApi) {
             this.grid1Api = gridApi;
         },
-        data: [{name: 'Ethel', gender: 'Female', company: 'Citi'},
-               {name: 'Mike', gender: 'Male', company: 'Citi'}]
+        data: $scope.rowData
+    };
+
+    $scope.gridOptions2 = {
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+        enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+        enableColumnResizing: true,
+        enableSorting: true,
+        enableFullRowSelection: true,
+        selectionRowHeaderWidth: 35,
+        rowHeight: 35,
+        paginationPageSizes: [10, 20, 50],
+        paginationPageSize: 20,
+        enableSelectAll: true,
+        columnDefs: [
+            {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},
+            {field: 'businessId', displayName: 'BUSINESS ID', width: sw, enableHiding: false},
+            {field: 'productId', displayName: 'PRODUCT ID', width: sw, enableHiding: false},
+            {field: 'csiId', displayName: 'CSI ID', width: xsw, enableHiding: false},
+            {field: 'uniqueProductId', displayName: 'Unique Product ID', width: sw, enableHiding: false},
+            {field: 'txScreeningBusinessUnitName', displayName: 'Tx Screening Business Unit Name', width: lw, enableHiding: false},
+            {field: 'rulesetMapped', displayName: 'Ruleset Mapped', width: sw, enableHiding: false},
+            {field: 'region', displayName: 'Region', width: xsw, enableHiding: false},
+            {field: 'country', displayName: 'Country', width: sw, enableHiding: false},
+            {field: 'sector', displayName: 'Sector', width: xsw, enableHiding: false},
+            {field: 'workflowFlag', displayName: 'Workflow Flag', width: sw, enableHiding: false},
+            {field: 'workflowInstance', displayName: 'Workflow Instance', width: sw, enableHiding: false},
+            {field: 'wfBusinessGreenzone', displayName: 'WF Business Greenzone', width: mw, enableHiding: false},
+            {field: 'interfaceAppId', displayName: 'Interface App ID', width: sw, enableHiding: false},
+            {field: 'interfaceApplicationName', displayName: 'Interface Application Name', width: mw, enableHiding: false},
+            {field: 'operationEntity', displayName: 'Operation Entity', width: sw, enableHiding: false},
+            {field: 'connectivityProtocol', displayName: 'Connectivity Protocol', width: mw, enableHiding: false},
+            {field: 'workflowOperationsContacts', displayName: 'Workflow Operations Contacts', width: mw, enableHiding: false},
+            {field: 'sourceTechContacts', displayName: 'Source Tech Contacts', width: mw, enableHiding: false},
+            {field: 'businessHotline', displayName: 'Business Hotline', width: mw, enableHiding: false},
+            {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
+            {field: 'impactToProductProcessor', displayName: 'Impact to Product Processor', width: mw, enableHiding: false},
+            {field: 'productProcessor', displayName: 'Product Processor', width: sw, enableHiding: false},
+            {field: 'hotlineNumber', displayName: 'Hotline Number', width: sw, enableHiding: false},
+            {field: 'escalationPath1stLevelSupport', displayName: 'Escalation Path 1st Level Support', width: lw, enableHiding: false},
+            {field: 'escalationPath2ndLevelSupport', displayName: 'Escalation Path 2nd Level Support', width: lw, enableHiding: false},
+            {field: 'firstLevelEscalation', displayName: '1st Level Escalation', width: mw, enableHiding: false},
+            {field: 'secondLevelEscalation', displayName: '2nd Level Escalation', width: mw, enableHiding: false},
+            {field: 'productProcessorGroupDl', displayName: 'Product Processor Group DL', width: mw, enableHiding: false},
+            {field: 'productProcessorSnowGroupName', displayName: 'Product Processor SNOW Group Name', width: lw, enableHiding: false},
+            {field: 'productProcessorScreeningResponseCutoffTime', displayName: 'Product Processor Screening Response Cutoff Time', width: xlw, enableHiding: false},
+            {field: 'productProcessorStandardGreenzones', displayName: 'Product Processor Standard Greenzones', width: lw, enableHiding: false},
+            {field: 'interfaceConnectivityDoc', displayName: 'Interface Connectivity Doc', width: mw, enableHiding: false},
+            {field: 'retryMechanism', displayName: 'Retry Mechanism', width: sw, enableHiding: false},
+            {field: 'dailyOnlineVolumesExpected', displayName: 'Daily Online Volumes Expected', width: mw, enableHiding: false},
+            {field: 'scheduleForRealtimeVolumes', displayName: 'Schedule For Realtime Volumes', width: mw, enableHiding: false},
+            {field: 'batchesOrPeaksForRealtimeVolumes', displayName: 'Batches or Peaks for Realtime Volumes', width: lw, enableHiding: false},
+            {field: 'initialScreeningResponseSla', displayName: 'Initial Screening Response SLA', width: mw, enableHiding: false},
+            {field: 'thresholdSetForTimeouts', displayName: 'Threshold Set for Timeouts', width: mw, enableHiding: false},
+            {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mw, enableHiding: false},
+            {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
+            {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false}
+        ],
+        onRegisterApi: function (gridApi) {
+            this.grid1Api = gridApi;
+        },
+        data: $scope.rowData
     };
 
 
-
-
-    $scope.search = function() {
+    $scope.search = function () {
         var url = '/read?recordType=';
-        $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms).then(function (response) {
-            console.log(response);
+        if ($scope.searchTerms) {
+            $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms).then(function (response) {
+                console.log(response);
+                handleResponse(response, false);
+            }, function (error) {
+                console.log(error);
+            });
+        } else {
+            populateWithRandomRows(numRandomRows);
+        }
+    };
+
+    function handleResponse(response, isRandom) {
+        $scope.rowData.length = 0;
+        angular.forEach(response.data, function (value, key) {
+            $scope.rowData.push(convertResponseData(value, $scope.recordType, isRandom));
+        });
+    }
+
+    function populateWithRandomRows(numRandomRows) {
+        var url = '/read-random?recordType=';
+        $http.get(url + $scope.recordType + '&numRandomRecords=' + numRandomRows).then(function (response) {
+            handleResponse(response, true);
         }, function (error) {
             console.log(error);
         });
-    };
+    }
 
-    /*function getCxRow(record){
+    function convertResponseData(record, recordType, isRandom) {
+        if (recordType === 'CUSTOMER') {
+            return convertCxData(record, isRandom);
+        } else {
+            return convertTxData(record, isRandom);
+        }
+    }
+
+    function convertCxData(record, isRandom) {
         return {
-            biz_prod_id: record.buDetails.bizProdId,
-            biz_unit_id: record.buDetails.bizUnitId,
-            business_escalation_point_of_contact: record.buDetails.businessEscalationPointOfContact,
-            business_id: record.buDetails.businessId,
-            connectivity_protocol: record.buDetails.connectivityProtocol,
-            //Add in the contacts checked, wherever that may be,
-            country: record.buDetails.country,
-            cs_instance: record.buDetails.csInstance,
-            csi_id: record.buDetails.csiId,
-            cw_uat_contact_name: record.buDetails.cwUatContactName,
-            cw_version: record.buDetails.cwVersion,
-            cx_business_greenzone: record.buDetails.cxBusinessGreenzone,
-            cx_screening_business_unit_name: record.buDetails.cxScreeningBusinessUnitName,
-            gom_compliant: record.buDetails.gomCompliant,
-            impact_to_business: record.buDetails.impactToBusiness,
-            interface_app_id: record.buDetails.interfaceAppId,
-            interface_application_name: record.buDetails.interfaceApplicationName,
-            operation_entity: record.buDetails.operationEntity,
-            ops_compliance_contacts: record.buDetails.opsComplianceContacts,
-            product_id: record.buDetails.productId,
-            region: record.buDetails.region,
-            ruleset_mapped: record.buDetails.rulesetMapped,
-            sector: record.buDetails.sector,
-            source_tech_contact: record.buDetails.sourceTechContact,
-            timezone: record.buDetails.timezone,
-            update_history: record.buDetails.updateHistory,
-            wf_business_greenzone: record.buDetails.wfBusinessGreenZone,
-            wf_business_unit_name_display_value: record.buDetails.wfBusinessUnitNameDisplayValue,
-            workflow_flag: record.buDetails.workflowFlag,
-            workflow_instance: record.buDetails.workflowInstance
+            id: isRandom ? record[0] : record.id,
+            bizProdId: isRandom ? record[1] : record.buDetails.bizProdId,
+            bizUnitId: isRandom ? record[2] : record.buDetails.bizUnitId,
+            businessEscalationPointOfContact: isRandom ? record[3] : record.buDetails.businessEscalationPointOfContact,
+            businessId: isRandom ? record[4] : record.buDetails.businessId,
+            connectivityProtocol: isRandom ? record[5] : record.buDetails.connectivityProtocol,
+            country: isRandom ? record[6] : record.buDetails.country,
+            csInstance: isRandom ? record[7] : record.buDetails.csInstance,
+            csiId: isRandom ? record[8] : record.buDetails.csiId,
+            cwUatContactName: isRandom ? record[9] : record.buDetails.cwUatContactName,
+            cwVersion: isRandom ? record[10] : record.buDetails.cwVersion,
+            cxBusinessGreenzone: isRandom ? record[11] : record.buDetails.cxBusinessGreenzone,
+            cxScreeningBusinessUnitName: isRandom ? record[12] : record.buDetails.cxScreeningBusinessUnitName,
+            gomCompliant: convertBooleanToChar(isRandom ? record[13] : record.buDetails.gomCompliant),
+            impactToBusiness: isRandom ? record[14] : record.buDetails.impactToBusiness,
+            interfaceAppId: isRandom ? record[15] : record.buDetails.interfaceAppId,
+            interfaceApplicationName: isRandom ? record[16] : record.buDetails.interfaceApplicationName,
+            operationEntity: isRandom ? record[17] : record.buDetails.operationEntity,
+            opsComplianceContacts: isRandom ? record[18] : record.buDetails.opsComplianceContacts,
+            productId: isRandom ? record[19] : record.buDetails.productId,
+            region: isRandom ? record[20] : record.buDetails.region,
+            rulesetMapped: isRandom ? record[21] : record.buDetails.rulesetMapped,
+            sector: isRandom ? record[22] : record.buDetails.sector,
+            sourceTechContact: isRandom ? record[23] : record.buDetails.sourceTechContact,
+            timezone: isRandom ? record[24] : record.buDetails.timezone,
+            updateHistory: isRandom ? record[25] : record.buDetails.updateHistory,
+            wfBusinessGreenzone: isRandom ? record[26] : record.buDetails.wfBusinessGreenZone,
+            wfBusinessUnitNameDisplayValue: isRandom ? record[27] : record.buDetails.wfBusinessUnitNameDisplayValue,
+            workflowFlag: convertBooleanToChar(isRandom ? record[28] : record.buDetails.workflowFlag),
+            workflowInstance: isRandom ? record[29] : record.buDetails.workflowInstance
         };
     }
 
-    function getTxRow(record) {
+    function convertTxData(record, isRandom) {
         return {
-            any_batch_component: record.buDetails.anyBatchComponent, //todo
-            batches_or_peaks_for_realtime_volumes: record.buDetails.batchesOrPeaksForRealtimeVolumes,
-            business_escalation_point_of_contact: record.buDetails.businessEscalationPointOfContact,
-            business_hotline: record.buDetails.businessHotline,
-            business_id: record.buDetails.businessId,
-            connectivity_protocol: record.buDetails.connectivityProtocol,
-            //Add in the contacts checked, wherever that may be,
-            country: record.buDetails.country,
-            cs_instance: record.buDetails.csInstance,
-            csi_id: record.buDetails.csiId,
-            daily_online_volumes_expected: record.buDetails.dailyOnlineVolumesExpected,
-            escalation_path_1st_level_support: record.buDetails.escalationPath1stLevelSupport,
-            escalation_path_2nd_level_support: record.buDetails.escalationPath2ndLevelSupport,
-            first_level_escalation: record.buDetails.firstLevelEscalation,
-            hotline_number: record.buDetails.hotlineNumber,
-            impact_to_product_processor: record.buDetails.impactToProductProcessor,
-            initial_screening_response_sla: record.buDetails.initialScreeningResponseSla,
-            interface_app_id: record.buDetails.interfaceAppId,
-            interface_application_name: record.buDetails.interfaceApplicationName,
-            interface_connectivity_doc: record.buDetails.interfaceConnectivityDoc,
-            operation_entity: record.buDetails.operationEntity,
-            product_id: record.buDetails.productId,
-            product_processor: record.buDetails.productProcessor,
-            product_processor_group_dl: record.buDetails.productProcessorGroupDl,
-            product_processor_screening_response_cutoff_time: record.buDetails.productProcessorScreeningResponseCutoffTime,
-            product_processor_snow_group_name: record.buDetails.productProcessorSnowGroupName,
-            product_processor_standard_greenzones: record.buDetails.productProcessorStandardGreenzones,
-            region: record.buDetails.region,
-            retry_mechanism: record.buDetails.retryMechanism,
-            ruleset_mapped: record.buDetails.rulesetMapped,
-            schedule_for_realtime_volumes: record.buDetails.scheduleForRealtimeVolumes,
-            sector: record.buDetails.sector,
-            source_tech_contacts: record.buDetails.sourceTechContacts,
-            threshold_set_for_timeouts: record.buDetails.thresholdSetForTimeouts,
-            tx_screening_business_unit_name: record.buDetails.txScreeningBusinessUnitName,
-            unique_product_id: record.buDetails.uniqueProductId,
-            update_history: record.buDetails.updateHistory,
-            wf_business_greenzone: record.buDetails.wfBusinessGreenZone,
-            workflow_flag: record.buDetails.workflowFlag,
-            workflow_instance: record.buDetails.workflowInstance,
-            workflow_operations_contacts: record.buDetails.workflowOperationsContacts,
-            workflow_operations_work_schedule: record.buDetails.workflowOperationsWorkSchedule
-        }
-    }*/
+            id: isRandom ? record[0] : record.id,
+            anyBatchComponent: convertBooleanToChar(isRandom ? record[1] : record.buDetails.anyBatchComponent),
+            batchesOrPeaksForRealtimeVolumes: isRandom ? record[2] : record.buDetails.batchesOrPeaksForRealtimeVolumes,
+            businessEscalationPointOfContact: isRandom ? record[3] : record.buDetails.businessEscalationPointOfContact,
+            businessHotline: isRandom ? record[4] : record.buDetails.businessHotline,
+            businessId: isRandom ? record[5] : record.buDetails.businessId,
+            connectivityProtocol: isRandom ? record[6] : record.buDetails.connectivityProtocol,
+            country: isRandom ? record[7] : record.buDetails.country,
+            csiId: isRandom ? record[8] : record.buDetails.csiId,
+            dailyOnlineVolumesExpected: isRandom ? record[9] : record.buDetails.dailyOnlineVolumesExpected,
+            escalationPath1stLevelSupport: isRandom ? record[10] : record.buDetails.escalationPath1stLevelSupport,
+            escalationPath2ndLevelSupport: isRandom ? record[11] : record.buDetails.escalationPath2ndLevelSupport,
+            firstLevelEscalation: isRandom ? record[12] : record.buDetails.firstLevelEscalation,
+            hotlineNumber: isRandom ? record[13] : record.buDetails.hotlineNumber,
+            impactToProductProcessor: isRandom ? record[14] : record.buDetails.impactToProductProcessor,
+            initialScreeningResponseSla: isRandom ? record[15] : record.buDetails.initialScreeningResponseSla,
+            interfaceAppId: isRandom ? record[16] : record.buDetails.interfaceAppId,
+            interfaceApplicationName: isRandom ? record[17] : record.buDetails.interfaceApplicationName,
+            interfaceConnectivityDoc: isRandom ? record[18] : record.buDetails.interfaceConnectivityDoc,
+            operationEntity: isRandom ? record[19] : record.buDetails.operationEntity,
+            productId: isRandom ? record[20] : record.buDetails.productId,
+            productProcessor: isRandom ? record[21] : record.buDetails.productProcessor,
+            productProcessorGroupDl: isRandom ? record[22] : record.buDetails.productProcessorGroupDl,
+            productProcessorScreeningResponseCutoffTime: isRandom ? record[23] : record.buDetails.productProcessorScreeningResponseCutoffTime,
+            productProcessorSnowGroupName: isRandom ? record[24] : record.buDetails.productProcessorSnowGroupName,
+            productProcessorStandardGreenzones: isRandom ? record[25] : record.buDetails.productProcessorStandardGreenzones,
+            region: isRandom ? record[26] : record.buDetails.region,
+            retryMechanism: isRandom ? record[27] : record.buDetails.retryMechanism,
+            rulesetMapped: isRandom ? record[28] : record.buDetails.rulesetMapped,
+            scheduleForRealtimeVolumes: isRandom ? record[29] : record.buDetails.scheduleForRealtimeVolumes,
+            secondLevelEscalation: isRandom ? record[30] : record.buDetails.secondLevelEscalation,
+            sector: isRandom ? record[31] : record.buDetails.sector,
+            sourceTechContacts: isRandom ? record[32] : record.buDetails.sourceTechContacts,
+            thresholdSetForTimeouts: isRandom ? record[33] : record.buDetails.thresholdSetForTimeouts,
+            txScreeningBusinessUnitName: isRandom ? record[34] : record.buDetails.txScreeningBusinessUnitName,
+            uniqueProductId: isRandom ? record[35] : record.buDetails.uniqueProductId,
+            updateHistory: isRandom ? record[36] : record.buDetails.updateHistory,
+            wfBusinessGreenzone: isRandom ? record[37] : record.buDetails.wfBusinessGreenZone,
+            workflowFlag: convertBooleanToChar(isRandom ? record[38] : record.buDetails.workflowFlag),
+            workflowInstance: isRandom ? record[39] : record.buDetails.workflowInstance,
+            workflowOperationsContacts: isRandom ? record[40] : record.buDetails.workflowOperationsContacts,
+            workflowOperationsWorkSchedule: isRandom ? record[41] : record.buDetails.workflowOperationsWorkSchedule
+        };
+    }
 
-    /*TODO: find the js datatype for: workflow_flag, cw_version, gom_compliant
-    $scope.cx_table_columns = [
-        { id: 'selected', key: 'id', label: '', width: 30, lockWidth: true, selector: true },
-        { id: 'csi_id',lockWidth: true, key: 'csi_id', label: 'CSI ID [test]', sort: 'string', filter: 'like', template: '<strong>{{row[column.key]}}</strong>' },
-        { id: 'cs_instance',lockWidth: true, key: 'cs_instance', label: 'CS Instance', sort: 'string', filter: 'like' },
-        { id: 'business_id',lockWidth: true, key: 'business_id', label: 'BUSINESS ID', sort: 'string', filter: 'like' },
-        { id: 'biz_unit_id',lockWidth: true, key: 'biz_unit_id', label: 'BIZ_UNIT_ID', sort: 'string', filter: 'like' },
-        { id: 'product_id',lockWidth: true, key: 'product_id', label: 'PRODUCT_ID', sort: 'string', filter: 'like' },
-        { id: 'biz_prod_id',lockWidth: true, key: 'biz_prod_id', label: 'BIZ_PROD_ID', sort: 'string', filter: 'like'},
-        { id: 'cx_screening_business_unit_name',lockWidth: true, key: 'cx_screening_business_unit_name', label: 'Cx Screening Business Unit Name', sort: 'string', filter: 'like'},
-        { id: 'cx_business_greenzone',lockWidth: true, key: 'cx_business_greenzone', label: 'Cx Business Greenzone', sort: 'string', filter: 'like'},
-        { id: 'ruleset_mapped',lockWidth: true, key: 'ruleset_mapped', label: 'Ruleset Mapped', sort: 'string', filter: 'like'},
-        { id: 'region',lockWidth: true, key: 'region', label: 'Region', sort: 'string', filter: 'like'},
-        { id: 'country',lockWidth: true, key: 'country', label: 'Country', sort: 'string', filter: 'like'},
-        { id: 'sector',lockWidth: true, key: 'sector', label: 'Sector', sort: 'string', filter: 'like'},
-        { id: 'workflow_flag',lockWidth: true, key: 'workflow_flag', label: 'Workflow Flag', sort: 'string', filter: 'like'},
-        { id: 'workflow_instance',lockWidth: true, key: 'workflow_instance', label: 'Workflow Instance', sort: 'string', filter: 'like'},
-        { id: 'wf_business_unit_name_display_value',lockWidth: true, key: 'wf_business_unit_name_display_value', label: 'WF Business Unit Name Display Value', sort: 'string', filter: 'like'},
-        { id: 'wf_business_greenzone',lockWidth: true, key: 'wf_business_greenzone', label: 'WF Business Greenzone', sort: 'string', filter: 'like'},
-        { id: 'connectivity_protocol',lockWidth: true, key: 'connectivity_protocol', label: 'Connectivity Protocol', sort: 'string', filter: 'like'},
-        { id: 'interface_app_id',lockWidth: true, key: 'interface_app_id', label: 'Interface App ID', sort: 'string', filter: 'like'},
-        { id: 'interface_application_name',lockWidth: true, key: 'interface_application_name', label: 'Interface Application Name', sort: 'string', filter: 'like' },
-        { id: 'operation_entity',lockWidth: true, key: 'operation_entity', label: 'Operation Entity', sort: 'string', filter: 'like' },
-        { id: 'ops_compliance_contacts',lockWidth: true, key: 'ops_compliance_contacts', label: 'Ops Compliance Contacts', sort: 'string', filter: 'like' },
-        { id: 'cw_version',lockWidth: true, key: 'cw_version', label: 'Cw Version', sort: 'string', filter: 'like' },
-        { id: 'gom_compliant',lockWidth: true, key: 'gom_compliant', label: 'GOM Compliant?', sort: 'string', filter: 'like' },
-        { id: 'cw_uat_contact_name',lockWidth: true, key: 'cw_uat_contact_name', label: 'Cw UAT Contact Name', sort: 'string', filter: 'like' },
-        { id: 'source_tech_contact',lockWidth: true, key: 'source_tech_contact', label: 'Source Tech Contact', sort: 'string', filter: 'like' },
-        { id: 'impact_to_business',lockWidth: true, key: 'impact_to_business', label: 'Impact To Business', sort: 'string', filter: 'like' },
-        { id: 'business_escalation_point_of_contact',lockWidth: true, key: 'business_escalation_point_of_contact', label: 'Business Escalation Point Of Contact', sort: 'string', filter: 'like' },
-        { id: 'timezone', lockWidth: true,key: 'timezone', label: 'Timezone', sort: 'string', filter: 'like' },
-        { id: 'update_history', lockWidth: true,key: 'update_history', label: 'Update History', sort: 'string', filter: 'like' }
-    ];
-
-    $scope.tx_table_columns = [
-        { id: 'selected', key: 'id', label: '', width: 30, lockWidth: true, selector: true },
-        { id: 'csi_id', key: 'csi_id', label: 'CSI ID [test]', sort: 'string', filter: 'like',lockWidth: true, template: '<strong>{{row[column.key]}}</strong>' },
-        { id: 'any_batch_component', key: 'any_batch_component', label: 'Any Batch Component',lockWidth: true, sort: 'string', filter: 'like' },
-        { id: 'batches_or_peaks_for_realtime_volumes', key: 'batches_or_peaks_for_realtime_volumes',lockWidth: true, label: 'Batches or Peaks for Realtime Volumes', sort: 'string', filter: 'like' },
-        { id: 'business_escalation_point_of_contact', key: 'business_escalation_point_of_contact',lockWidth: true, label: 'Business Escalation Point of Contact', sort: 'string', filter: 'like' },
-        { id: 'business_hotline', key: 'business_hotline', label: 'Business Hotline', sort: 'string',lockWidth: true, filter: 'like' },
-        { id: 'business_id', key: 'business_id', label: 'Business ID', sort: 'string',lockWidth: true, filter: 'like' },
-        { id: 'connectivity_protocol', key: 'connectivity_protocol', label: 'Connectivity Protocol',lockWidth: true, sort: 'string', filter: 'like' },
-        { id: 'contacts_checked', key: 'contacts_checked', label: 'Contacts Checked', sort: 'string',lockWidth: true, filter: 'like' },
-        { id: 'country', key: 'country', label: 'Country', sort: 'string',lockWidth: true, filter: 'like' },
-        { id: 'daily_online_volumes_expected',lockWidth: true, key: 'daily_online_volumes_expected', label: 'Daily Online Volumes Expected', sort: 'string', filter: 'like' },
-        { id: 'escalation_path_1st_level_support',lockWidth: true, key: 'escalation_path_1st_level_support', label: 'Escalation Path 1st Level Support', sort: 'string', filter: 'like' },
-        { id: 'escalation_path_2nd_level_support',lockWidth: true, key: 'escalation_path_2nd_level_support', label: 'Escalation Path 2nd Level Support', sort: 'string', filter: 'like' },
-        { id: 'first_level_escalation',lockWidth: true, key: 'first_level_escalation', label: '1st Level Escalation', sort: 'string', filter: 'like' },
-        { id: 'hotline_number',lockWidth: true, key: 'hotline_number', label: 'Hotline Number', sort: 'string', filter: 'like' },
-        { id: 'impact_to_product_processor',lockWidth: true, key: 'impact_to_product_processor', label: 'Impact to Product Processor', sort: 'string', filter: 'like' },
-        { id: 'initial_screening_response_sla',lockWidth: true, key: 'initial_screening_response_sla', label: 'Initial Screening Response SLA', sort: 'string', filter: 'like' },
-        { id: 'interface_app_id',lockWidth: true, key: 'interface_app_id', label: 'Interface App ID', sort: 'string', filter: 'like' },
-        { id: 'interface_application_name',lockWidth: true, key: 'interface_application_name', label: 'Interface Application Name', sort: 'string', filter: 'like' },
-        { id: 'interface_connectivity_doc',lockWidth: true, key: 'interface_connectivity_doc', label: 'Interface Connectivity Doc', sort: 'string', filter: 'like' },
-        { id: 'operation_entity',lockWidth: true, key: 'operation_entity', label: 'Operation Entity', sort: 'string', filter: 'like' },
-        { id: 'product_id',lockWidth: true, key: 'product_id', label: 'Product ID', sort: 'string', filter: 'like' },
-        { id: 'product_processor',lockWidth: true, key: 'product_processor', label: 'Product Processor', sort: 'string', filter: 'like' },
-        { id: 'product_processor_group_dl',lockWidth: true, key: 'product_processor_group_dl', label: 'Product Processor Group DL', sort: 'string', filter: 'like' },
-        { id: 'product_processor_screening_response_cutoff_time',lockWidth: true, key: 'product_processor_screening_response_cutoff_time', label: 'Product Processor Screening Response Cutoff Time', sort: 'string', filter: 'like' },
-        { id: 'product_processor_snow_group_name',lockWidth: true, key: 'product_processor_snow_group_name', label: 'Product Processor Snow Group Name', sort: 'string', filter: 'like' },
-        { id: 'product_processor_standard_greenzones',lockWidth: true, key: 'product_processor_standard_greenzones', label: 'Product Processor Standard Greenzones', sort: 'string', filter: 'like' },
-        { id: 'region', key: 'region', label: 'Region',lockWidth: true, sort: 'string', filter: 'like' },
-        { id: 'retry_mechanism', key: 'retry_mechanism',lockWidth: true, label: 'Retry Mechanism', sort: 'string', filter: 'like' },
-        { id: 'ruleset_mapped', key: 'ruleset_mapped',lockWidth: true, label: 'Ruleset Mapped', sort: 'string', filter: 'like' },
-        { id: 'schedule_for_realtime_volumes',lockWidth: true, key: 'schedule_for_realtime_volumes', label: 'Schedule for Realtime Volumes', sort: 'string', filter: 'like' },
-        { id: 'second_level_escalation',lockWidth: true, key: 'second_level_escalation', label: 'Second Level Escalation', sort: 'string', filter: 'like' },
-        { id: 'sector', key: 'sector',lockWidth: true, label: 'Sector', sort: 'string', filter: 'like' },
-        { id: 'source_tech_contacts',lockWidth: true, key: 'source_tech_contacts', label: 'Source Tech Contacts', sort: 'string', filter: 'like' },
-        { id: 'threshold_set_for_timeouts',lockWidth: true, key: 'threshold_set_for_timeouts', label: 'Threshold set for Timeouts', sort: 'string', filter: 'like' },
-        { id: 'tx_screening_business_unit_name',lockWidth: true, key: 'tx_screening_business_unit_name', label: 'TX Screening Business Unit Name', sort: 'string', filter: 'like' },
-        { id: 'unique_product_id',lockWidth: true, key: 'unique_product_id', label: 'Unique Product ID', sort: 'string', filter: 'like' },
-        { id: 'update_history',lockWidth: true, key: 'update_history', label: 'Update History', sort: 'string', filter: 'like' },
-        { id: 'wf_business_greenzone',lockWidth: true, key: 'wf_business_greenzone', label: 'WF Business Greenzone', sort: 'string', filter: 'like' },
-        { id: 'workflow_flag',lockWidth: true, key: 'workflow_flag', label: 'Workflow Flag', sort: 'string', filter: 'like' },
-        { id: 'workflow_instance',lockWidth: true, key: 'workflow_instance', label: 'Workflow Instance', sort: 'string', filter: 'like' },
-        { id: 'workflow_operations_contacts',lockWidth: true, key: 'workflow_operations_contacts', label: 'Workflow Operations Contacts', sort: 'string', filter: 'like' },
-        { id: 'workflow_operations_work_schedule',lockWidth: true, key: 'workflow_operations_work_schedule', label: 'Workflow Operations Work Schedule', sort: 'string', filter: 'like' }
-    ];*/
+    function convertBooleanToChar(boolean) {
+        return boolean ? 'Y' : 'N';
+    }
 }]);
