@@ -86,7 +86,6 @@ public class TransactionRecordService implements RecordService {
         txBuDetails.setThresholdSetForTimeouts(iterator.next());
         txBuDetails.setAnyBatchComponent(Boolean.parseBoolean(iterator.next()));
         txBuDetails.setWorkflowOperationsWorkSchedule(iterator.next());
-        txBuDetails.setContactsChecked(false);
         txBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
         TransactionRecord transactionRecord = new TransactionRecord();

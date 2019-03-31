@@ -126,9 +126,6 @@ public class TxBuDetails implements BuDetails {
     @Column(name="Workflow_Operations_Work_Schedule")
     private String workflowOperationsWorkSchedule;
 
-    @Column(name="Contacts_Checked")
-    private Boolean contactsChecked;
-
     @Column(name="Update_History")
     private String updateHistory;
 
@@ -452,14 +449,6 @@ public class TxBuDetails implements BuDetails {
 
     public void setWorkflowOperationsWorkSchedule(String workflowOperationsWorkSchedule) {
         this.workflowOperationsWorkSchedule = workflowOperationsWorkSchedule;
-    }
-
-    public Boolean getContactsChecked() {
-        return contactsChecked;
-    }
-
-    public void setContactsChecked(Boolean contactsChecked) {
-        this.contactsChecked = contactsChecked;
     }
 
     public String getUpdateHistory() {

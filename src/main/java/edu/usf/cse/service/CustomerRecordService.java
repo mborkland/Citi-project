@@ -75,7 +75,6 @@ public class CustomerRecordService implements RecordService {
         cxBuDetails.setImpactToBusiness(iterator.next());
         cxBuDetails.setBusinessEscalationPointOfContact(iterator.next());
         cxBuDetails.setTimezone(iterator.next());
-        cxBuDetails.setContactsChecked(false);
         cxBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
         CustomerRecord customerRecord = new CustomerRecord();
