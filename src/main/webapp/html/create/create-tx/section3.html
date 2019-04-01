@@ -1,38 +1,38 @@
-<ng-form name=""section3">
+<ng-form name="section3">
 <div class="form-row">
     <div class="col-md-6 mb-3">
-        <label for="sourceTechContacts">Source Tech Contacts</label>
+        <label for="sourceTechContacts">Source Tech Contacts*</label>
         <input type="text" class="form-control" name="sourceTechContacts" id="sourceTechContacts" ng-model="txData.fields[17]" required>
-        <p ng-show="form.sourceTechContacts.$invalid && form.sourceTechContacts.$touched">Please fill in the Source Tech Contacts</p>
+        <p ng-show="section3.sourceTechContacts.$invalid && section3.sourceTechContacts.$touched">Please fill in the Source Tech Contacts</p>
     </div>
     <div class="col-md-6 mb-4">
-        <label for="businessHotline">Business Hotline</label>
+        <label for="businessHotline">Business Hotline*</label>
         <input type="text" class="form-control" name="businessHotline" id="businessHotline" ng-model="txData.fields[18]" required>
-        <p ng-show="form.businessHotline.$invalid && form.businessHotline.$touched">Please fill in the Business Hotline</p>
+        <p ng-show="section3.businessHotline.$invalid && section3.businessHotline.$touched">Please fill in the Business Hotline</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-8 mb-4">
-        <label for="businessEscalationPointOfContact">Business Escalation Point Of Contact (Name & Number)</label>
+        <label for="businessEscalationPointOfContact">Business Escalation Point Of Contact (Name & Number)*</label>
         <input type="text" class="form-control" name="businessEscalationPointOfContact" id="businessEscalationPointOfContact" ng-model="txData.fields[19]" required>
-        <p ng-show="form.businessEscalationPointOfContact.$invalid && form.businessEscalationPointOfContact.$touched">Please fill in the Business Escalation Point of Contact</p>
+        <p ng-show="section3.businessEscalationPointOfContact.$invalid && section3.businessEscalationPointOfContact.$touched">Please fill in the Business Escalation Point of Contact</p>
     </div>
     <div class="col-md-4 mb-4">
-        <label for="impactToProductProcessor">Impact To Product Processor</label>
+        <label for="impactToProductProcessor">Impact To Product Processor*</label>
         <input type="text" class="form-control" name="impactToProductProcessor" id="impactToProductProcessor" ng-model="txData.fields[20]" required>
-        <p ng-show="form.impactToProductProcessor.$invalid && form.impactToProductProcessor.$touched">Please fill in the Impact To Product Processor</p>
+        <p ng-show="section3.impactToProductProcessor.$invalid && section3.impactToProductProcessor.$touched">Please fill in the Impact To Product Processor</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-5 mb-3">
-        <label for="productProcessor">Product Processor</label>
+        <label for="productProcessor">Product Processor*</label>
         <input type="text" class="form-control" name="productProcessor" id="productProcessor" ng-model="txData.fields[21]" required>
-        <p ng-show="form.productProcessor.$invalid && form.productProcessor.$touched">Please fill in the Product Processor</p>
+        <p ng-show="section3.productProcessor.$invalid && section3.productProcessor.$touched">Please fill in the Product Processor</p>
     </div>
     <div class="col-md-7 mb-3">
-        <label for="hotlineNumberOrPrimaryContactNumber">Hotline Number Or Primary Contact Number</label>
+        <label for="hotlineNumberOrPrimaryContactNumber">Hotline Number Or Primary Contact Number*</label>
         <input type="text" class="form-control" name="hotlineNumberOrPrimaryContactNumber" id="hotlineNumberOrPrimaryContactNumber" ng-model="txData.fields[22]" required>
-        <p ng-show="form.hotlineNumberOrPrimaryContactNumber.$invalid && form.hotlineNumberOrPrimaryContactNumber.$touched">Please fill in the Hotline Number or Primary Contact Number</p>
+        <p ng-show="section3.hotlineNumberOrPrimaryContactNumber.$invalid && section3.hotlineNumberOrPrimaryContactNumber.$touched">Please fill in the Hotline Number or Primary Contact Number</p>
     </div>
 </div>
 <div class="float-left">

@@ -1,34 +1,34 @@
 <ng-form name="section2">
 <div class="form-row">
     <div class="col-md-3 mb-4">
-        <label for="region">Region</label>
+        <label for="region">Region*</label>
         <select class="custom-select mr-sm-2" name="region" id="region" ng-model="cxData.fields[9]" required>
             <option value="APAC">APAC</option>
             <option value="EMEA">EMEA</option>
             <option value="LATAM">LATAM</option>
             <option value="NAM">NAM</option>
         </select>
-        <p ng-show="form.region.$invalid && form.region.$touched">Please fill in the Region</p>
+        <p ng-show="section2.region.$invalid && section2.region.$touched">Please fill in the Region</p>
     </div>
     <div class="col-md-3 mb-4">
-        <label for="country">Country</label>
+        <label for="country">Country*</label>
         <input type="text" class="form-control" name="country" id="country" ng-model="cxData.fields[10]" required>
-        <p ng-show="form.country.$invalid && form.country.$touched">Please fill in the Country</p>
+        <p ng-show="section2.country.$invalid && section2.country.$touched">Please fill in the Country</p>
     </div>
     <div class="col-md-3 mb-4">
-        <label for="sector">Sector</label>
+        <label for="sector">Sector*</label>
         <input type="text" class="form-control" name="sector" id="sector" ng-model="cxData.fields[11]" required>
-        <p ng-show="form.sector.$invalid && form.sector.$touched">Please fill in the Sector</p>
+        <p ng-show="section2.sector.$invalid && section2.sector.$touched">Please fill in the Sector</p>
     </div>
     <div class="col-md-3 mb-4 text-center">
-        Workflow Flag<br />
+        Workflow Flag*<br />
         <div style="padding-top: 13px;">
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="workflowFlagYes" id="workflowFlagYes" value="true" ng-model="cxData.fields[12]" checked>
+                <input class="form-check-input" type="radio" name="workflowFlagYes" id="workflowFlagYes" value="true" ng-model="cxData.fields[12]" checked ng-required="!cxData.fields[12]">
                 <label class="form-check-label" for="workflowFlagYes">Yes</label>
             </div>
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="workflowFlagNo" id="workflowFlagNo" value="false" ng-model="cxData.fields[12]">
+                <input class="form-check-input" type="radio" name="workflowFlagNo" id="workflowFlagNo" value="false" ng-model="cxData.fields[12]" ng-required="!cxData.fields[12]">
                 <label class="form-check-label" for="workflowFlagNo">No</label>
             </div>
         </div>
@@ -36,36 +36,36 @@
 </div>
 <div class="form-row">
     <div class="col-md-3 mb-3">
-        <label for="workflowInstance">Workflow Instance</label>
+        <label for="workflowInstance">Workflow Instance*</label>
         <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="cxData.fields[13]" required>
-        <p ng-show="form.workflowInstance.$invalid && form.workflowInstance.$touched">Please fill in the Workflow Instance</p>
+        <p ng-show="section2.workflowInstance.$invalid && section2.workflowInstance.$touched">Please fill in the Workflow Instance</p>
     </div>
     <div class="col-md-5 mb-3">
-        <label for="wfBusinessUnitNameDisplayValue">WF Business Unit Name Display Value</label>
+        <label for="wfBusinessUnitNameDisplayValue">WF Business Unit Name Display Value*</label>
         <input type="text" class="form-control" name="wfBusinessUnitNameDisplayValue" id="wfBusinessUnitNameDisplayValue" ng-model="cxData.fields[14]" required>
-        <p ng-show="form.wfBusinessUnitNameDisplayValue.$invalid && form.wfBusinessUnitNameDisplayValue.$touched">Please fill in the WF Business Unit Name Display Value</p>
+        <p ng-show="section2.wfBusinessUnitNameDisplayValue.$invalid && section2.wfBusinessUnitNameDisplayValue.$touched">Please fill in the WF Business Unit Name Display Value</p>
     </div>
     <div class="col-md-4 mb-3">
-        <label for="wfBusinessGreenzone">WF Business Greenzone</label>
+        <label for="wfBusinessGreenzone">WF Business Greenzone*</label>
         <input type="text" class="form-control" name="wfBusinessGreenzone" id="wfBusinessGreenzone" ng-model="cxData.fields[15]" required>
-        <p ng-show="form.wfBusinessGreenzone.$invalid && form.wfBusinessGreenzone.$touched">Please fill in the WF Business Greenzone</p>
+        <p ng-show="section2.wfBusinessGreenzone.$invalid && section2.wfBusinessGreenzone.$touched">Please fill in the WF Business Greenzone</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
-        <label for="connectivityProtocol">Connectivity Protocol</label>
+        <label for="connectivityProtocol">Connectivity Protocol*</label>
         <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="cxData.fields[16]" required>
-        <p ng-show="form.connectivityProtocol.$invalid && form.connectivityProtocol.$touched">Please fill in the Connectivity Protocol</p>
+        <p ng-show="section2.connectivityProtocol.$invalid && section2.connectivityProtocol.$touched">Please fill in the Connectivity Protocol</p>
     </div>
     <div class="col-md-4 mb-3">
-        <label for="interfaceAppId">Interface App ID</label>
+        <label for="interfaceAppId">Interface App ID*</label>
         <input type="text" class="form-control" name="interfaceAppId" id="interfaceAppId" ng-model="cxData.fields[17]" required>
-        <p ng-show="form.interfaceAppId.$invalid && form.interfaceAppId.$touched">Please fill in the Interface App ID</p>
+        <p ng-show="section2.interfaceAppId.$invalid && section2.interfaceAppId.$touched">Please fill in the Interface App ID</p>
     </div>
     <div class="col-md-4 mb-3">
-        <label for="interfaceApplicationName">Interface Application Name</label>
+        <label for="interfaceApplicationName">Interface Application Name*</label>
         <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="cxData.fields[18]" required>
-        <p ng-show="form.interfaceApplicationName.$invalid && form.interfaceApplicationName.$touched">Please fill in the Interface Application Name</p>
+        <p ng-show="section2.interfaceApplicationName.$invalid && section2.interfaceApplicationName.$touched">Please fill in the Interface Application Name</p>
     </div>
 </div>
 <div class="float-left">
