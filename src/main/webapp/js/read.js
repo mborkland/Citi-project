@@ -65,7 +65,7 @@ function ($rootScope, $scope, $http, uiGridConstants) {
             {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false}
         ],
         onRegisterApi: function (gridApi) {
-            this.grid1Api = gridApi;
+            $scope.grid1Api = gridApi;
         },
         data: $scope.rowData
     };
@@ -126,11 +126,25 @@ function ($rootScope, $scope, $http, uiGridConstants) {
             {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false}
         ],
         onRegisterApi: function (gridApi) {
-            this.grid1Api = gridApi;
+            $scope.grid2Api = gridApi;
         },
         data: $scope.rowData
     };
 
+    $scope.export = function() {
+        $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.exporter.csvExport('selected', 'all') : $scope.grid2Api.exporter.csvExport('selected', 'all');
+    }
+
+    /*$scope.areRowsSelected = false;
+    $scope.$watch('grid1Api.selection.rowSelectionChanged', function(newValue, oldValue) {
+        $scope.areRowsSelected = $scope.grid1Api.selection.selectedCount() > 0;
+    });*/
+
+    /*angular.element(function () {
+        $scope.areRowsSelected = function() {
+            $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.selection.getSelectedCount() : $scope.grid2Api.selection.getSelectedCount();
+        }
+    });*/
 
     $scope.search = function () {
         var url = '/read?recordType=';
