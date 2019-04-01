@@ -133,18 +133,11 @@ function ($rootScope, $scope, $http, uiGridConstants) {
 
     $scope.export = function() {
         $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.exporter.csvExport('selected', 'all') : $scope.grid2Api.exporter.csvExport('selected', 'all');
-    }
+    };
 
-    /*$scope.areRowsSelected = false;
-    $scope.$watch('grid1Api.selection.rowSelectionChanged', function(newValue, oldValue) {
-        $scope.areRowsSelected = $scope.grid1Api.selection.selectedCount() > 0;
-    });*/
-
-    /*angular.element(function () {
-        $scope.areRowsSelected = function() {
-            $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.selection.getSelectedCount() : $scope.grid2Api.selection.getSelectedCount();
-        }
-    });*/
+    $scope.areRowsSelected = function() {
+        return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
+    };
 
     $scope.search = function () {
         var url = '/read?recordType=';
