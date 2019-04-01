@@ -25,4 +25,6 @@ public interface RecordService {
     String clearDeletedRecords();
 
     String restoreDeletedRecord(Integer id, String requestor);
+
+    List<BuDetails> findDuplicateRecords(BuDetails detailsToMatch);
 }

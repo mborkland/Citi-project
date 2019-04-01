@@ -77,6 +77,9 @@ public class CustomerRecordService implements RecordService {
         cxBuDetails.setTimezone(iterator.next());
         cxBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
+        if(findDuplicateRecords((BuDetails) cxBuDetails).size() > 0)
+            return "Duplicate customer records found";
+
         CustomerRecord customerRecord = new CustomerRecord();
         customerRecord.setBuDetails(cxBuDetails);
         customerRecordRepository.save(customerRecord);
@@ -178,5 +181,81 @@ public class CustomerRecordService implements RecordService {
         customerRecordRepository.save(customerRecord);
         deletedCustomerRecordRepository.delete(id);
         return "Deleted record restored successfully";
+    }
+
+    @Override
+    public List<BuDetails> findDuplicateRecords(BuDetails detailsToMatch)
+    {
+        List<BuDetails> duplicateRecords = new ArrayList<BuDetails>();
+        Iterable<CustomerRecord> allRecords = customerRecordRepository.findAll();
+        CxBuDetails recordToMatch = (CxBuDetails) detailsToMatch;
+
+        for(CustomerRecord cRecord : allRecords) {
+            int count = 0;
+
+            CxBuDetails record = (CxBuDetails) cRecord.getBuDetails();
+
+            if(record.getCsiId().equalsIgnoreCase(recordToMatch.getCsiId()))
+                count++;
+            if(record.getCsInstance().equalsIgnoreCase(recordToMatch.getCsInstance()))
+                count++;
+            if(record.getBusinessId().equalsIgnoreCase(recordToMatch.getBusinessId()))
+                count++;
+            if(record.getBizUnitId().equalsIgnoreCase(recordToMatch.getBizUnitId()))
+                count++;
+            if(record.getProductId().equalsIgnoreCase(recordToMatch.getProductId()))
+                count++;
+            if(record.getBizProdId().equalsIgnoreCase(recordToMatch.getBizProdId()))
+                count++;
+            if(record.getCxScreeningBusinessUnitName().equalsIgnoreCase(recordToMatch.getCxScreeningBusinessUnitName()))
+                count++;
+            if(record.getCxBusinessGreenzone().equalsIgnoreCase(recordToMatch.getCxBusinessGreenzone()))
+                count++;
+            if(record.getRulesetMapped().equalsIgnoreCase(recordToMatch.getRulesetMapped()))
+                count++;
+            if(record.getRegion().equalsIgnoreCase(recordToMatch.getRegion()))
+                count++;
+            if(record.getCountry().equalsIgnoreCase(recordToMatch.getCountry()))
+                count++;
+            if(record.getSector().equalsIgnoreCase(recordToMatch.getSector()))
+                count++;
+            if(record.getWorkflowFlag() == recordToMatch.getWorkflowFlag())
+                count++;
+            if(record.getWorkflowInstance().equalsIgnoreCase(recordToMatch.getWorkflowInstance()))
+                count++;
+            if(record.getWfBusinessUnitNameDisplayValue().equalsIgnoreCase(recordToMatch.getWfBusinessUnitNameDisplayValue()))
+                count++;
+            if(record.getWfBusinessGreenzone().equalsIgnoreCase(recordToMatch.getWfBusinessGreenzone()))
+                count++;
+            if(record.getConnectivityProtocol().equalsIgnoreCase(recordToMatch.getConnectivityProtocol()))
+                count++;
+            if(record.getInterfaceAppId().equalsIgnoreCase(recordToMatch.getInterfaceAppId()))
+                count++;
+            if(record.getInterfaceApplicationName().equalsIgnoreCase(recordToMatch.getInterfaceApplicationName()))
+                count++;
+            if(record.getOperationEntity().equalsIgnoreCase(recordToMatch.getOperationEntity()))
+                count++;
+            if(record.getOpsComplianceContacts().equalsIgnoreCase(recordToMatch.getOpsComplianceContacts()))
+                count++;
+            if(record.getCwVersion().equalsIgnoreCase(recordToMatch.getCwVersion()))
+                count++;
+            if(record.getGomCompliant() == recordToMatch.getGomCompliant())
+                count++;
+            if(record.getCwUatContactName().equalsIgnoreCase(recordToMatch.getCwUatContactName()))
+                count++;
+            if(record.getSourceTechContact().equalsIgnoreCase(recordToMatch.getSourceTechContact()))
+                count++;
+            if(record.getImpactToBusiness().equalsIgnoreCase(recordToMatch.getImpactToBusiness()))
+                count++;
+            if(record.getBusinessEscalationPointOfContact().equalsIgnoreCase(recordToMatch.getBusinessEscalationPointOfContact()))
+                count++;
+            if(record.getTimezone().equalsIgnoreCase(recordToMatch.getTimezone()))
+                count++;
+
+            if(count >= 14)
+                duplicateRecords.add(record);
+        }
+
+        return duplicateRecords;
     }
 }
