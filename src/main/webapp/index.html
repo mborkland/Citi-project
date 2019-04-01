@@ -40,14 +40,8 @@
                     <li class="nav-item" ng-if="isAdmin()">
                         <a class="nav-link" ui-sref="read">SEARCH</a>
                     </li>
-                    <li class="nav-item dropdown" ng-if="isAdmin()">
-                        <a class="nav-link dropdown-toggle" href="#" roles="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            MANAGE
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" ng-if="!isAdmin()">
-                            <a class="dropdown-item" href="#">Manage Records</a>
-                            <a class="dropdown-item" href="#">View Deleted Records</a>
-                        </div>
+                    <li class="nav-item" ng-if="isAdmin()">
+                        <a class="nav-link" ui-sref="archive">ARCHIVE</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
