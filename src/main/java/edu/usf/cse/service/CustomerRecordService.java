@@ -75,7 +75,6 @@ public class CustomerRecordService implements RecordService {
         cxBuDetails.setImpactToBusiness(iterator.next());
         cxBuDetails.setBusinessEscalationPointOfContact(iterator.next());
         cxBuDetails.setTimezone(iterator.next());
-        cxBuDetails.setContactsChecked(false);
         cxBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
         CustomerRecord customerRecord = new CustomerRecord();
@@ -108,8 +107,11 @@ public class CustomerRecordService implements RecordService {
         orPredicate = builder.or(predicates.toArray(new Predicate[predicates.size()]));
         criteriaQuery.where(orPredicate);
         Query query = entityManager.createQuery(criteriaQuery);
-        System.out.println(query.getResultList().size());
         return query.getResultList();
+    }
+
+    public List<Record> getRandomRecords(int numRandomRecords)  {
+        return customerRecordRepository.getRandomRecords(numRandomRecords);
     }
 
     @Override

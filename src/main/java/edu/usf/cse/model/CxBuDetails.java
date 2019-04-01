@@ -90,9 +90,6 @@ public class CxBuDetails implements BuDetails {
     @Column(name="Timezone")
     private String timezone;
 
-    @Column(name="Contacts_Checked")
-    private Boolean contactsChecked;
-
     @Column(name="Update_History")
     private String updateHistory;
 
@@ -320,14 +317,6 @@ public class CxBuDetails implements BuDetails {
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
-    }
-
-    public Boolean getContactsChecked() {
-        return contactsChecked;
-    }
-
-    public void setContactsChecked(Boolean contactsChecked) {
-        this.contactsChecked = contactsChecked;
     }
 
     public String getUpdateHistory() {
