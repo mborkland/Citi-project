@@ -1,5 +1,8 @@
-app.controller('ReadController', ['$scope', '$http', 'uiGridConstants',
-function ($scope, $http, uiGridConstants) {
+app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants',
+function ($rootScope, $scope, $http, uiGridConstants) {
+    $scope.isUser = $rootScope.isUser;
+    $scope.isAdmin = $rootScope.isAdmin;
+
     var xsw = 90;
     var xxsw = xsw / 2;
     var sw = 2 * xsw;

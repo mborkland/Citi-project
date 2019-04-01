@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 var app = angular.module('app', ['ui.router', 'ngAnimate', 'ngTouch', 'ngCookies', 'ui.grid', 'ui.grid.resizeColumns',
-    'ui.grid.pagination', 'ui.grid.selection']);
+    'ui.grid.pagination', 'ui.grid.selection', 'ui.grid.exporter']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -81,15 +81,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         });
 }]);
 
-app.controller('AppController', ['$scope', '$cookies', '$http', '$state',
-function ($scope, $cookies, $http, $state) {
-    $scope.isUser = function() {
-        return $cookies.get('isUser') === 'true';
-    }
-
-    $scope.isAdmin = function() {
-        return $cookies.get('isAdmin') === 'true';
-    }
+app.controller('AppController', ['$rootScope', '$scope', '$cookies', '$http', '$state',
+function ($rootScope, $scope, $cookies, $http, $state) {
+    $scope.isUser = $rootScope.isUser;
+    $scope.isAdmin = $rootScope.isAdmin;
 
     $scope.logout = function() {
         $http.defaults.headers.common.Authorization = '';
@@ -101,7 +96,15 @@ function ($scope, $cookies, $http, $state) {
     }
 }]);
 
-app.run(['$state', '$cookies', '$http', function ($state, $cookies, $http) {
+app.run(['$rootScope', '$state', '$cookies', '$http', function ($rootScope, $state, $cookies, $http) {
+    $rootScope.isUser = function() {
+        return $cookies.get('isUser') === 'true';
+    }
+
+    $rootScope.isAdmin = function() {
+        return $cookies.get('isAdmin') === 'true';
+    }
+
     if ($cookies.get('token')) {
         $http.defaults.headers.common.Authorization = 'Bearer ' + $cookies.get('token');
         $state.go('read');

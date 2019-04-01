@@ -16,17 +16,19 @@
     <div class="col-md-2 pb-2 text-center">
         <button class="btn btn-md btn-primary" ng-disabled="!rowsSelected.length">Export</button>
     </div>
-    <div class="col-md-2 pb-2 text-center">
+    <div class="col-md-2 pb-2 text-center" ng-if="isAdmin()">
         <button class="btn btn-md btn-primary" ng-disabled="!rowsSelected.length">Update</button>
     </div>
-    <div class="col-md-2 pb-2 text-center">
+    <div class="col-md-2 pb-2 text-center" ng-if="isAdmin()">
         <button class="btn btn-md btn-primary" ng-disabled="!rowsSelected.length">Delete</button>
     </div>
 </div>
 
 
 
-<div id="grid1" class="grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ng-if="recordType === 'CUSTOMER'"></div>
-<div id="grid2" class="grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ui-grid-selection ng-if="recordType === 'TRANSACTION'"></div>
+<div id="grid1" class="grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+     ui-grid-exporter ng-if="recordType === 'CUSTOMER'"></div>
+<div id="grid2" class="grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+     ui-grid-exporter ng-if="recordType === 'TRANSACTION'"></div>
 
 <div class="row my-4"></div>
