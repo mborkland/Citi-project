@@ -2,7 +2,6 @@ package edu.usf.cse.service;
 
 import edu.usf.cse.model.BuDetails;
 import edu.usf.cse.model.Record;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -26,5 +25,5 @@ public interface RecordService {
 
     String restoreDeletedRecord(Integer id, String requestor);
 
-    List<BuDetails> findDuplicateRecords(BuDetails detailsToMatch);
+    List<Record> findDuplicateRecords(BuDetails detailsToMatch);
 }
