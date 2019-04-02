@@ -132,6 +132,8 @@ function ($rootScope, $scope, $http, uiGridConstants) {
     };
 
     $scope.export = function() {
+        console.log($scope.rowsSelected);
+        console.log($scope.grid1Api);
         $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.exporter.csvExport('selected', 'all') : $scope.grid2Api.exporter.csvExport('selected', 'all');
     };
 
@@ -153,14 +155,32 @@ function ($rootScope, $scope, $http, uiGridConstants) {
         }
     };
 
+    $scope.getSelectedRowData = function () {
+        var grid1 = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.rows : $scope.grid2Api.grid.rows;
+        var selected = [];
+        for (var i = 0; i < grid1.length; i++) {
+            if (grid1[i].isSelected === true) {
+                selected.push(grid1[i].entity);
+            }
+        }
+        return selected;
+    };
+
     $scope.delete = function () {
-        var url1 = '/delete?id=';
         var url2 = '&recordType=';
         var url3 = '&requestor=';
-        if ($scope.areRowsSelected()) {
-            var grid = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.rowsSelected : $scope.grid2Api.rowsSelected;
-            $http.delete(url1 + grid[0].)
+        var deletes = $scope.getSelectedRowData();
+        console.log(deletes);
+        var url1 = '/delete?';
+        for (var i = 0; i < deletes.length; i++) {
+            url1 = url1 + '&ids=' + deletes[i].id;
         }
+        $http.delete(url1 + url2 + $scope.recordType + url3 + "Admin").then (function (response) {
+            console.log(response);
+            handleResponse(response, false);
+        }, function (error) {
+            console.log(error);
+        })
     };
 
     function handleResponse(response, isRandom) {
