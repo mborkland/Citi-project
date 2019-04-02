@@ -33,8 +33,8 @@ public class MainController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/read")
-    public ResponseEntity<List<Record>> read(@RequestParam RecordType recordType, String searchTerms) {
-        return new ResponseEntity<List<Record>>(getRecordService(recordType).getRecords(searchTerms), HttpStatus.OK);
+    public ResponseEntity<List<Record>> read(@RequestParam RecordType recordType, String searchTerms, boolean exactMatch) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getRecords(searchTerms, exactMatch), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
@@ -61,6 +61,12 @@ public class MainController {
         }
 
         return new ResponseEntity<String>("{\"result\":\"Record(s) deleted and archived successfully.\"}", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/archive", method = RequestMethod.GET)
+    public ResponseEntity<List<Record>> getArchive(@RequestParam RecordType recordType) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getArchive(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

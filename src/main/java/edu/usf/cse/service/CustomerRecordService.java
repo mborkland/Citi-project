@@ -94,23 +94,35 @@ public class CustomerRecordService implements RecordService {
     }
     
     @Override
-    public List<Record> getRecords(String searchTerms) {
+    public List<Record> getRecords(String searchTerms, boolean exactMatch) {
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<CustomerRecord> criteriaQuery = builder.createQuery(CustomerRecord.class);
         Root<CustomerRecord> root = criteriaQuery.from(CustomerRecord.class);
 
-        List<Predicate> predicates = new ArrayList<>();
-        for (String searchableField : searchableFields) {
+        if (exactMatch) {
+            List<Predicate> outerPredicates = new ArrayList<>();
             for (String searchTerm : searchTermsSplit) {
-                predicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                List<Predicate> innerPredicates = new ArrayList<>();
+                for (String searchableField : searchableFields) {
+                    innerPredicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                }
 
+                outerPredicates.add(builder.or(innerPredicates.toArray(new Predicate[innerPredicates.size()])));
             }
+
+            criteriaQuery.where(builder.and(outerPredicates.toArray(new Predicate[outerPredicates.size()])));
+        } else {
+            List<Predicate> predicates = new ArrayList<>();
+            for (String searchTerm : searchTermsSplit) {
+                for (String searchableField : searchableFields) {
+                    predicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                }
+            }
+
+            criteriaQuery.where(builder.or(predicates.toArray(new Predicate[predicates.size()])));
         }
 
-        Predicate orPredicate = builder.disjunction();
-        orPredicate = builder.or(predicates.toArray(new Predicate[predicates.size()]));
-        criteriaQuery.where(orPredicate);
         Query query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }
@@ -148,6 +160,15 @@ public class CustomerRecordService implements RecordService {
     public String deleteRecord(Integer id) {
         customerRecordRepository.delete(id);
         return "Customer record deleted successfully";
+    }
+
+    @Override
+    public List<Record> getArchive() {
+        List<Record> records = new ArrayList<>();
+        for (Record record : deletedCustomerRecordRepository.findAll()) {
+            records.add(record);
+        }
+        return records;
     }
 
     @Override

@@ -11,13 +11,15 @@ public interface RecordService {
 
     Record getRecordById(Integer id);
 
-    List<Record> getRecords(String searchTerms);
+    List<Record> getRecords(String searchTerms, boolean exactMatch);
 
     List<Record> getRandomRecords(int numRandomRecords);
 
     String updateRecord(Integer id, String field, String newValue, String requestor);
 
     String deleteRecord(Integer id);
+
+    List<Record> getArchive();
 
     String saveDeletedRecord(BuDetails buDetails, String requestor);
 
