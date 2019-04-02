@@ -1,5 +1,5 @@
-app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants',
-function ($rootScope, $scope, $http, uiGridConstants) {
+app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$bootstrap4Modal',
+function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
 
@@ -62,7 +62,8 @@ function ($rootScope, $scope, $http, uiGridConstants) {
             {field: 'impactToBusiness', displayName: 'Impact To Business', width: mw, enableHiding: false},
             {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
             {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
-            {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false}
+            {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false,
+                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
         ],
         onRegisterApi: function (gridApi) {
             $scope.grid1Api = gridApi;
@@ -139,6 +140,23 @@ function ($rootScope, $scope, $http, uiGridConstants) {
 
     $scope.areRowsSelected = function() {
         return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
+    };
+
+    $scope.showUpdateHistoryModal = function(id) {
+        $bootstrap4Modal.show('html/update-history-modal.html', 'ModalController', {
+            dataFromParent: $scope.getUpdateHistory(id),
+        }).then(function(response) {
+            console.log(response);
+        });
+    }
+
+    $scope.getUpdateHistory = function(id) {
+        angular.forEach($scope.rowData, function(value, key) {
+            if (value.id === id) {
+                console.log(value.updateHistory);
+                return value.updateHistory;
+            }
+        });
     };
 
     $scope.search = function () {
