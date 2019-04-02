@@ -153,6 +153,16 @@ function ($rootScope, $scope, $http, uiGridConstants) {
         }
     };
 
+    $scope.delete = function () {
+        var url1 = '/delete?id=';
+        var url2 = '&recordType=';
+        var url3 = '&requestor=';
+        if ($scope.areRowsSelected()) {
+            var grid = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.rowsSelected : $scope.grid2Api.rowsSelected;
+            $http.delete(url1 + grid[0].)
+        }
+    };
+
     function handleResponse(response, isRandom) {
         $scope.rowData.length = 0;
         angular.forEach(response.data, function (value, key) {
