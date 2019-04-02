@@ -148,7 +148,18 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
         }).then(function(response) {
             console.log(response);
         });
-    }
+    };
+
+    $scope.showDeleteModal = function() {
+        console.log($scope.getSelectedRowData());
+        $bootstrap4Modal.show('html/delete-confirmation-modal.html', 'ModalController', {
+            dataFromParent: $scope.getSelectedRowData(),
+            recordTypeDelete: $scope.recordType,
+        }).then(function(response) {
+            populateWithRandomRows(numRandomRows);
+            console.log(response);
+        })
+    };
 
     $scope.getUpdateHistory = function(id) {
         angular.forEach($scope.rowData, function(value, key) {
@@ -184,7 +195,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
         return selected;
     };
 
-    $scope.delete = function () {
+    $scope.delete = function (SOEID) {
         var url2 = '&recordType=';
         var url3 = '&requestor=';
         var deletes = $scope.getSelectedRowData();
@@ -193,7 +204,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
         for (var i = 0; i < deletes.length; i++) {
             url1 = url1 + '&ids=' + deletes[i].id;
         }
-        $http.delete(url1 + url2 + $scope.recordType + url3 + "Admin").then (function (response) {
+        $http.delete(url1 + url2 + $scope.recordType + url3 + SOEID).then (function (response) {
             console.log(response);
             handleResponse(response, false);
         }, function (error) {
@@ -310,4 +321,5 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
     function convertBooleanToChar(boolean) {
         return boolean ? 'Y' : 'N';
     }
+
 }]);
