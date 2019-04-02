@@ -103,23 +103,35 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public List<Record> getRecords(String searchTerms) {
+    public List<Record> getRecords(String searchTerms, boolean exactMatch) {
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<TransactionRecord> criteriaQuery = builder.createQuery(TransactionRecord.class);
         Root<TransactionRecord> root = criteriaQuery.from(TransactionRecord.class);
 
-        List<Predicate> predicates = new ArrayList<>();
-        for (String searchableField : searchableFields) {
+        if (exactMatch) {
+            List<Predicate> outerPredicates = new ArrayList<>();
             for (String searchTerm : searchTermsSplit) {
-                predicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                List<Predicate> innerPredicates = new ArrayList<>();
+                for (String searchableField : searchableFields) {
+                    innerPredicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                }
 
+                outerPredicates.add(builder.or(innerPredicates.toArray(new Predicate[innerPredicates.size()])));
             }
+
+            criteriaQuery.where(builder.and(outerPredicates.toArray(new Predicate[outerPredicates.size()])));
+        } else {
+            List<Predicate> predicates = new ArrayList<>();
+            for (String searchTerm : searchTermsSplit) {
+                for (String searchableField : searchableFields) {
+                    predicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                }
+            }
+
+            criteriaQuery.where(builder.or(predicates.toArray(new Predicate[predicates.size()])));
         }
 
-        Predicate orPredicate = builder.disjunction();
-        orPredicate = builder.or(predicates.toArray(new Predicate[predicates.size()]));
-        criteriaQuery.where(orPredicate);
         Query query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }

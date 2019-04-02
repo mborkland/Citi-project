@@ -13,14 +13,19 @@
             <button type="submit">Submit</button>
         </form>
     </div>
-    <div class="col-md-2 pb-2 text-center">
+    <div class="col-md-3 mt-1 text-center">
+        <div class="form-check">
+            <div class="form-check"><label class="form-check-label form-check-toggle"><input class="form-check-input" type="checkbox" ng-model="exactMatch" /><span>Exact Match</span></label></div>
+        </div>
+    </div>
+    <div class="col-md-1 pb-2 text-center">
         <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()"
                 ng-click="export()">Export</button>
     </div>
-    <div class="col-md-2 pb-2 text-center" ng-if="isAdmin()">
+    <div class="col-md-1 pb-2 text-center" ng-if="isAdmin()">
         <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()">Update</button>
     </div>
-    <div class="col-md-2 pb-2 text-center" ng-if="isAdmin()">
+    <div class="col-md-1 pb-2 text-center" ng-if="isAdmin()">
         <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()">Delete</button>
     </div>
 </div>

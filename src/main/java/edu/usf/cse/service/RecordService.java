@@ -11,7 +11,7 @@ public interface RecordService {
 
     Record getRecordById(Integer id);
 
-    List<Record> getRecords(String searchTerms);
+    List<Record> getRecords(String searchTerms, boolean exactMatch);
 
     List<Record> getRandomRecords(int numRandomRecords);
 

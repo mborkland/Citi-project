@@ -124,7 +124,8 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
             {field: 'thresholdSetForTimeouts', displayName: 'Threshold Set for Timeouts', width: mw, enableHiding: false},
             {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mw, enableHiding: false},
             {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
-            {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false}
+            {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false,
+                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
         ],
         onRegisterApi: function (gridApi) {
             $scope.grid2Api = gridApi;
@@ -152,7 +153,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
     }
 
     $scope.showUpdateHistoryModal = function(id) {
-        console.log(getUpdateHistory(id));
         $bootstrap4Modal.show('html/update-history-modal.html', 'ModalController', {
             dataFromParent: getUpdateHistory(id),
         }).then(function(response) {
@@ -160,10 +160,12 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
         });
     }
 
+    $scope.exactMatch = false;
+
     $scope.search = function () {
         var url = '/read?recordType=';
         if ($scope.searchTerms) {
-            $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms).then(function (response) {
+            $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch).then(function (response) {
                 console.log(response);
                 handleResponse(response, false);
             }, function (error) {
