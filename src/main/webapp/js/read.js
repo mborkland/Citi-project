@@ -140,22 +140,25 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
         return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
     };
 
+    function getUpdateHistory(id) {
+        var updateHistory = null;
+        angular.forEach($scope.rowData, function(value, key) {
+            if (value.id === id) {
+                updateHistory = value.updateHistory;
+            }
+        });
+
+        return updateHistory;
+    }
+
     $scope.showUpdateHistoryModal = function(id) {
+        console.log(getUpdateHistory(id));
         $bootstrap4Modal.show('html/update-history-modal.html', 'ModalController', {
-            dataFromParent: $scope.getUpdateHistory(id),
+            dataFromParent: getUpdateHistory(id),
         }).then(function(response) {
             console.log(response);
         });
     }
-
-    $scope.getUpdateHistory = function(id) {
-        angular.forEach($scope.rowData, function(value, key) {
-            if (value.id === id) {
-                console.log(value.updateHistory);
-                return value.updateHistory;
-            }
-        });
-    };
 
     $scope.search = function () {
         var url = '/read?recordType=';
