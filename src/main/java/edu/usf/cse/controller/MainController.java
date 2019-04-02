@@ -64,6 +64,12 @@ public class MainController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/archive", method = RequestMethod.GET)
+    public ResponseEntity<List<Record>> getArchive(@RequestParam RecordType recordType) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getArchive(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/clear", method = RequestMethod.DELETE)
     public String clear(@RequestParam RecordType recordType) {
         return getRecordService(recordType).clearDeletedRecords();

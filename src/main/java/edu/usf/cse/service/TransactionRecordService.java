@@ -172,6 +172,15 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
+    public List<Record> getArchive() {
+        List<Record> records = new ArrayList<>();
+        for (Record record : deletedTransactionRecordRepository.findAll()) {
+            records.add(record);
+        }
+        return records;
+    }
+
+    @Override
     public String saveDeletedRecord(BuDetails buDetails, String requestor) {
         DeletedTransactionRecord deletedTransactionRecord = new DeletedTransactionRecord();
         deletedTransactionRecord.setBuDetails((TxBuDetails) buDetails);

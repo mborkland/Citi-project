@@ -19,6 +19,8 @@ public interface RecordService {
 
     String deleteRecord(Integer id);
 
+    List<Record> getArchive();
+
     String saveDeletedRecord(BuDetails buDetails, String requestor);
 
     String clearDeletedRecords();

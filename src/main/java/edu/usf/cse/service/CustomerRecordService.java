@@ -163,6 +163,15 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
+    public List<Record> getArchive() {
+        List<Record> records = new ArrayList<>();
+        for (Record record : deletedCustomerRecordRepository.findAll()) {
+            records.add(record);
+        }
+        return records;
+    }
+
+    @Override
     public String saveDeletedRecord(BuDetails buDetails, String requestor) {
         DeletedCustomerRecord deletedCustomerRecord = new DeletedCustomerRecord();
         deletedCustomerRecord.setBuDetails((CxBuDetails) buDetails);
