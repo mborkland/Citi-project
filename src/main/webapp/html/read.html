@@ -1,40 +1,81 @@
 <h3 class="text-center font-weight-bold" style="padding-bottom: 30px">Search Records</h3>
 
-<div class="row">
-    <div class="col-md-2 mt-2 text-center">
-        <select class="bootstrap-select" name="recordType" ng-model="recordType">
-            <option value="CUSTOMER">Customer Screening</option>
-            <option value="TRANSACTION">Transaction Screening</option>
-        </select>
-    </div>
-    <div class="col-md-4 mt-1 text-center">
-        <form name="form" class="form-signin" ng-submit="search()" roles="form">
-            <input type="text" name="searchTerms" ng-model="searchTerms" placeholder="Enter search terms">
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-    <div class="col-md-3 mt-1 text-center">
-        <div class="form-check">
-            <div class="form-check"><label class="form-check-label form-check-toggle"><input class="form-check-input" type="checkbox" ng-model="exactMatch" /><span>Exact Match</span></label></div>
+<div class="container pt-2" style="background-color:#F3F3F3">
+    <div class="row pl-3">
+        <div class="col- mt-2 text-center">
+            <select class="bootstrap-select" name="recordType" ng-model="recordType">
+                <option value="CUSTOMER">Customer Screening</option>
+                <option value="TRANSACTION">Transaction Screening</option>
+            </select>
+        </div>
+        <div class="col-md mt-1 text-center">
+            <form name="form" class="form-signin" ng-submit="search()" roles="form">
+                <input type="text" name="searchTerms" ng-model="searchTerms" placeholder="Enter search terms">
+                <button class="col-" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="col-sm mt-1 text-center">
+            <div class="form-check">
+                <div class="form-check">
+                    <label class="form-check-label form-check-toggle">
+                        <input class="form-check-input" type="checkbox" ng-model="exactMatch" />
+                        <span>Exact Match</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 pb-2 text-center">
+            <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()"
+                    ng-click="export()">Export</button>
+        </div>
+        <div class="col-md-1 pb-2 text-center" ng-if="isAdmin()">
+            <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()">Update</button>
+        </div>
+        <div class="col-md-2 pb-2 text-center" ng-if="isAdmin()">
+            <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="showDeleteModal()">Delete</button>
         </div>
     </div>
-    <div class="col-md-1 pb-2 text-center">
-        <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()"
-                ng-click="export()">Export</button>
-    </div>
-    <div class="col-md-1 pb-2 text-center" ng-if="isAdmin()">
-        <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()">Update</button>
-    </div>
-    <div class="col-md-2 pb-2 text-center" ng-if="isAdmin()">
-        <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="showDeleteModal()">Delete</button>
-    </div>
+
+
+
+    <div id="grid1" class="grid" ui-grid-auto-resize ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+         ui-grid-exporter ng-if="recordType === 'CUSTOMER'"></div>
+    <div id="grid2" class="grid" ui-grid-auto-resize ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+         ui-grid-exporter ng-if="recordType === 'TRANSACTION'"></div>
+
+    <p ng-if="recordType === 'CUSTOMER'" class="my-1">Current page: {{ grid1Api.pagination.getPage() }} of {{ grid1Api.pagination.getTotalPages() }}</p>
+    <p ng-if="recordType === 'TRANSACTION'" class="my-1">Current page: {{ grid2Api.pagination.getPage() }} of {{ grid2Api.pagination.getTotalPages() }}</p>
+
+    <!--SEPARATE BUTTONS FOR EACH TABLE-->
+    <!--<button ng-if="recordType === 'CUSTOMER'" class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.previousPage()">
+        previous page
+    </button>
+    <button ng-if="recordType === 'CUSTOMER'" class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.nextPage()">
+        next page
+    </button>
+    <button ng-if="recordType === 'CUSTOMER'" class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.seek(1)">
+        Go to Page 1
+    </button>
+
+    <button ng-if="recordType === 'TRANSACTION'" class="btn btn-med btn-primary my-1" ng-click="grid2Api.pagination.previousPage()">
+        previous page
+    </button>
+    <button ng-if="recordType === 'TRANSACTION'" class="btn btn-med btn-primary my-1" ng-click="grid2Api.pagination.nextPage()">
+        next page
+    </button>
+    <button ng-if="recordType === 'TRANSACTION'" class="btn btn-med btn-primary my-1" ng-click="grid2Api.pagination.seek(1)">
+        Go to Page 1
+    </button>-->
+
+    <!--SAME BUTTONS FOR BOTH TABLES-->
+    <button class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.previousPage(); grid2Api.pagination.previousPage()">
+        previous page
+    </button>
+    <button class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.nextPage(); grid2Api.pagination.nextPage()">
+        next page
+    </button>
+    <button class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.seek(1); grid2Api.pagination.seek(1)">
+        Go to Page 1
+    </button>
 </div>
-
-
-
-<div id="grid1" class="grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
-     ui-grid-exporter ng-if="recordType === 'CUSTOMER'"></div>
-<div id="grid2" class="grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
-     ui-grid-exporter ng-if="recordType === 'TRANSACTION'"></div>
-
-<div class="row my-4"></div>
+<!--<div class="row my-4"></div>-->

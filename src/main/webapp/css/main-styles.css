@@ -48,3 +48,6 @@ body {
 .ui-grid-cell.ui-grid-disable-selection.ui-grid-row-header-cell {
     pointer-events: auto;
 }
+.ui-grid, .ui-grid-viewport {
+    height: auto !important;
+}
