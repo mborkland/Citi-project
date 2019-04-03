@@ -23,7 +23,7 @@
                 ng-click="export()">Export</button>
     </div>
     <div class="col-md-1 pb-2 text-center" ng-if="isAdmin()">
-        <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()">Update</button>
+        <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="showUpdateWindow()">Update</button>
     </div>
     <div class="col-md-2 pb-2 text-center" ng-if="isAdmin()">
         <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="showDeleteModal()">Delete</button>
@@ -32,9 +32,9 @@
 
 
 
-<div id="grid1" class="grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+<div id="grid1" class="grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-selection
      ui-grid-exporter ng-if="recordType === 'CUSTOMER'"></div>
-<div id="grid2" class="grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
+<div id="grid2" class="grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-selection
      ui-grid-exporter ng-if="recordType === 'TRANSACTION'"></div>
 
 <div class="row my-4"></div>
