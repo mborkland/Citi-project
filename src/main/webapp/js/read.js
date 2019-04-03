@@ -1,5 +1,5 @@
-app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$bootstrap4Modal',
-function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
+app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$uibModal',
+function ($rootScope, $scope, $http, uiGridConstants, $uibModal) {
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
 
@@ -155,22 +155,42 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
     }
 
     $scope.showUpdateHistoryModal = function(id) {
-        $bootstrap4Modal.show('html/update-history-modal.html', 'ModalController', {
-            dataFromParent: getUpdateHistory(id),
-        }).then(function(response) {
-            console.log(response);
+        var updateHistory = getUpdateHistory(id);
+        var updateHistoryModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/update-history-modal.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    updateHistoryData: updateHistory
+                }
+            }
         });
     };
 
     $scope.showDeleteModal = function() {
-        console.log($scope.getSelectedRowData());
-        $bootstrap4Modal.show('html/delete-confirmation-modal.html', 'ModalController', {
-            dataFromParent: $scope.getSelectedRowData(),
-            recordTypeDelete: $scope.recordType,
-        }).then(function(response) {
-            populateWithRandomRows(numRandomRows);
-            console.log(response);
-        })
+        var selectedRowData = getSelectedRowData();
+        var deleteModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/delete-confirmation-modal.html',
+            controller: 'ModalController',
+            size: 'lg',
+            resolve: {
+                modalData: {
+                    deleteData: selectedRowData,
+                    recordType: $scope.recordType
+                }
+            }
+        });
+
+        deleteModalInstance.result.then(function() {
+           populateWithRandomRows(numRandomRows);
+        });
     };
 
     $scope.exactMatch = false;
@@ -189,7 +209,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $bootstrap4Modal) {
         }
     };
 
-    $scope.getSelectedRowData = function () {
+    function getSelectedRowData() {
         var grid1 = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.rows : $scope.grid2Api.grid.rows;
         var selected = [];
         for (var i = 0; i < grid1.length; i++) {
