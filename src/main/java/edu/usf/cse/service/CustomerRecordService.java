@@ -111,7 +111,9 @@ public class CustomerRecordService implements RecordService {
                 outerPredicates.add(builder.or(innerPredicates.toArray(new Predicate[innerPredicates.size()])));
             }
 
-            criteriaQuery.where(builder.and(outerPredicates.toArray(new Predicate[outerPredicates.size()])));
+            Predicate finalPredicate = outerPredicates.size() == 1 ? outerPredicates.get(0) :
+                    builder.and(outerPredicates.toArray(new Predicate[outerPredicates.size()]));
+            criteriaQuery.where(finalPredicate);
         } else {
             List<Predicate> predicates = new ArrayList<>();
             for (String searchTerm : searchTermsSplit) {
