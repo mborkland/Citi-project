@@ -155,6 +155,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     }
 
     $scope.showUpdateHistoryModal = function(id) {
+        console.log('function called');
         var updateHistory = getUpdateHistory(id);
         var updateHistoryModalInstance = $uibModal.open({
             animation: true,

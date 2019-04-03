@@ -57,9 +57,12 @@
     var app = angular.module('update', ['ui.grid', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.exporter',
         'ui.grid.edit', 'ui.grid.rowEdit']);
 
-    app.controller('AppController', ['$window', '$scope', 'uiGridConstants', function($window, $scope, uiGridConstants) {
+    app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval',
+    function($window, $scope, uiGridConstants, $interval) {
         $scope.recordType = $window.opener.scopeToShare.recordType;
         $scope.rowData = $window.opener.scopeToShare.getSelectedRowData();
+        var showUpdateHistoryModal = $window.opener.scopeToShare.showUpdateHistoryModal;
+        var updateHistoryCellTemplate = '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
 
         $scope.gridOptions1 = {
             enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
@@ -72,11 +75,20 @@
             enableSelectAll: true,
             onRegisterApi: function (gridApi) {
                 $scope.grid1Api = gridApi;
+
+                gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
+                    console.log(rowEntity);
+                    console.log(colDef, newValue, oldValue);
+                });
             },
             data: $scope.rowData
         };
 
         $scope.gridOptions1.columnDefs = $window.opener.scopeToShare.gridOptions1.columnDefs;
+        $scope.gridOptions1.columnDefs[0].enableCellEdit = false;
+        var numCxColumns = $scope.gridOptions1.columnDefs.length;
+        $scope.gridOptions1.columnDefs[numCxColumns - 1].enableCellEdit = false;
+        $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = updateHistoryCellTemplate;
 
         $scope.gridOptions2 = {
             enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
@@ -94,6 +106,10 @@
         };
 
         $scope.gridOptions2.columnDefs = $window.opener.scopeToShare.gridOptions2.columnDefs;
+        $scope.gridOptions2.columnDefs[0].enableCellEdit = false;
+        var numTxColumns = $scope.gridOptions2.columnDefs.length;
+        $scope.gridOptions2.columnDefs[numTxColumns - 1].enableCellEdit = false;
+        $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = updateHistoryCellTemplate;
     }]);
 </script>
 </body>
