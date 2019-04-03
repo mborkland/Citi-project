@@ -29,8 +29,10 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         enableFullRowSelection: true,
         selectionRowHeaderWidth: 35,
         rowHeight: 35,
-        paginationPageSizes: [10, 20, 50],
-        paginationPageSize: 20,
+        //paginationPageSizes: [10, 20, 50],
+        enablePaginationControls: false,
+        paginationPageSize: 15,
+        showGridFooter:true,
         enableSelectAll: true,
         columnDefs: [
             {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},
@@ -79,8 +81,10 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         enableFullRowSelection: true,
         selectionRowHeaderWidth: 35,
         rowHeight: 35,
-        paginationPageSizes: [10, 20, 50],
-        paginationPageSize: 20,
+        //paginationPageSizes: [10, 20, 50],
+        enablePaginationControls: false,
+        paginationPageSize: 15,
+        showGridFooter:true,
         enableSelectAll: true,
         columnDefs: [
             {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},
@@ -196,9 +200,13 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         });
 
         deleteModalInstance.result.then(function() {
-           populateWithRandomRows(numRandomRows);
+           timedRefresh(1000);
         });
     };
+    
+    function timedRefresh(timeoutPeriod) {
+        setTimeout("location.reload(true);",timeoutPeriod);
+    }
 
     $scope.exactMatch = false;
 
