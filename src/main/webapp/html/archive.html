@@ -1,4 +1,4 @@
-<h3 class="text-center font-weight-bold" style="padding-bottom: 30px">Archive Records</h3>
+<h3 class="text-center font-weight-bold" style="padding-bottom: 30px">Archived Records</h3>
 
 <div class="container" style="background-color:#F3F3F3; border-color: #011a52; border-style: solid; border-radius: 25px;">
     <div class="row px-3 py-2" style="">
@@ -12,7 +12,7 @@
         </div>
         <div class="row ml-auto mr-0">
             <div class="m-2 p-1" style="width: auto;">
-                <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="export()">Restore</button>
+                <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="restore()">Restore</button>
             </div>
             <div class="my-2 ml-2 p-1" ng-if="isAdmin()" style="width: auto;">
                 <button class="btn btn-md btn-primary"  ng-click="clear()">Clear</button>

@@ -225,6 +225,19 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         timedRefresh(3000);
     };
 
+    $scope.restore = function() {
+        var url = '/restore?recordType=' + $scope.recordType + '&requestor=' + $scope.SOEID;
+        var selectedData = $scope.getSelectedRowData();
+        angular.forEach(selectedData, function(value, key) {
+            url += ('&ids=' + value.id);
+        });
+        $http.patch(url).then (function (response) {
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    };
+
     $scope.getSelectedRowData = function () {
         var grid1 = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.rows : $scope.grid2Api.grid.rows;
         var selected = [];
