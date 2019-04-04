@@ -196,6 +196,49 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         });
     };
 
+    $scope.showClearModal = function() {
+        //var selectedRowData = $scope.getSelectedRowData();
+        var clearModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/clear-confirmation-modal.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    recordType: $scope.recordType
+                }
+            }
+        });
+
+        clearModalInstance.result.then(function() {
+            timedRefresh(3000);
+        });
+    };
+
+    $scope.showRestoreModal = function() {
+        var selectedRowData = $scope.getSelectedRowData();
+        var restoreModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/restore-confirmation-modal.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    restoreData: selectedRowData,
+                    recordType: $scope.recordType
+                }
+            }
+        });
+
+        restoreModalInstance.result.then(function() {
+            timedRefresh(3000);
+        });
+    };
+
     function timedRefresh(timeoutPeriod) {
         setTimeout("location.reload(true);",timeoutPeriod);
     }
@@ -214,29 +257,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             populateWithRandomRows(numRandomRows);
         }
     };*/
-
-    $scope.clear = function() {
-        var url = '/clear?recordType=' + $scope.recordType;
-        $http.delete(url).then (function (response) {
-            console.log(response);
-        }, function (error) {
-            console.log(error);
-        });
-        timedRefresh(3000);
-    };
-
-    $scope.restore = function() {
-        var url = '/restore?recordType=' + $scope.recordType + '&requestor=' + $scope.SOEID;
-        var selectedData = $scope.getSelectedRowData();
-        angular.forEach(selectedData, function(value, key) {
-            url += ('&ids=' + value.id);
-        });
-        $http.patch(url).then (function (response) {
-            console.log(response);
-        }, function (error) {
-            console.log(error);
-        });
-    };
 
     $scope.getSelectedRowData = function () {
         var grid1 = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.rows : $scope.grid2Api.grid.rows;
