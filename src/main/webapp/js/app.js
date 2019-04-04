@@ -79,6 +79,11 @@ function ($stateProvider, $urlRouterProvider) {
             url: '/section7',
             templateUrl: 'html/create/create-tx/section7.html',
             controller: 'CreateController'
+        })
+        .state('archive', {
+            url: '/archive',
+            templateUrl: 'html/archive.html',
+            controller: 'ArchiveController'
         });
 }]);
 
