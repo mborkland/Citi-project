@@ -135,27 +135,18 @@ public class CustomerRecordService implements RecordService {
 
     @Override
     @Transactional
-    public String updateRecord(Integer id, String field, String newValue, String requestor) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<CustomerRecord> criteriaQuery = builder.createQuery(CustomerRecord.class);
-        Root<CustomerRecord> queryRoot = criteriaQuery.from(CustomerRecord.class);
-        criteriaQuery.select(queryRoot.get(field));
-        criteriaQuery.where(builder.equal(queryRoot.get("id"), id));
-        Query query = entityManager.createQuery(criteriaQuery);
-        Object oldValue = query.getResultList().get(0);
+    public String updateRecord(List<? extends UpdatedRecord> records) {
+        for (UpdatedRecord record : records) {
+            CustomerRecord customerRecord = (CustomerRecord) record.getRecord();
+            String requestor = record.getRequestor();
+            StringBuilder updateHistory = new StringBuilder(((CxBuDetails) customerRecord.getBuDetails()).getUpdateHistory());
+            updateHistory.append(historyDelimiter).append("Record updated on ")
+                    .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
+            ((CxBuDetails) customerRecord.getBuDetails()).setUpdateHistory(updateHistory.toString());
+            customerRecordRepository.save(customerRecord);
+        }
 
-        CriteriaUpdate<CustomerRecord> criteriaUpdate = builder.createCriteriaUpdate(CustomerRecord.class);
-        Root<CustomerRecord> updateRoot = criteriaUpdate.from(CustomerRecord.class);
-        StringBuilder updateHistory = new StringBuilder(customerRecordRepository.getUpdateHistory(id));
-        updateHistory.append(historyDelimiter).append(field).append(" field changed from ").append(oldValue).append(" to ")
-                .append(newValue).append(" on ").append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
-
-        criteriaUpdate.set(updateRoot.get(field), newValue);
-        criteriaUpdate.set(updateRoot.get("updateHistory"), updateHistory.toString());
-        criteriaUpdate.where(builder.equal(updateRoot.get("id"), id));
-        entityManager.createQuery(criteriaUpdate).executeUpdate();
-
-        return "Customer record updated successfully";
+        return "Customer record(s) updated successfully";
     }
 
     @Override

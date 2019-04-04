@@ -142,30 +142,21 @@ public class TransactionRecordService implements RecordService {
         return transactionRecordRepository.getRandomRecords(numRandomRecords);
     }
 
-	@Override
-	@Transactional
-	public String updateRecord(Integer id, String field, String newValue, String requestor) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<TransactionRecord> criteriaQuery = builder.createQuery(TransactionRecord.class);
-        Root<TransactionRecord> queryRoot = criteriaQuery.from(TransactionRecord.class);
-        criteriaQuery.select(queryRoot.get(field));
-        criteriaQuery.where(builder.equal(queryRoot.get("id"), id));
-        Query query = entityManager.createQuery(criteriaQuery);
-        Object oldValue = query.getResultList().get(0);
+    @Override
+    @Transactional
+    public String updateRecord(List<? extends UpdatedRecord> records) {
+        for (UpdatedRecord record : records) {
+            TransactionRecord transactionRecord = (TransactionRecord) record.getRecord();
+            String requestor = record.getRequestor();
+            StringBuilder updateHistory = new StringBuilder(((TxBuDetails) transactionRecord.getBuDetails()).getUpdateHistory());
+            updateHistory.append(historyDelimiter).append("Record updated on ")
+                    .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
+            ((TxBuDetails) transactionRecord.getBuDetails()).setUpdateHistory(updateHistory.toString());
+            transactionRecordRepository.save(transactionRecord);
+        }
 
-        CriteriaUpdate<TransactionRecord> criteria = builder.createCriteriaUpdate(TransactionRecord.class);
-		Root<TransactionRecord> root = criteria.from(TransactionRecord.class);
-		StringBuilder updateHistory = new StringBuilder(transactionRecordRepository.getUpdateHistory(id));
-        updateHistory.append(historyDelimiter).append(field).append(" field changed from ").append(oldValue).append(" to ")
-                .append(newValue).append(" on ").append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
-
-		criteria.set(root.get(field), newValue);
-		criteria.set(root.get("updateHistory"), updateHistory.toString());
-		criteria.where(builder.equal(root.get("id"), id));
-		entityManager.createQuery(criteria).executeUpdate();
-
-		return "Transaction record updated successfully";
-	}
+        return "Customer record(s) updated successfully";
+    }
 
     @Override
     public String deleteRecord(Integer id) {

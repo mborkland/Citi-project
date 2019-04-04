@@ -2,6 +2,7 @@ package edu.usf.cse.service;
 
 import edu.usf.cse.model.BuDetails;
 import edu.usf.cse.model.Record;
+import edu.usf.cse.model.UpdatedRecord;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface RecordService {
 
     List<Record> getRandomRecords(int numRandomRecords);
 
-    String updateRecord(Integer id, String field, String newValue, String requestor);
+    String updateRecord(List<? extends UpdatedRecord> records);
 
     String deleteRecord(Integer id);
 
