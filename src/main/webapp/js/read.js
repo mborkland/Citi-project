@@ -1,5 +1,5 @@
-app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$uibModal', '$compile', '$window',
-function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $window) {
+app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$uibModal', '$compile', '$window', '$timeout',
+function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $window, $timeout) {
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
 
@@ -205,7 +205,9 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     };
 
     function timedRefresh(timeoutPeriod) {
-        setTimeout("location.reload(true);",timeoutPeriod);
+        $timeout(function() {
+            $window.location.reload(true);]
+        }, timeoutPeriod);
     }
 
     $scope.exactMatch = false;
