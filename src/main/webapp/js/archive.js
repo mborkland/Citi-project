@@ -245,18 +245,19 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
 
     $scope.exactMatch = false;
 
-    /*$scope.search = function () {
+    $scope.search = function () {
         var url = '/read?recordType=';
         if ($scope.searchTerms) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch).then(function (response) {
                 handleResponse(response, false);
+                console.log(response);
             }, function (error) {
                 console.log(error);
             });
         } else {
-            populateWithRandomRows(numRandomRows);
+            populateWithArchiveRows();
         }
-    };*/
+    };
 
     $scope.getSelectedRowData = function () {
         var grid1 = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.rows : $scope.grid2Api.grid.rows;
