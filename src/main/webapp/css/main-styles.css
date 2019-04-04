@@ -51,6 +51,13 @@ body {
     margin: 0 auto;
 }
 
+.grid-box {
+    background-color:#F3F3F3;
+    border-color: #011a52;
+    border-style: solid;
+    border-radius: 25px;
+}
+
 .ui-grid-cell.ui-grid-disable-selection.ui-grid-row-header-cell {
     pointer-events: auto;
 }

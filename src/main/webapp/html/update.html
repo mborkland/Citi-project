@@ -23,10 +23,12 @@
     <p class="h5 text-center" style="padding-top: 20px">Update Records</p>
     <div class="container">
         <hr class="my-4" />
-        <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-selection
-             ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'CUSTOMER'"></div>
-        <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-selection
-             ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'TRANSACTION'"></div>
+        <div class="grid-box">
+            <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-selection
+                 ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'CUSTOMER'"></div>
+            <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-selection
+                 ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'TRANSACTION'"></div>
+        </div>
     </div>
 </div>
 
