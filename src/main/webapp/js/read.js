@@ -193,10 +193,10 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal) {
         });
 
         deleteModalInstance.result.then(function() {
-           timedRefresh(1000);
+           timedRefresh(3000);
         });
     };
-    
+
     function timedRefresh(timeoutPeriod) {
         setTimeout("location.reload(true);",timeoutPeriod);
     }
