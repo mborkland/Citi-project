@@ -45,9 +45,9 @@ public class MainController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
-    public String update(@RequestParam RecordType recordType, @RequestParam Integer recordId, @RequestParam String field,
+    public ResponseEntity<String> update(@RequestParam RecordType recordType, @RequestParam Integer recordId, @RequestParam String field,
                          @RequestParam String newValue, @RequestParam String requestor) {
-        return getRecordService(recordType).updateRecord(recordId, field, newValue, requestor);
+        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).updateRecord(recordId, field, newValue, requestor) + "\"}", HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -56,8 +56,8 @@ public class MainController {
         RecordService recordService = getRecordService(recordType);
         for (Integer id : ids) {
             BuDetails buDetails = recordService.getRecordById(id).getBuDetails();
-            String deleteSuccess = recordService.deleteRecord(id);
-            String saveSuccess = recordService.saveDeletedRecord(buDetails, requestor);
+            recordService.deleteRecord(id);
+            recordService.saveDeletedRecord(buDetails, requestor);
         }
 
         return new ResponseEntity<String>("{\"result\":\"Record(s) deleted and archived successfully.\"}", HttpStatus.OK);
@@ -71,14 +71,19 @@ public class MainController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/clear", method = RequestMethod.DELETE)
-    public String clear(@RequestParam RecordType recordType) {
-        return getRecordService(recordType).clearDeletedRecords();
+    public ResponseEntity<String> clear(@RequestParam RecordType recordType) {
+        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).clearDeletedRecords() + "\"}", HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/restore", method = RequestMethod.PATCH)
-    public String restore(@RequestParam RecordType recordType, @RequestParam Integer id, @RequestParam String requestor) {
-        return getRecordService(recordType).restoreDeletedRecord(id, requestor);
+    public ResponseEntity<String> restore(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String requestor) {
+        RecordService recordService = getRecordService(recordType);
+        for (Integer id : ids) {
+            recordService.restoreDeletedRecord(id, requestor);
+        }
+
+        return new ResponseEntity<String>("{\"result\":\"Record(s) restored successfully.\"}", HttpStatus.OK);
     }
 
     private RecordService getRecordService(RecordType recordType) {

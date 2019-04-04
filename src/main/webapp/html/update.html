@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/angular-ui/bower-ui-grid/ui-grid.min.css">
+    <link rel="stylesheet" href="../css/button.css">
+    <link rel="stylesheet" href="../css/main-styles.css">
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
+    <title>CitiScreening Records Management System</title>
+</head>
+<body ng-app="update" ng-cloak class="ng-cloak">
+<div ng-controller="AppController">
+    <p class="h5 text-center" style="padding-top: 20px">Update Records</p>
+    <div class="container">
+        <hr class="my-4" />
+        <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-selection
+             ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'CUSTOMER'"></div>
+        <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-selection
+             ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'TRANSACTION'"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular-touch.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular-animate.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular-aria.js"></script>
+
+<script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/lodash.min.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/jszip.min.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/excel-builder.dist.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/angular-ui/bower-ui-grid/ui-grid.min.js"></script>
+<script>
+    'use strict';
+    var app = angular.module('update', ['ui.grid', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.exporter',
+        'ui.grid.edit', 'ui.grid.rowEdit']);
+
+    app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval',
+    function($window, $scope, uiGridConstants, $interval) {
+        $scope.recordType = $window.opener.scopeToShare.recordType;
+        $scope.rowData = $window.opener.scopeToShare.getSelectedRowData();
+        var showUpdateHistoryModal = $window.opener.scopeToShare.showUpdateHistoryModal;
+        var updateHistoryCellTemplate = '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
+
+        $scope.gridOptions1 = {
+            enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+            enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+            enableColumnResizing: true,
+            enableSorting: true,
+            enableFullRowSelection: true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
+            enableSelectAll: true,
+            onRegisterApi: function (gridApi) {
+                $scope.grid1Api = gridApi;
+
+                gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
+                    console.log(rowEntity);
+                    console.log(colDef, newValue, oldValue);
+                });
+            },
+            data: $scope.rowData
+        };
+
+        $scope.gridOptions1.columnDefs = $window.opener.scopeToShare.gridOptions1.columnDefs;
+        $scope.gridOptions1.columnDefs[0].enableCellEdit = false;
+        var numCxColumns = $scope.gridOptions1.columnDefs.length;
+        $scope.gridOptions1.columnDefs[numCxColumns - 1].enableCellEdit = false;
+        $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = updateHistoryCellTemplate;
+
+        $scope.gridOptions2 = {
+            enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+            enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+            enableColumnResizing: true,
+            enableSorting: true,
+            enableFullRowSelection: true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
+            enableSelectAll: true,
+            onRegisterApi: function (gridApi) {
+                $scope.grid1Api = gridApi;
+            },
+            data: $scope.rowData
+        };
+
+        $scope.gridOptions2.columnDefs = $window.opener.scopeToShare.gridOptions2.columnDefs;
+        $scope.gridOptions2.columnDefs[0].enableCellEdit = false;
+        var numTxColumns = $scope.gridOptions2.columnDefs.length;
+        $scope.gridOptions2.columnDefs[numTxColumns - 1].enableCellEdit = false;
+        $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = updateHistoryCellTemplate;
+    }]);
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
-app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$uibModal',
-function ($rootScope, $scope, $http, uiGridConstants, $uibModal) {
+app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$uibModal', '$compile', '$window',
+function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $window) {
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
 
@@ -159,6 +159,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal) {
     }
 
     $scope.showUpdateHistoryModal = function(id) {
+        console.log('function called');
         var updateHistory = getUpdateHistory(id);
         var updateHistoryModalInstance = $uibModal.open({
             animation: true,
@@ -175,15 +176,21 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal) {
         });
     };
 
+    $scope.showUpdateWindow = function() {
+        var selectedRowData = $scope.getSelectedRowData();
+        $window.scopeToShare = $scope;
+        $window.open('html/update.html', 'Update Records', 'width=1000,height=600');
+    };
+
     $scope.showDeleteModal = function() {
-        var selectedRowData = getSelectedRowData();
+        var selectedRowData = $scope.getSelectedRowData();
         var deleteModalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: 'html/delete-confirmation-modal.html',
             controller: 'ModalController',
-            size: 'lg',
+            size: 'md',
             resolve: {
                 modalData: {
                     deleteData: selectedRowData,
@@ -207,7 +214,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal) {
         var url = '/read?recordType=';
         if ($scope.searchTerms) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch).then(function (response) {
-                console.log(response);
                 handleResponse(response, false);
             }, function (error) {
                 console.log(error);
@@ -217,7 +223,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal) {
         }
     };
 
-    function getSelectedRowData() {
+    $scope.getSelectedRowData = function () {
         var grid1 = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.rows : $scope.grid2Api.grid.rows;
         var selected = [];
         for (var i = 0; i < grid1.length; i++) {
@@ -226,23 +232,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal) {
             }
         }
         return selected;
-    };
-
-    $scope.delete = function (SOEID) {
-        var url2 = '&recordType=';
-        var url3 = '&requestor=';
-        var deletes = $scope.getSelectedRowData();
-        console.log(deletes);
-        var url1 = '/delete?';
-        for (var i = 0; i < deletes.length; i++) {
-            url1 = url1 + '&ids=' + deletes[i].id;
-        }
-        $http.delete(url1 + url2 + $scope.recordType + url3 + SOEID).then (function (response) {
-            console.log(response);
-            handleResponse(response, false);
-        }, function (error) {
-            console.log(error);
-        })
     };
 
     function handleResponse(response, isRandom) {
