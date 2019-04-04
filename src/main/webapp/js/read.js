@@ -206,7 +206,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
 
     function timedRefresh(timeoutPeriod) {
         $timeout(function() {
-            $window.location.reload(true);]
+            $window.location.reload(true);
         }, timeoutPeriod);
     }
 
