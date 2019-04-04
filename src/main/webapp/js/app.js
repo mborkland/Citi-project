@@ -22,7 +22,7 @@ function ($stateProvider, $urlRouterProvider) {
             url: '/create-cx',
             abstract: true,
             templateUrl: 'html/create/create-cx/create-cx.html',
-            controller: 'CreateController',
+            controller: 'CreateController'
         })
         .state('create-cx.section1', {
             url: '',

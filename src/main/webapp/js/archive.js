@@ -202,7 +202,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
 
     $scope.exactMatch = false;
 
-    $scope.search = function () {
+    /*$scope.search = function () {
         var url = '/read?recordType=';
         if ($scope.searchTerms) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch).then(function (response) {
@@ -213,9 +213,9 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         } else {
             populateWithRandomRows(numRandomRows);
         }
-    };
+    };*/
 
-    $scope.getSelectedRowData = function () {
+    /*$scope.getSelectedRowData = function () {
         var grid1 = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.rows : $scope.grid2Api.grid.rows;
         var selected = [];
         for (var i = 0; i < grid1.length; i++) {
@@ -224,7 +224,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             }
         }
         return selected;
-    };
+    };*/
 
     function handleResponse(response, isRandom) {
         $scope.rowData.length = 0;
@@ -236,7 +236,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     function populateWithArchiveRows() {
         var url = '/archive?recordType=';
         $http.get(url + $scope.recordType).then(function (response) {
-            handleResponse(response);
+            handleResponse(response, false);
         }, function (error) {
             console.log(error);
         });
