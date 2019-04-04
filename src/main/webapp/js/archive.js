@@ -215,7 +215,17 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         }
     };*/
 
-    /*$scope.getSelectedRowData = function () {
+    $scope.clear = function() {
+        var url = '/clear?recordType=' + $scope.recordType;
+        $http.delete(url).then (function (response) {
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+        timedRefresh(3000);
+    };
+
+    $scope.getSelectedRowData = function () {
         var grid1 = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.rows : $scope.grid2Api.grid.rows;
         var selected = [];
         for (var i = 0; i < grid1.length; i++) {
@@ -224,7 +234,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             }
         }
         return selected;
-    };*/
+    };
 
     function handleResponse(response, isRandom) {
         $scope.rowData.length = 0;
