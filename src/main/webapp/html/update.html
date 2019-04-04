@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ui-bootstrap4@3.0.6/dist/ui-bootstrap-csp.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/angular-ui/bower-ui-grid/ui-grid.min.css">
     <link rel="stylesheet" href="../css/button.css">
     <link rel="stylesheet" href="../css/main-styles.css">
@@ -58,6 +59,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular-touch.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular-animate.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular-aria.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ui-bootstrap4@3.0.6/dist/ui-bootstrap-tpls.js"></script>
 
 <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
 <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
@@ -69,13 +71,17 @@
 <script>
     'use strict';
     var app = angular.module('update', ['ui.grid', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.exporter',
-        'ui.grid.edit', 'ui.grid.rowEdit']);
+        'ui.grid.edit', 'ui.grid.rowEdit', 'ui.bootstrap']);
 
-    app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval',
-    function($window, $scope, uiGridConstants, $interval) {
+    app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval', '$uibModal',
+    function($window, $scope, uiGridConstants, $interval, $uibModal) {
         $scope.recordType = $window.opener.scopeToShare.recordType;
         $scope.rowData = $window.opener.scopeToShare.getSelectedRowData();
-        var showUpdateHistoryModal = $window.opener.scopeToShare.showUpdateHistoryModal;
+
+        $scope.showUpdateHistoryModal = function(id) {
+            $window.opener.scopeToShare.showUpdateHistoryModal(id);
+        };
+
         var updateHistoryCellTemplate = '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
 
         $scope.gridOptions1 = {
