@@ -33,7 +33,7 @@
                 <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="export()">Export</button>
             </div>
             <div class="m-2 p-1" ng-if="isAdmin()" style="width: auto;">
-                <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()">Update</button>
+                <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="showUpdateWindow()">Update</button>
             </div>
             <div class="my-2 ml-2 p-1" ng-if="isAdmin()" style="width: auto;">
                 <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="showDeleteModal()">Delete</button>
