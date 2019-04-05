@@ -1,9 +1,9 @@
 app.controller('ModalController', ['$scope', '$http', '$uibModalInstance', 'modalData',
 function($scope, $http, $uibModalInstance, modalData) {
     $scope.updateHistoryData = modalData.updateHistoryData;
+    $scope.deletionDetailsData = modalData.deletionDetailsData;
     var deleteData = modalData.deleteData;
     var restoreData = modalData.restoreData;
-    //var clearData = modalData.clearData;
 
     $scope.ok = function () {
         $uibModalInstance.close();
