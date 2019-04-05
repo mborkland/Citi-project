@@ -15,6 +15,8 @@ public interface RecordService {
 
     List<Record> getRandomRecords(int numRandomRecords);
 
+    List<Record> getArchivedRecords(String searchTerms, boolean exactMatch);
+
     String updateRecord(Integer id, String field, String newValue, String requestor);
 
     String deleteRecord(Integer id);

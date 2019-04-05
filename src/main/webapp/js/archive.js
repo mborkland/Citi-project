@@ -246,7 +246,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     $scope.exactMatch = false;
 
     $scope.search = function () {
-        var url = '/read?recordType=';
+        var url = '/read-archive?recordType=';
         if ($scope.searchTerms) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch).then(function (response) {
                 handleResponse(response, false);
