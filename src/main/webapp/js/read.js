@@ -346,4 +346,21 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return boolean ? 'Y' : 'N';
     }
 
+    $scope.updateRecords = function (records) {
+        console.log("The start of the updateRecords function");
+        console.log(records);
+        var url = $scope.recordType === "CUSTOMER" ? '/update-customer?' : '/update-transaction?';
+        url = url + "records=" + records[0];
+        for (var i = 1; i < records.length; i++) {
+            url = url + "&records=" + records[i];
+        }
+        console.log("This is the url");
+        console.log(url);
+        $http.patch(url).then (function (response) {
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    };
+
 }]);

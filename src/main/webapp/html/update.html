@@ -34,8 +34,11 @@
         </div>
         <div class="row px-3 py-2">
             <div class="row ml-auto mr-0">
+                <label for="SOEID">Please enter your SOEID:</label>
+                <input type="text" id="SOEID" name="SOEID" ng-model="SOEID" required>
                 <div class="m-2 p-1" style="width: auto;">
-                    <button class="btn btn-md btn-primary" ng-click="makeChanges()">Make Changes</button>
+                    <button class="btn btn-md btn-primary" ng-disabled="checkSOEIDAndChangedFields()" ng-click="sendPatchRequest()"
+                    >Make Changes</button>
                 </div>
                 <div class="m-2 p-1" style="width: auto;">
                     <button class="btn btn-md btn-primary" ng-click="cancel()">Cancel</button>
@@ -74,63 +77,215 @@
         'ui.grid.edit', 'ui.grid.rowEdit', 'ui.bootstrap']);
 
     app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval', '$uibModal',
-    function($window, $scope, uiGridConstants, $interval, $uibModal) {
-        $scope.recordType = $window.opener.scopeToShare.recordType;
-        $scope.rowData = $window.opener.scopeToShare.getSelectedRowData();
+        function($window, $scope, uiGridConstants, $interval, $uibModal) {
+            $scope.recordType = $window.opener.scopeToShare.recordType;
+            $scope.rowData = $window.opener.scopeToShare.getSelectedRowData();
 
-        $scope.showUpdateHistoryModal = function(id) {
-            $window.opener.scopeToShare.showUpdateHistoryModal(id);
-        };
+            $scope.recordsToJSON = function(records) {
+                var requestData = [];
+                if ($scope.recordType === "CUSTOMER") {
+                    for (var i = 0; i < records.length; i++) {
+                        var auxCustomerData =
+                            {
+                                record:
+                                    {
+                                        id: records[i].id,
+                                        buDetails:
+                                            {
+                                                bizProdId: records[i].bizProdId,
+                                                bizUnitId: records[i].bizUnitId,
+                                                businessEscalationPointOfContact: records[i].businessEscalationPointOfContact,
+                                                businessId: records[i].businessId,
+                                                connectivityProtocol: records[i].connectivityProtocol,
+                                                country: records[i].country,
+                                                csInstance: records[i].csInstance,
+                                                csiId: records[i].csiId,
+                                                cwUatContactName: records[i].cwUatContactName,
+                                                cwVersion: records[i].cwVersion,
+                                                cxBusinessGreenzone: records[i].cxBusinessGreenzone,
+                                                cxScreeningBusinessUnitName: records[i].cxScreeningBusinessUnitName,
+                                                gomCompliant: records[i].gomCompliant,
+                                                impactToBusiness: records[i].impactToBusiness,
+                                                interfaceAppId: records[i].interfaceAppId,
+                                                interfaceApplicationName: records[i].interfaceApplicationName,
+                                                operationEntity: records[i].operationEntity,
+                                                opsComplianceContacts: records[i].opsComplianceContacts,
+                                                productId: records[i].productId,
+                                                region: records[i].region,
+                                                rulesetMapped: records[i].rulesetMapped,
+                                                sector: records[i].sector,
+                                                sourceTechContact: records[i].sourceTechContact,
+                                                timezone: records[i].timezone,
+                                                updateHistory: records[i].updateHistory,
+                                                wfBusinessGreenzone: records[i].wfBusinessGreenzone,
+                                                wfBusinessUnitNameDisplayValue: records[i].wfBusinessUnitNameDisplayValue,
+                                                workflowFlag: records[i].workflowFlag,
+                                                workflowInstance: records[i].workflowInstance
+                                            }
+                                    },
+                                requestor: $scope.SOEID
+                            };
+                        requestData.push(JSON.stringify(auxCustomerData));
+                    }
+                }
+                else {
+                    for (var j = 0; j < records.length; j++) {
+                        var auxTransactionData =
+                            {
+                                record:
+                                    {
+                                        id: records[j].id,
+                                        buDetails:
+                                            {
+                                                anyBatchComponent: records[j].anyBatchComponent,
+                                                batchesOrPeaksForRealtimeVolumes: records[j].batchesOrPeaksForRealtimeVolumes,
+                                                businessEscalationPointOfContact: records[j].businessEscalationPointOfContact,
+                                                businessHotline: records[j].businessHotline,
+                                                businessId: records[j].businessId,
+                                                connectivityProtocol: records[j].connectivityProtocol,
+                                                country: records[j].country,
+                                                csiId: records[j].csiId,
+                                                dailyOnlineVolumesExpected: records[j].dailyOnlineVolumesExpected,
+                                                escalationPath1stLevelSupport: records[j].escalationPath1stLevelSupport,
+                                                escalationPath2ndLevelSupport: records[j].escalationPath2ndLevelSupport,
+                                                firstLevelEscalation: records[j].firstLevelEscalation,
+                                                hotlineNumber: records[j].hotlineNumber,
+                                                impactToProductProcessor: records[j].impactToProductProcessor,
+                                                initialScreeningResponseSla: records[j].initialScreeningResponseSla,
+                                                interfaceAppId: records[j].interfaceAppId,
+                                                interfaceApplicationName: records[j].interfaceApplicationName,
+                                                interfaceConnectivityDoc: records[j].interfaceConnectivityDoc,
+                                                operationEntity: records[j].operationEntity,
+                                                productId: records[j].productId,
+                                                productProcessor: records[j].productProcessor,
+                                                productProcessorGroupDl: records[j].productProcessorGroupDl,
+                                                productProcessorScreeningResponseCutoffTime: records[j].productProcessorScreeningResponseCutoffTime,
+                                                productProcessorSnowGroupName: records[j].productProcessorSnowGroupName,
+                                                productProcessorStandardGreenzones: records[j].productProcessorStandardGreenzones,
+                                                region: records[j].region,
+                                                retryMechanism: records[j].retryMechanism,
+                                                rulesetMapped: records[j].rulesetMapped,
+                                                scheduleForRealtimeVolumes: records[j].scheduleForRealtimeVolumes,
+                                                secondLevelEscalation: records[j].secondLevelEscalation,
+                                                sector: records[j].sector,
+                                                sourceTechContacts: records[j].sourceTechContact,
+                                                thresholdSetForTimeouts: records[j].thresholdSetForTimeouts,
+                                                txScreeningBusinessUnitName: records[j].txScreeningBusinessUnitName,
+                                                uniqueProductId: records[j].uniqueProductId,
+                                                updateHistory: records[j].updateHistory,
+                                                wfBusinessGreenzone: records[j].wfBusinessGreenzone,
+                                                workflowFlag: records[j].workflowFlag,
+                                                workflowInstance: records[j].workflowInstance,
+                                                workflowOperationsContacts: records[j].workflowOperationsContacts,
+                                                workflowOperationsWorkSchedule: records[j].workflowOperationsWorkSchedule
+                                            }
+                                    },
+                                requestor: $scope.SOEID
+                            };
+                        requestData.push(JSON.stringify(auxTransactionData));
+                    }
+                }
+                console.log("The records were stringified.");
+                console.log(requestData);
+                return requestData;
+            };
 
-        var updateHistoryCellTemplate = '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
+            $scope.showUpdateHistoryModal = function(id) {
+                $window.opener.scopeToShare.showUpdateHistoryModal(id);
+            };
+            $scope.editedRecords = [];
+            $scope.addChangedRecord = function (editedRecord) {
+                console.log("The row was just pushed to editedRecords: ");
+                $scope.editedRecords.push(editedRecord);
+            };
+            $scope.getNumberOfChangedRecords = function () {
+                return $scope.editedRecords.length;
+            };
+            $scope.displayChangedRecords = function () {
+                console.log($scope.editedRecords);
+                var thing = JSON.parse($scope.editedRecords);
+                console.log(thing);
+            };
 
-        $scope.gridOptions1 = {
-            enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
-            enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
-            enableColumnResizing: true,
-            enableSorting: true,
-            enableFullRowSelection: true,
-            selectionRowHeaderWidth: 35,
-            rowHeight: 35,
-            enableSelectAll: true,
-            onRegisterApi: function (gridApi) {
-                $scope.grid1Api = gridApi;
+            $scope.sendPatchRequest = function() {
+                  var data = $scope.recordsToJSON($scope.editedRecords);
+                  console.log("After the json format has been created");
+                  console.log(data);
+                  $window.opener.scopeToShare.updateRecords(data);
+            };
 
-                gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
-                    console.log(rowEntity);
-                    console.log(colDef, newValue, oldValue);
-                });
-            },
-            data: $scope.rowData
-        };
+            var updateHistoryCellTemplate = '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
 
-        $scope.gridOptions1.columnDefs = $window.opener.scopeToShare.gridOptions1.columnDefs;
-        $scope.gridOptions1.columnDefs[0].enableCellEdit = false;
-        var numCxColumns = $scope.gridOptions1.columnDefs.length;
-        $scope.gridOptions1.columnDefs[numCxColumns - 1].enableCellEdit = false;
-        $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = updateHistoryCellTemplate;
+            $scope.gridOptions1 = {
+                enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+                enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+                enableColumnResizing: true,
+                enableSorting: true,
+                enableFullRowSelection: true,
+                selectionRowHeaderWidth: 35,
+                rowHeight: 35,
+                enableSelectAll: true,
+                onRegisterApi: function (gridApi) {
+                    $scope.grid1Api = gridApi;
 
-        $scope.gridOptions2 = {
-            enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
-            enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
-            enableColumnResizing: true,
-            enableSorting: true,
-            enableFullRowSelection: true,
-            selectionRowHeaderWidth: 35,
-            rowHeight: 35,
-            enableSelectAll: true,
-            onRegisterApi: function (gridApi) {
-                $scope.grid1Api = gridApi;
-            },
-            data: $scope.rowData
-        };
+                    gridApi.edit.on.afterCellEdit($scope, function(rowEntity) {
+                        //Here is where the main functionality starts
+                        console.log("A row was just edited: ");
+                        console.log(rowEntity);
+                        $scope.addChangedRecord(rowEntity);
+                    });
 
-        $scope.gridOptions2.columnDefs = $window.opener.scopeToShare.gridOptions2.columnDefs;
-        $scope.gridOptions2.columnDefs[0].enableCellEdit = false;
-        var numTxColumns = $scope.gridOptions2.columnDefs.length;
-        $scope.gridOptions2.columnDefs[numTxColumns - 1].enableCellEdit = false;
-        $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = updateHistoryCellTemplate;
-    }]);
+                },
+                data: $scope.rowData
+            };
+
+            $scope.gridOptions1.columnDefs = $window.opener.scopeToShare.gridOptions1.columnDefs;
+            $scope.gridOptions1.columnDefs[0].enableCellEdit = false;
+            var numCxColumns = $scope.gridOptions1.columnDefs.length;
+            $scope.gridOptions1.columnDefs[numCxColumns - 1].enableCellEdit = false;
+            $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = updateHistoryCellTemplate;
+
+            $scope.gridOptions2 = {
+                enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+                enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+                enableColumnResizing: true,
+                enableSorting: true,
+                enableFullRowSelection: true,
+                selectionRowHeaderWidth: 35,
+                rowHeight: 35,
+                enableSelectAll: true,
+                onRegisterApi: function (gridApi) {
+                    $scope.grid1Api = gridApi;
+
+                    gridApi.edit.on.afterCellEdit($scope, function(rowEntity) {
+                        //Here is where the main functionality starts
+                        console.log("A row was just edited: ");
+                        console.log(rowEntity);
+                        $scope.addChangedRecord(rowEntity);
+                    });
+                },
+                data: $scope.rowData
+            };
+
+            $scope.gridOptions2.columnDefs = $window.opener.scopeToShare.gridOptions2.columnDefs;
+            $scope.gridOptions2.columnDefs[0].enableCellEdit = false;
+            var numTxColumns = $scope.gridOptions2.columnDefs.length;
+            $scope.gridOptions2.columnDefs[numTxColumns - 1].enableCellEdit = false;
+            $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = updateHistoryCellTemplate;
+
+            $scope.cancel = function () {
+                $window.close();
+            };
+
+            $scope.makeChanges = function () {
+                $window.close(); //delete this later
+
+            };
+
+            $scope.checkSOEIDAndChangedFields = function () {
+                return !($scope.SOEID)/* || $scope.getNumberOfChangedRecords() === 0*/;
+            };
+        }]);
 </script>
 </body>
 </html>
