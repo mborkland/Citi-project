@@ -44,6 +44,12 @@ public class MainController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/read-archive")
+    public ResponseEntity<List<Record>> readArchive(@RequestParam RecordType recordType, String searchTerms, boolean exactMatch) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getArchivedRecords(searchTerms, exactMatch), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update-customer", method = RequestMethod.PATCH)
     public ResponseEntity<String> updateCustomerRecord(@RequestBody List<UpdatedCustomerRecord> records) {
         return new ResponseEntity<String>("{\"result\":\"" + customerRecordService.updateRecord(records) + "\"}", HttpStatus.OK);

@@ -68,7 +68,8 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
             {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false,
                 cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'},
-            {field: 'deletionDetails', displayName: 'Deletion Details', width: sw, enableHiding: false}
+            {field: 'deletionDetails', displayName: 'Deletion Details', width: sw, enableHiding: false,
+                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showDeletionDetailsModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
         ],
         onRegisterApi: function (gridApi) {
             $scope.grid1Api = gridApi;
@@ -133,7 +134,8 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
             {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false,
                 cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'},
-            {field: 'deletionDetails', displayName: 'Deletion Details', width: sw, enableHiding: false}
+            {field: 'deletionDetails', displayName: 'Deletion Details', width: sw, enableHiding: false,
+                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showDeletionDetailsModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
         ],
         onRegisterApi: function (gridApi) {
             $scope.grid2Api = gridApi;
@@ -156,6 +158,17 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return updateHistory;
     }
 
+    function getDeletionDetails(id) {
+        var deletionDetails = null;
+        angular.forEach($scope.rowData, function(value, key) {
+            if (value.id === id) {
+                deletionDetails = value.deletionDetails;
+            }
+        });
+
+        return deletionDetails;
+    }
+
     $scope.showUpdateHistoryModal = function(id) {
         console.log('function called');
         var updateHistory = getUpdateHistory(id);
@@ -169,6 +182,24 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             resolve: {
                 modalData: {
                     updateHistoryData: updateHistory
+                }
+            }
+        });
+    };
+
+    $scope.showDeletionDetailsModal = function(id) {
+        console.log('function called');
+        var deletionDetails = getDeletionDetails(id);
+        var deletionDetailsModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/deletion-details-modal.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    deletionDetailsData: deletionDetails
                 }
             }
         });
@@ -196,6 +227,49 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         });
     };
 
+    $scope.showClearModal = function() {
+        //var selectedRowData = $scope.getSelectedRowData();
+        var clearModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/clear-confirmation-modal.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    recordType: $scope.recordType
+                }
+            }
+        });
+
+        clearModalInstance.result.then(function() {
+            timedRefresh(3000);
+        });
+    };
+
+    $scope.showRestoreModal = function() {
+        var selectedRowData = $scope.getSelectedRowData();
+        var restoreModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/restore-confirmation-modal.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    restoreData: selectedRowData,
+                    recordType: $scope.recordType
+                }
+            }
+        });
+
+        restoreModalInstance.result.then(function() {
+            timedRefresh(3000);
+        });
+    };
+
     function timedRefresh(timeoutPeriod) {
         setTimeout("location.reload(true);",timeoutPeriod);
     }
@@ -203,15 +277,16 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     $scope.exactMatch = false;
 
     $scope.search = function () {
-        var url = '/read?recordType=';
+        var url = '/read-archive?recordType=';
         if ($scope.searchTerms) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch).then(function (response) {
                 handleResponse(response, false);
+                console.log(response);
             }, function (error) {
                 console.log(error);
             });
         } else {
-            populateWithRandomRows(numRandomRows);
+            populateWithArchiveRows();
         }
     };
 
@@ -236,7 +311,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     function populateWithArchiveRows() {
         var url = '/archive?recordType=';
         $http.get(url + $scope.recordType).then(function (response) {
-            handleResponse(response);
+            handleResponse(response, false);
         }, function (error) {
             console.log(error);
         });

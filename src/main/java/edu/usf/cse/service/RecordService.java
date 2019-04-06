@@ -18,6 +18,8 @@ public interface RecordService {
 
     String updateRecord(List<? extends UpdatedRecord> records);
 
+    List<Record> getArchivedRecords(String searchTerms, boolean exactMatch);
+
     String deleteRecord(Integer id);
 
     List<Record> getArchive();
