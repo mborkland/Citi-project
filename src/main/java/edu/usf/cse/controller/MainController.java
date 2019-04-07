@@ -58,12 +58,12 @@ public class MainController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String requestor) {
+    public ResponseEntity<String> delete(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String requestor, @RequestParam String reason) {
         RecordService recordService = getRecordService(recordType);
         for (Integer id : ids) {
             BuDetails buDetails = recordService.getRecordById(id).getBuDetails();
             recordService.deleteRecord(id);
-            recordService.saveDeletedRecord(buDetails, requestor);
+            recordService.saveDeletedRecord(buDetails, requestor, reason);
         }
 
         return new ResponseEntity<String>("{\"result\":\"Record(s) deleted and archived successfully.\"}", HttpStatus.OK);

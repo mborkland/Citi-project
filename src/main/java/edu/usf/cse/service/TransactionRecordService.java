@@ -223,11 +223,11 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String saveDeletedRecord(BuDetails buDetails, String requestor) {
+    public String saveDeletedRecord(BuDetails buDetails, String requestor, String reason) {
         DeletedTransactionRecord deletedTransactionRecord = new DeletedTransactionRecord();
         deletedTransactionRecord.setBuDetails((TxBuDetails) buDetails);
         deletedTransactionRecord.setDeletionDetails("Record deleted on " + new Timestamp(System.currentTimeMillis()) +
-                " by " + requestor);
+                " by " + requestor + ". Reason: " + reason);
         deletedTransactionRecordRepository.save(deletedTransactionRecord);
         return "Deleted record saved successfully";
     }
