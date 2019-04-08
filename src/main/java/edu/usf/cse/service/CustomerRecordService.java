@@ -212,10 +212,13 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String clearDeletedRecords()
+    public String clearDeletedRecords(List<Integer> ids)
     {
-        deletedCustomerRecordRepository.deleteAll();
-        return "Deleted records cleared successfully";
+        for (Integer id : ids) {
+            deletedCustomerRecordRepository.delete(id);
+        }
+
+        return "Deleted record(s) cleared successfully";
     }
 
     @Override

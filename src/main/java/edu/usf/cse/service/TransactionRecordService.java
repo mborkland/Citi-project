@@ -224,10 +224,13 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String clearDeletedRecords()
+    public String clearDeletedRecords(List<Integer> ids)
     {
-        deletedTransactionRecordRepository.deleteAll();
-        return "Deleted records cleared successfully";
+        for (Integer id : ids) {
+            deletedTransactionRecordRepository.delete(id);
+        }
+
+        return "Deleted record(s) cleared successfully";
     }
 
     @Override

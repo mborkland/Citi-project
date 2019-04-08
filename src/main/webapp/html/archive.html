@@ -33,7 +33,7 @@
                 <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()" ng-click="showRestoreModal()">Restore</button>
             </div>
             <div class="my-2 ml-2 p-1" ng-if="isAdmin()" style="width: auto;">
-                <button class="btn btn-md btn-primary"  ng-click="showClearModal()">Clear</button>
+                <button class="btn btn-md btn-primary" ng-disabled="!areRowsSelected()"  ng-click="showClearModal()">Clear</button>
             </div>
         </div>
     </div>

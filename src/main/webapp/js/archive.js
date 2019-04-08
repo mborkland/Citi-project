@@ -228,7 +228,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     };
 
     $scope.showClearModal = function() {
-        //var selectedRowData = $scope.getSelectedRowData();
+        var selectedRowData = $scope.getSelectedRowData();
         var clearModalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -238,6 +238,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             size: 'md',
             resolve: {
                 modalData: {
+                    clearData: selectedRowData,
                     recordType: $scope.recordType
                 }
             }
