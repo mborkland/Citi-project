@@ -2,6 +2,7 @@ app.controller('ModalController', ['$scope', '$http', '$uibModalInstance', 'moda
 function($scope, $http, $uibModalInstance, modalData) {
     $scope.updateHistoryData = modalData.updateHistoryData;
     $scope.deletionDetailsData = modalData.deletionDetailsData;
+    $scope.num = modalData.num;
     var deleteData = modalData.deleteData;
     var restoreData = modalData.restoreData;
 
@@ -17,8 +18,17 @@ function($scope, $http, $uibModalInstance, modalData) {
         return !($scope.SOEID);
     };
 
+    $scope.checkReason = function () {
+        return !($scope.reason);
+    };
+
+    $scope.validate = function () {
+        return (($scope.checkReason()) || ($scope.checkSOEID()));
+    };
+
     $scope.delete = function () {
-        var url = '/delete?recordType=' + modalData.recordType + '&requestor=' + $scope.SOEID;
+        //var requestorString = $scope.SOEID + ", Reason: " + $scope.reason;
+        var url = '/delete?recordType=' + modalData.recordType + '&requestor=' + $scope.SOEID + "&reason=" + $scope.reason;
         angular.forEach(deleteData, function(value, key) {
             url += ('&ids=' + value.id);
         });
@@ -53,4 +63,15 @@ function($scope, $http, $uibModalInstance, modalData) {
         });
         $scope.ok();
     };
+
+    $scope.successfulDeleteMessage = function() {
+        var message;
+        if ($scope.num === 1) {
+            message = " record has been deleted.";
+        }
+        else {
+            message = " records have been deleted.";
+        }
+        return String($scope.num) + message;
+    }
 }]);

@@ -7,8 +7,10 @@
 <div class="modal-body">
     <label for="SOEID">Please enter your SOEID: </label>
     <input type="text" id="SOEID" name="SOEID" ng-model="SOEID" required>
+    <label for="reason">Please enter the explanation for the deletion of the records:</label>
+    <input type="text" id="reason" name="reason" ng-model="reason" required>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" ng-disabled="checkSOEID()" ng-click="delete()">Confirm</button>
+    <button type="button" class="btn btn-secondary" ng-disabled="validate()" ng-click="delete()">Confirm</button>
     <button type="button" class="btn btn-secondary" ng-click="cancel()">Cancel</button>
 </div>

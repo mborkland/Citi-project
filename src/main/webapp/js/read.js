@@ -66,7 +66,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             {field: 'impactToBusiness', displayName: 'Impact To Business', width: mw, enableHiding: false},
             {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
             {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
-            {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false,
+            {field: 'updateHistory', displayName: 'History', width: sw, enableHiding: false,
                 cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
         ],
         onRegisterApi: function (gridApi) {
@@ -130,7 +130,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             {field: 'thresholdSetForTimeouts', displayName: 'Threshold Set for Timeouts', width: mw, enableHiding: false},
             {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mw, enableHiding: false},
             {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
-            {field: 'updateHistory', displayName: 'Update History', width: sw, enableHiding: false,
+            {field: 'updateHistory', displayName: 'History', width: sw, enableHiding: false,
                 cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
         ],
         onRegisterApi: function (gridApi) {
@@ -192,7 +192,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             ariaDescribedBy: 'modal-body',
             templateUrl: 'html/delete-confirmation-modal.html',
             controller: 'ModalController',
-            size: 'md',
+            size: 'lg',
             resolve: {
                 modalData: {
                     deleteData: selectedRowData,
@@ -202,8 +202,34 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         });
 
         deleteModalInstance.result.then(function() {
-           timedRefresh(3000);
+            $scope.showDeleteConfirmationModal($uibModal);
         });
+    };
+
+    $scope.showDeleteConfirmationModal = function(modal) {
+        var count = $scope.getSelectedRowData().length;
+        var deleteConfirmationModalInstance = modal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/delete-confirmation-modal2.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    num: count
+                }
+            }
+        });
+
+        deleteConfirmationModalInstance.result.then(
+            function () {
+                timedRefresh(3000);
+            },
+            function () {
+                timedRefresh(3000);
+            }
+        );
     };
 
     function timedRefresh(timeoutPeriod) {

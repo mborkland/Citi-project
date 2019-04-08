@@ -202,11 +202,11 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String saveDeletedRecord(BuDetails buDetails, String requestor) {
+    public String saveDeletedRecord(BuDetails buDetails, String requestor, String reason) {
         DeletedCustomerRecord deletedCustomerRecord = new DeletedCustomerRecord();
         deletedCustomerRecord.setBuDetails((CxBuDetails) buDetails);
         deletedCustomerRecord.setDeletionDetails("Record deleted on " + new Timestamp(System.currentTimeMillis()) +
-                " by " + requestor);
+                " by " + requestor + ". Reason: " + reason);
         deletedCustomerRecordRepository.save(deletedCustomerRecord);
         return "Deleted record saved successfully";
     }
