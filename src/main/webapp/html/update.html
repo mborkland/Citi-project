@@ -187,7 +187,8 @@
 
         $scope.makeChanges = function () {
             var gridApi = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api : $scope.grid2Api;
-            $window.opener.parentScope.updateRecords(aggregateUpdateData(gridApi.rowEdit.getDirtyRows(gridApi.grid), $scope.SOEID));
+            var SOEID = angular.copy($scope.SOEID);
+            $window.opener.parentScope.updateRecords(aggregateUpdateData(gridApi.rowEdit.getDirtyRows(gridApi.grid)), SOEID);
             $window.close();
         };
 

@@ -319,7 +319,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
 
     $scope.updateRecords = function (updatedRecords, SOEID) {
         var url = $scope.recordType === "CUSTOMER" ? '/update-customer' : '/update-transaction';
-        var data = jsonifyUpdatedRecords(updatedRecords);
+        var data = jsonifyUpdatedRecords(updatedRecords, SOEID);
         $http({
             method: 'PATCH',
             url: url,
