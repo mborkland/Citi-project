@@ -44,9 +44,9 @@
 
 
     <div id="grid1" class="grid" ui-grid-auto-resize ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
-         ui-grid-exporter ng-if="recordType === 'CUSTOMER'"></div>
+         ui-grid-exporter ui-grid-cellNav ng-if="recordType === 'CUSTOMER'"></div>
     <div id="grid2" class="grid" ui-grid-auto-resize ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
-         ui-grid-exporter ng-if="recordType === 'TRANSACTION'"></div>
+         ui-grid-exporter ui-grid-cellNav ng-if="recordType === 'TRANSACTION'"></div>
 
     <p ng-if="recordType === 'CUSTOMER'" class="my-1">Current page: {{ grid1Api.pagination.getPage() }} of {{ grid1Api.pagination.getTotalPages() }}</p>
     <p ng-if="recordType === 'TRANSACTION'" class="my-1">Current page: {{ grid2Api.pagination.getPage() }} of {{ grid2Api.pagination.getTotalPages() }}</p>

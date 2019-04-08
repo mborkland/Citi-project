@@ -29,8 +29,8 @@ public class TransactionRecord implements Record {
         return buDetails;
     }
 
-    @Override
-    public void setBuDetails(BuDetails buDetails) {
-        this.buDetails = (TxBuDetails) buDetails;
+    public void setBuDetails(TxBuDetails buDetails) {
+        this.buDetails = buDetails;
     }
+
 }

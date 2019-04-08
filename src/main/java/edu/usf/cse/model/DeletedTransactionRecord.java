@@ -28,9 +28,8 @@ public class DeletedTransactionRecord implements Record {
         this.id = id;
     }
 
-    @Override
-    public void setBuDetails(BuDetails buDetails) {
-        this.buDetails = (TxBuDetails) buDetails;
+    public void setBuDetails(TxBuDetails buDetails) {
+        this.buDetails = buDetails;
     }
 
     @Override

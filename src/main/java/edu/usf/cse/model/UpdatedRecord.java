@@ -1,13 +1,17 @@
 package edu.usf.cse.model;
 
+import java.util.List;
+
 public interface UpdatedRecord {
 
     Record getRecord();
 
-    void setRecord(Record record);
-
     String getRequestor();
 
     void setRequestor(String requestor);
+
+    List<String> getUpdatedFields();
+
+    void setUpdatedFields(List<String> updatedFields);
 
 }

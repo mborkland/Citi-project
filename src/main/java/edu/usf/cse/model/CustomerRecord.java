@@ -30,8 +30,7 @@ public class CustomerRecord implements Record {
 	    return buDetails;
     }
 
-    @Override
-    public void setBuDetails(BuDetails buDetails) {
-	    this.buDetails = (CxBuDetails) buDetails;
+    public void setBuDetails(CxBuDetails buDetails) {
+	    this.buDetails = buDetails;
     }
 }

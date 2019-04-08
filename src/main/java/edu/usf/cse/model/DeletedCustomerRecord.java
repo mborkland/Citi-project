@@ -28,9 +28,8 @@ public class DeletedCustomerRecord implements Record {
         this.id = id;
     }
 
-    @Override
-    public void setBuDetails(BuDetails buDetails) {
-        this.buDetails = (CxBuDetails) buDetails;
+    public void setBuDetails(CxBuDetails buDetails) {
+        this.buDetails = buDetails;
     }
 
     @Override

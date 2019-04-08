@@ -151,8 +151,9 @@ public class TransactionRecordService implements RecordService {
         for (UpdatedRecord record : records) {
             TransactionRecord transactionRecord = (TransactionRecord) record.getRecord();
             String requestor = record.getRequestor();
+            String updatedFields = String.join(", ", record.getUpdatedFields());
             StringBuilder updateHistory = new StringBuilder(((TxBuDetails) transactionRecord.getBuDetails()).getUpdateHistory());
-            updateHistory.append(historyDelimiter).append("Record updated on ")
+            updateHistory.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
                     .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
             ((TxBuDetails) transactionRecord.getBuDetails()).setUpdateHistory(updateHistory.toString());
             transactionRecordRepository.save(transactionRecord);

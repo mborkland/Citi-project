@@ -3,6 +3,8 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
 
+    var booleanFields = ['gomCompliant', 'workflowFlag', 'anyBatchComponent'];
+
     var xsw = 90;
     var xxsw = xsw / 2;
     var sw = 2 * xsw;
@@ -178,7 +180,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
 
     $scope.showUpdateWindow = function() {
         var selectedRowData = $scope.getSelectedRowData();
-        $window.scopeToShare = $scope;
+        $window.parentScope = $scope;
         $window.open('html/update.html', 'Update Records', 'width=1000,height=600');
     };
 
@@ -259,6 +261,49 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             return convertTxData(record, isRandom);
         }
     }
+
+    function jsonifyUpdatedRecord(updatedRecord, SOEID) {
+        var jsonifiedRecord = {
+            record: {
+                id: updatedRecord.entity.id,
+                buDetails: {}
+            },
+            requestor: SOEID,
+            updatedFields: updatedRecord.updatedFields
+        };
+
+        angular.forEach(updatedRecord.entity, function(value, key) {
+            if (key !== '$$hashKey' && key !== 'id') {
+                var convertedValue = booleanFields.includes(key) ? convertCharToBoolean(value) : value;
+                jsonifiedRecord.record.buDetails[key] = convertedValue;
+            }
+        });
+
+        return jsonifiedRecord;
+    }
+
+    function jsonifyUpdatedRecords(updatedRecords, SOEID) {
+        var jsonified = [];
+        angular.forEach(updatedRecords, function (value, key) {
+            jsonified.push(jsonifyUpdatedRecord(value, SOEID));
+        });
+
+        return jsonified;
+    }
+
+    $scope.updateRecords = function (updatedRecords, SOEID) {
+        var url = $scope.recordType === "CUSTOMER" ? '/update-customer' : '/update-transaction';
+        var data = jsonifyUpdatedRecords(updatedRecords);
+        $http({
+            method: 'PATCH',
+            url: url,
+            data: data
+        }).then (function (response) {
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    };
 
     function convertCxData(record, isRandom) {
         return {
@@ -346,21 +391,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return boolean ? 'Y' : 'N';
     }
 
-    $scope.updateRecords = function (records) {
-        console.log("The start of the updateRecords function");
-        console.log(records);
-        var url = $scope.recordType === "CUSTOMER" ? '/update-customer?' : '/update-transaction?';
-        url = url + "records=" + records[0];
-        for (var i = 1; i < records.length; i++) {
-            url = url + "&records=" + records[i];
-        }
-        console.log("This is the url");
-        console.log(url);
-        $http.patch(url).then (function (response) {
-            console.log(response);
-        }, function (error) {
-            console.log(error);
-        });
-    };
-
+    function convertCharToBoolean(char) {
+        return !!'Y';
+    }
 }]);

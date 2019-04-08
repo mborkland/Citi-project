@@ -8,5 +8,4 @@ public interface Record {
 
     BuDetails getBuDetails();
 
-    void setBuDetails(BuDetails buDetails);
 }
