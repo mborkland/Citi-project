@@ -33,7 +33,7 @@ public class MainController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/read")
-    public ResponseEntity<List<Record>> read(@RequestParam RecordType recordType, String searchTerms, boolean exactMatch) {
+    public ResponseEntity<List<Record>> read(@RequestParam RecordType recordType, @RequestParam String searchTerms, @RequestParam boolean exactMatch) {
         return new ResponseEntity<List<Record>>(getRecordService(recordType).getRecords(searchTerms, exactMatch), HttpStatus.OK);
     }
 
@@ -45,7 +45,7 @@ public class MainController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/read-archive")
-    public ResponseEntity<List<Record>> readArchive(@RequestParam RecordType recordType, String searchTerms, boolean exactMatch) {
+    public ResponseEntity<List<Record>> readArchive(@RequestParam RecordType recordType, @RequestParam String searchTerms, @RequestParam boolean exactMatch) {
         return new ResponseEntity<List<Record>>(getRecordService(recordType).getArchivedRecords(searchTerms, exactMatch), HttpStatus.OK);
     }
 
@@ -77,8 +77,8 @@ public class MainController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/clear", method = RequestMethod.DELETE)
-    public ResponseEntity<String> clear(@RequestParam RecordType recordType) {
-        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).clearDeletedRecords() + "\"}", HttpStatus.OK);
+    public ResponseEntity<String> clear(@RequestParam RecordType recordType, @RequestParam List<Integer> ids) {
+        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).clearDeletedRecords(ids) + "\"}", HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

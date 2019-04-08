@@ -4,6 +4,7 @@ function($scope, $http, $uibModalInstance, modalData) {
     $scope.deletionDetailsData = modalData.deletionDetailsData;
     var deleteData = modalData.deleteData;
     var restoreData = modalData.restoreData;
+    var clearData = modalData.clearData;
 
     $scope.ok = function () {
         $uibModalInstance.close();
@@ -32,6 +33,9 @@ function($scope, $http, $uibModalInstance, modalData) {
 
     $scope.clear = function() {
         var url = '/clear?recordType=' + modalData.recordType;
+        angular.forEach(clearData, function(value, key) {
+           url += ('&ids=' + value.id);
+        });
         $http.delete(url).then (function (response) {
             console.log(response);
         }, function (error) {
@@ -42,7 +46,6 @@ function($scope, $http, $uibModalInstance, modalData) {
 
     $scope.restore = function() {
         var url = '/restore?recordType=' + modalData.recordType + '&requestor=' + $scope.SOEID;
-        //var selectedData = $scope.getSelectedRowData();
         angular.forEach(restoreData, function(value, key) {
             url += ('&ids=' + value.id);
         });
