@@ -8,6 +8,8 @@ public class UpdatedCustomerRecord implements UpdatedRecord {
 
     private String requestor;
 
+    private String reason;
+
     private List<String> updatedFields;
 
     @Override
@@ -37,6 +39,18 @@ public class UpdatedCustomerRecord implements UpdatedRecord {
     @Override
     public void setUpdatedFields(List<String> updatedFields) {
         this.updatedFields = updatedFields;
+    }
+
+    @Override
+    public void setReason(String newReason)
+    {
+        this.reason = newReason;
+    }
+
+    @Override
+    public String getReason()
+    {
+        return this.reason;
     }
 
 }

@@ -10,6 +10,10 @@ public interface UpdatedRecord {
 
     void setRequestor(String requestor);
 
+    void setReason(String newReason);
+
+    String getReason();
+
     List<String> getUpdatedFields();
 
     void setUpdatedFields(List<String> updatedFields);

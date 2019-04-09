@@ -175,10 +175,12 @@ public class CustomerRecordService implements RecordService {
         for (UpdatedRecord record : records) {
             CustomerRecord customerRecord = (CustomerRecord) record.getRecord();
             String requestor = record.getRequestor();
+            String reason = record.getReason();
             String updatedFields = String.join(", ", record.getUpdatedFields());
             StringBuilder updateHistory = new StringBuilder(((CxBuDetails) customerRecord.getBuDetails()).getUpdateHistory());
             updateHistory.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
-                    .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
+                    .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor)
+                    .append(" because ").append(reason);
             ((CxBuDetails) customerRecord.getBuDetails()).setUpdateHistory(updateHistory.toString());
             customerRecordRepository.save(customerRecord);
         }

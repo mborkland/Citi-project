@@ -288,13 +288,14 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         }
     }
 
-    function jsonifyUpdatedRecord(updatedRecord, SOEID) {
+    function jsonifyUpdatedRecord(updatedRecord, SOEID, newReason) {
         var jsonifiedRecord = {
             record: {
                 id: updatedRecord.entity.id,
                 buDetails: {}
             },
             requestor: SOEID,
+            reason: newReason,
             updatedFields: updatedRecord.updatedFields
         };
 
@@ -308,26 +309,28 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return jsonifiedRecord;
     }
 
-    function jsonifyUpdatedRecords(updatedRecords, SOEID) {
+    function jsonifyUpdatedRecords(updatedRecords, SOEID, newReason) {
         var jsonified = [];
         angular.forEach(updatedRecords, function (value, key) {
-            jsonified.push(jsonifyUpdatedRecord(value, SOEID));
+            jsonified.push(jsonifyUpdatedRecord(value, SOEID, newReason));
         });
 
         return jsonified;
     }
 
-    $scope.updateRecords = function (updatedRecords, SOEID) {
+    $scope.updateRecords = function (updatedRecords, SOEID, newReason) {
         var url = $scope.recordType === "CUSTOMER" ? '/update-customer' : '/update-transaction';
-        var data = jsonifyUpdatedRecords(updatedRecords, SOEID);
+        var data = jsonifyUpdatedRecords(updatedRecords, SOEID, newReason);
         $http({
             method: 'PATCH',
             url: url,
             data: data
         }).then (function (response) {
             console.log(response);
+            timedRefresh(3000);
         }, function (error) {
             console.log(error);
+            timedRefresh(3000);
         });
     };
 

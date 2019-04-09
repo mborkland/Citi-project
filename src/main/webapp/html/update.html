@@ -36,8 +36,14 @@
             <div class="row ml-auto mr-0">
                 <label for="SOEID">Please enter your SOEID:</label>
                 <input type="text" id="SOEID" name="SOEID" ng-model="SOEID" required>
+            </div>
+            <div class="row ml-auto mr-0">
+                <label for="reason">Please enter the reason for editing the record(s):</label>
+                <input type="text" id="reason" name="reason" ng-model="reason" required>
+            </div>
+            <div class="row ml-auto mr-0">
                 <div class="m-2 p-1" style="width: auto;">
-                    <button class="btn btn-md btn-primary" ng-disabled="checkSOEID()" ng-click="makeChanges()"
+                    <button class="btn btn-md btn-primary" ng-disabled="validate()" ng-click="makeChanges()"
                     >Make Changes</button>
                 </div>
                 <div class="m-2 p-1" style="width: auto;">
@@ -80,6 +86,7 @@
     function($window, $scope, uiGridConstants, $interval, $uibModal) {
         $scope.recordType = $window.opener.parentScope.recordType;
         $scope.rowData = $window.opener.parentScope.getSelectedRowData();
+        $scope.numberOfEditedRecords = 0;
         var updatedColumns = [];
 
         function trackColumnUpdate(rowEntity, colDef) {
@@ -116,12 +123,82 @@
                     updatedFields: getUpdatedFields(value.entity.id)
                 });
             });
-
+            $scope.numberOfEditedRecords = updatedRecords.length;
             return updatedRecords;
         }
 
+        function getUpdateHistory(id) {
+            var updateHistory = null;
+            angular.forEach($scope.rowData, function(value, key) {
+                if (value.id === id) {
+                    updateHistory = value.updateHistory;
+                }
+            });
+
+            return updateHistory;
+        }
+
         $scope.showUpdateHistoryModal = function(id) {
-            $window.opener.parentScope.showUpdateHistoryModal(id);
+            var updateHistory = getUpdateHistory(id);
+            var updateHistoryModalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'update-history-modal.html',
+                controller: function($uibModalInstance, $scope, modalData) {
+                    $scope.updateHistoryData = modalData.updateHistoryData;
+
+                    $scope.ok = function () {
+                        $uibModalInstance.close();
+                    };
+                },
+                size: 'md',
+                resolve: {
+                    modalData: {
+                        updateHistoryData: updateHistory
+                    }
+                }
+            });
+        };
+
+        $scope.showUpdateConfimationModal = function() {
+            var updateConfirmationModalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'update-confirmation-modal.html',
+                controller: function($uibModalInstance, $scope, modalData) {
+                    var num = modalData.numUpdatedRecords;
+
+                    $scope.successfulUpdateMessage = function () {
+                        if (num === 1) {
+                            return String(num) + " record has been edited.";
+                        }
+                        else {
+                            return String(num) + " records have been edited.";
+                        }
+                    };
+
+                    $scope.ok = function () {
+                        $uibModalInstance.close();
+                    };
+                },
+                size: 'md',
+                resolve: {
+                    modalData: {
+                        numUpdatedRecords: $scope.numberOfEditedRecords
+                    }
+                }
+            });
+
+            updateConfirmationModalInstance.result.then(
+                function () {
+                    $window.close();
+                },
+                function () {
+                    $window.close();
+                }
+            );
         };
 
         var updateHistoryCellTemplate = '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
@@ -166,7 +243,7 @@
             enableSelectAll: true,
             rowEditWaitInterval: -1,
             onRegisterApi: function (gridApi) {
-                $scope.grid1Api = gridApi;
+                $scope.grid2Api = gridApi;
 
                 gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef) {
                     trackColumnUpdate(rowEntity, colDef);
@@ -188,12 +265,21 @@
         $scope.makeChanges = function () {
             var gridApi = $scope.recordType === 'CUSTOMER' ? $scope.grid1Api : $scope.grid2Api;
             var SOEID = angular.copy($scope.SOEID);
-            $window.opener.parentScope.updateRecords(aggregateUpdateData(gridApi.rowEdit.getDirtyRows(gridApi.grid)), SOEID);
-            $window.close();
+            var reason = angular.copy($scope.reason);
+            $window.opener.parentScope.updateRecords(aggregateUpdateData(gridApi.rowEdit.getDirtyRows(gridApi.grid)), SOEID, reason);
+            $scope.showUpdateConfimationModal();
         };
 
         $scope.checkSOEID = function () {
             return !($scope.SOEID);
+        };
+
+        $scope.checkReason = function () {
+            return !($scope.reason);
+        };
+
+        $scope.validate = function () {
+            return (($scope.checkReason()) || ($scope.checkSOEID()));
         };
         }]);
 </script>
