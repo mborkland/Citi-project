@@ -118,7 +118,9 @@ public class CustomerRecordService implements RecordService {
             List<Predicate> predicates = new ArrayList<>();
             for (String searchTerm : searchTermsSplit) {
                 for (String searchableField : searchableFields) {
-                    predicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                    Expression<Integer> index = builder.locate(root.get("buDetails").get(searchableField), searchTerm.trim());
+                    Integer limit = new Integer(0);
+                    predicates.add(builder.notEqual(index, limit));
                 }
             }
 
@@ -158,7 +160,9 @@ public class CustomerRecordService implements RecordService {
             List<Predicate> predicates = new ArrayList<>();
             for (String searchTerm : searchTermsSplit) {
                 for (String searchableField : searchableFields) {
-                    predicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                    Expression<Integer> index = builder.locate(root.get("buDetails").get(searchableField), searchTerm.trim());
+                    Integer limit = new Integer(0);
+                    predicates.add(builder.notEqual(index, limit));
                 }
             }
 

@@ -90,7 +90,7 @@ public class CxBuDetails implements BuDetails {
     @Column(name="Timezone")
     private String timezone;
 
-    @Column(name="Update_History")
+    @Column(name="Update_History", columnDefinition="MEDIUMTEXT")
     private String updateHistory;
 
     @Override

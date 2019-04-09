@@ -362,7 +362,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             sourceTechContact: isRandom ? record[23] : record.buDetails.sourceTechContact,
             timezone: isRandom ? record[24] : record.buDetails.timezone,
             updateHistory: isRandom ? record[25] : record.buDetails.updateHistory,
-            wfBusinessGreenzone: isRandom ? record[26] : record.buDetails.wfBusinessGreenZone,
+            wfBusinessGreenzone: isRandom ? record[26] : record.buDetails.wfBusinessGreenzone,
             wfBusinessUnitNameDisplayValue: isRandom ? record[27] : record.buDetails.wfBusinessUnitNameDisplayValue,
             workflowFlag: convertBooleanToChar(isRandom ? record[28] : record.buDetails.workflowFlag),
             workflowInstance: isRandom ? record[29] : record.buDetails.workflowInstance
@@ -408,7 +408,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             txScreeningBusinessUnitName: isRandom ? record[34] : record.buDetails.txScreeningBusinessUnitName,
             uniqueProductId: isRandom ? record[35] : record.buDetails.uniqueProductId,
             updateHistory: isRandom ? record[36] : record.buDetails.updateHistory,
-            wfBusinessGreenzone: isRandom ? record[37] : record.buDetails.wfBusinessGreenZone,
+            wfBusinessGreenzone: isRandom ? record[37] : record.buDetails.wfBusinessGreenzone,
             workflowFlag: convertBooleanToChar(isRandom ? record[38] : record.buDetails.workflowFlag),
             workflowInstance: isRandom ? record[39] : record.buDetails.workflowInstance,
             workflowOperationsContacts: isRandom ? record[40] : record.buDetails.workflowOperationsContacts,
