@@ -18,7 +18,9 @@ app.controller('CreateController', ['$scope', '$http', '$state', function($scope
         $http.post(url).then(function (response) {
             console.log(response);
             alert(response.data.result);
-            $state.go('read');
+            if(response.data.result == "Customer record created successfully") {
+                $state.go('read');
+            }
         }, function (error) {
             console.log(error);
             alert('There was an error');
@@ -36,7 +38,9 @@ app.controller('CreateController', ['$scope', '$http', '$state', function($scope
         $http.post(url).then(function (response) {
             console.log(response);
             alert(response.data.result);
-            $state.go('read');
+            if(response.data.result == "Transaction record created successfully") {
+                $state.go('read');
+            }
         }, function (error) {
             console.log(error);
             alert('There was an error');

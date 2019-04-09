@@ -91,7 +91,7 @@ public class TransactionRecordService implements RecordService {
         txBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
         if(findDuplicateRecords((BuDetails) txBuDetails).size() > 0)
-            return "Duplicate customer records found";
+            return "Duplicate transaction records found";
 
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setBuDetails(txBuDetails);
