@@ -90,8 +90,8 @@ public class CxBuDetails implements BuDetails {
     @Column(name="Timezone")
     private String timezone;
 
-    @Column(name="Update_History", columnDefinition="MEDIUMTEXT")
-    private String updateHistory;
+    @Column(name="History", columnDefinition="MEDIUMTEXT")
+    private String history;
 
     @Override
     public String getCsiId() {
@@ -319,11 +319,11 @@ public class CxBuDetails implements BuDetails {
         this.timezone = timezone;
     }
 
-    public String getUpdateHistory() {
-        return updateHistory;
+    public String getHistory() {
+        return history;
     }
 
-    public void setUpdateHistory(String updateHistory) {
-        this.updateHistory = updateHistory;
+    public void setHistory(String history) {
+        this.history = history;
     }
 }

@@ -31,7 +31,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         enableFullRowSelection: true,
         selectionRowHeaderWidth: 35,
         rowHeight: 35,
-        //paginationPageSizes: [10, 20, 50],
         enablePaginationControls: false,
         paginationPageSize: 15,
         showGridFooter:true,
@@ -66,8 +65,8 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             {field: 'impactToBusiness', displayName: 'Impact To Business', width: mw, enableHiding: false},
             {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
             {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
-            {field: 'updateHistory', displayName: 'History', width: sw, enableHiding: false,
-                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
+            {field: 'history', displayName: 'History', width: sw, enableHiding: false,
+                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
         ],
         onRegisterApi: function (gridApi) {
             $scope.grid1Api = gridApi;
@@ -130,8 +129,8 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             {field: 'thresholdSetForTimeouts', displayName: 'Threshold Set for Timeouts', width: mw, enableHiding: false},
             {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mw, enableHiding: false},
             {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
-            {field: 'updateHistory', displayName: 'History', width: sw, enableHiding: false,
-                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
+            {field: 'history', displayName: 'History', width: sw, enableHiding: false,
+                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
         ],
         onRegisterApi: function (gridApi) {
             $scope.grid2Api = gridApi;
@@ -149,30 +148,29 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
     };
 
-    function getUpdateHistory(id) {
-        var updateHistory = null;
+    function getHistory(id) {
+        var history = null;
         angular.forEach($scope.rowData, function(value, key) {
             if (value.id === id) {
-                updateHistory = value.updateHistory;
+                history = value.history;
             }
         });
 
-        return updateHistory;
+        return history;
     }
 
-    $scope.showUpdateHistoryModal = function(id) {
-        console.log('function called');
-        var updateHistory = getUpdateHistory(id);
-        var updateHistoryModalInstance = $uibModal.open({
+    $scope.showHistoryModal = function(id) {
+        var history = getHistory(id);
+        var historyModalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'html/update-history-modal.html',
+            templateUrl: 'html/history-modal.html',
             controller: 'ModalController',
             size: 'md',
             resolve: {
                 modalData: {
-                    updateHistoryData: updateHistory
+                    historyData: history
                 }
             }
         });
@@ -238,12 +236,14 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         }, timeoutPeriod);
     }
 
+    $scope.any = true;
     $scope.exactMatch = false;
 
     $scope.search = function () {
         var url = '/read?recordType=';
         if ($scope.searchTerms) {
-            $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch).then(function (response) {
+            $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch
+                + '&any=' + $scope.any).then(function (response) {
                 handleResponse(response, false);
             }, function (error) {
                 console.log(error);
@@ -350,18 +350,18 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             cxBusinessGreenzone: isRandom ? record[11] : record.buDetails.cxBusinessGreenzone,
             cxScreeningBusinessUnitName: isRandom ? record[12] : record.buDetails.cxScreeningBusinessUnitName,
             gomCompliant: convertBooleanToChar(isRandom ? record[13] : record.buDetails.gomCompliant),
-            impactToBusiness: isRandom ? record[14] : record.buDetails.impactToBusiness,
-            interfaceAppId: isRandom ? record[15] : record.buDetails.interfaceAppId,
-            interfaceApplicationName: isRandom ? record[16] : record.buDetails.interfaceApplicationName,
-            operationEntity: isRandom ? record[17] : record.buDetails.operationEntity,
-            opsComplianceContacts: isRandom ? record[18] : record.buDetails.opsComplianceContacts,
-            productId: isRandom ? record[19] : record.buDetails.productId,
-            region: isRandom ? record[20] : record.buDetails.region,
-            rulesetMapped: isRandom ? record[21] : record.buDetails.rulesetMapped,
-            sector: isRandom ? record[22] : record.buDetails.sector,
-            sourceTechContact: isRandom ? record[23] : record.buDetails.sourceTechContact,
-            timezone: isRandom ? record[24] : record.buDetails.timezone,
-            updateHistory: isRandom ? record[25] : record.buDetails.updateHistory,
+            history: isRandom ? record[14] : record.buDetails.history,
+            impactToBusiness: isRandom ? record[15] : record.buDetails.impactToBusiness,
+            interfaceAppId: isRandom ? record[16] : record.buDetails.interfaceAppId,
+            interfaceApplicationName: isRandom ? record[17] : record.buDetails.interfaceApplicationName,
+            operationEntity: isRandom ? record[18] : record.buDetails.operationEntity,
+            opsComplianceContacts: isRandom ? record[19] : record.buDetails.opsComplianceContacts,
+            productId: isRandom ? record[20] : record.buDetails.productId,
+            region: isRandom ? record[21] : record.buDetails.region,
+            rulesetMapped: isRandom ? record[22] : record.buDetails.rulesetMapped,
+            sector: isRandom ? record[23] : record.buDetails.sector,
+            sourceTechContact: isRandom ? record[24] : record.buDetails.sourceTechContact,
+            timezone: isRandom ? record[25] : record.buDetails.timezone,
             wfBusinessGreenzone: isRandom ? record[26] : record.buDetails.wfBusinessGreenzone,
             wfBusinessUnitNameDisplayValue: isRandom ? record[27] : record.buDetails.wfBusinessUnitNameDisplayValue,
             workflowFlag: convertBooleanToChar(isRandom ? record[28] : record.buDetails.workflowFlag),
@@ -384,30 +384,30 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             escalationPath1stLevelSupport: isRandom ? record[10] : record.buDetails.escalationPath1stLevelSupport,
             escalationPath2ndLevelSupport: isRandom ? record[11] : record.buDetails.escalationPath2ndLevelSupport,
             firstLevelEscalation: isRandom ? record[12] : record.buDetails.firstLevelEscalation,
-            hotlineNumber: isRandom ? record[13] : record.buDetails.hotlineNumber,
-            impactToProductProcessor: isRandom ? record[14] : record.buDetails.impactToProductProcessor,
-            initialScreeningResponseSla: isRandom ? record[15] : record.buDetails.initialScreeningResponseSla,
-            interfaceAppId: isRandom ? record[16] : record.buDetails.interfaceAppId,
-            interfaceApplicationName: isRandom ? record[17] : record.buDetails.interfaceApplicationName,
-            interfaceConnectivityDoc: isRandom ? record[18] : record.buDetails.interfaceConnectivityDoc,
-            operationEntity: isRandom ? record[19] : record.buDetails.operationEntity,
-            productId: isRandom ? record[20] : record.buDetails.productId,
-            productProcessor: isRandom ? record[21] : record.buDetails.productProcessor,
-            productProcessorGroupDl: isRandom ? record[22] : record.buDetails.productProcessorGroupDl,
-            productProcessorScreeningResponseCutoffTime: isRandom ? record[23] : record.buDetails.productProcessorScreeningResponseCutoffTime,
-            productProcessorSnowGroupName: isRandom ? record[24] : record.buDetails.productProcessorSnowGroupName,
-            productProcessorStandardGreenzones: isRandom ? record[25] : record.buDetails.productProcessorStandardGreenzones,
-            region: isRandom ? record[26] : record.buDetails.region,
-            retryMechanism: isRandom ? record[27] : record.buDetails.retryMechanism,
-            rulesetMapped: isRandom ? record[28] : record.buDetails.rulesetMapped,
-            scheduleForRealtimeVolumes: isRandom ? record[29] : record.buDetails.scheduleForRealtimeVolumes,
-            secondLevelEscalation: isRandom ? record[30] : record.buDetails.secondLevelEscalation,
-            sector: isRandom ? record[31] : record.buDetails.sector,
-            sourceTechContacts: isRandom ? record[32] : record.buDetails.sourceTechContacts,
-            thresholdSetForTimeouts: isRandom ? record[33] : record.buDetails.thresholdSetForTimeouts,
-            txScreeningBusinessUnitName: isRandom ? record[34] : record.buDetails.txScreeningBusinessUnitName,
-            uniqueProductId: isRandom ? record[35] : record.buDetails.uniqueProductId,
-            updateHistory: isRandom ? record[36] : record.buDetails.updateHistory,
+            history: isRandom ? record[13] : record.buDetails.history,
+            hotlineNumber: isRandom ? record[14] : record.buDetails.hotlineNumber,
+            impactToProductProcessor: isRandom ? record[15] : record.buDetails.impactToProductProcessor,
+            initialScreeningResponseSla: isRandom ? record[16] : record.buDetails.initialScreeningResponseSla,
+            interfaceAppId: isRandom ? record[17] : record.buDetails.interfaceAppId,
+            interfaceApplicationName: isRandom ? record[18] : record.buDetails.interfaceApplicationName,
+            interfaceConnectivityDoc: isRandom ? record[19] : record.buDetails.interfaceConnectivityDoc,
+            operationEntity: isRandom ? record[20] : record.buDetails.operationEntity,
+            productId: isRandom ? record[21] : record.buDetails.productId,
+            productProcessor: isRandom ? record[22] : record.buDetails.productProcessor,
+            productProcessorGroupDl: isRandom ? record[23] : record.buDetails.productProcessorGroupDl,
+            productProcessorScreeningResponseCutoffTime: isRandom ? record[24] : record.buDetails.productProcessorScreeningResponseCutoffTime,
+            productProcessorSnowGroupName: isRandom ? record[25] : record.buDetails.productProcessorSnowGroupName,
+            productProcessorStandardGreenzones: isRandom ? record[26] : record.buDetails.productProcessorStandardGreenzones,
+            region: isRandom ? record[27] : record.buDetails.region,
+            retryMechanism: isRandom ? record[28] : record.buDetails.retryMechanism,
+            rulesetMapped: isRandom ? record[29] : record.buDetails.rulesetMapped,
+            scheduleForRealtimeVolumes: isRandom ? record[30] : record.buDetails.scheduleForRealtimeVolumes,
+            secondLevelEscalation: isRandom ? record[31] : record.buDetails.secondLevelEscalation,
+            sector: isRandom ? record[32] : record.buDetails.sector,
+            sourceTechContacts: isRandom ? record[33] : record.buDetails.sourceTechContacts,
+            thresholdSetForTimeouts: isRandom ? record[34] : record.buDetails.thresholdSetForTimeouts,
+            txScreeningBusinessUnitName: isRandom ? record[35] : record.buDetails.txScreeningBusinessUnitName,
+            uniqueProductId: isRandom ? record[36] : record.buDetails.uniqueProductId,
             wfBusinessGreenzone: isRandom ? record[37] : record.buDetails.wfBusinessGreenzone,
             workflowFlag: convertBooleanToChar(isRandom ? record[38] : record.buDetails.workflowFlag),
             workflowInstance: isRandom ? record[39] : record.buDetails.workflowInstance,

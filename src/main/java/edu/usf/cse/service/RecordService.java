@@ -14,13 +14,13 @@ public interface RecordService {
 
     Record getRecordById(Integer id);
 
-    List<Record> getRecords(String searchTerms, boolean exactMatch);
+    List<Record> getRecords(String searchTerms, boolean any, boolean exactMatch);
 
     List<Record> getRandomRecords(int numRandomRecords);
 
     String updateRecord(List<? extends UpdatedRecord> records);
 
-    List<Record> getArchivedRecords(String searchTerms, boolean exactMatch);
+    List<Record> getArchivedRecords(String searchTerms, boolean any, boolean exactMatch);
 
     String deleteRecord(Integer id);
 

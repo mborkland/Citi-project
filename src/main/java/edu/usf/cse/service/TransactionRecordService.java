@@ -88,7 +88,7 @@ public class TransactionRecordService implements RecordService {
         txBuDetails.setThresholdSetForTimeouts(iterator.next());
         txBuDetails.setAnyBatchComponent(Boolean.parseBoolean(iterator.next()));
         txBuDetails.setWorkflowOperationsWorkSchedule(iterator.next());
-        txBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
+        txBuDetails.setHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setBuDetails(txBuDetails);
@@ -111,18 +111,42 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public List<Record> getRecords(String searchTerms, boolean exactMatch) {
+    public List<Record> getRecords(String searchTerms, boolean any, boolean exactMatch) {
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<TransactionRecord> criteriaQuery = builder.createQuery(TransactionRecord.class);
         Root<TransactionRecord> root = criteriaQuery.from(TransactionRecord.class);
+        Query query = entityManager.createQuery(buildQuery(searchTermsSplit, any, exactMatch, builder, criteriaQuery, root));
+        return query.getResultList();
+    }
 
+    private Predicate getMatchTypePredicate(boolean exactMatch, String searchableField, String searchTerm,
+                                            CriteriaBuilder builder, Root<? extends Record> root) {
         if (exactMatch) {
+            return builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim());
+        } else {
+            Expression<Integer> index = builder.locate(root.get("buDetails").get(searchableField), searchTerm.trim());
+            return builder.notEqual(index, 0);
+        }
+    }
+
+    private CriteriaQuery<? extends Record> buildQuery(String[] searchTermsSplit, boolean any, boolean exactMatch, CriteriaBuilder builder,
+                                                       CriteriaQuery<? extends Record> criteriaQuery, Root<? extends Record> root) {
+        if (any) {
+            List<Predicate> predicates = new ArrayList<>();
+            for (String searchTerm : searchTermsSplit) {
+                for (String searchableField : searchableFields) {
+                    predicates.add(getMatchTypePredicate(exactMatch, searchableField, searchTerm, builder, root));
+                }
+            }
+
+            criteriaQuery.where(builder.or(predicates.toArray(new Predicate[predicates.size()])));
+        } else {
             List<Predicate> outerPredicates = new ArrayList<>();
             for (String searchTerm : searchTermsSplit) {
                 List<Predicate> innerPredicates = new ArrayList<>();
                 for (String searchableField : searchableFields) {
-                    innerPredicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
+                    innerPredicates.add(getMatchTypePredicate(exactMatch, searchableField, searchTerm, builder, root));
                 }
 
                 outerPredicates.add(builder.or(innerPredicates.toArray(new Predicate[innerPredicates.size()])));
@@ -131,21 +155,9 @@ public class TransactionRecordService implements RecordService {
             Predicate finalPredicate = outerPredicates.size() == 1 ? outerPredicates.get(0) :
                     builder.and(outerPredicates.toArray(new Predicate[outerPredicates.size()]));
             criteriaQuery.where(finalPredicate);
-        } else {
-            List<Predicate> predicates = new ArrayList<>();
-            for (String searchTerm : searchTermsSplit) {
-                for (String searchableField : searchableFields) {
-                    Expression<Integer> index = builder.locate(root.get("buDetails").get(searchableField), searchTerm.trim());
-                    Integer limit = new Integer(0);
-                    predicates.add(builder.notEqual(index, limit));
-                }
-            }
-
-            criteriaQuery.where(builder.or(predicates.toArray(new Predicate[predicates.size()])));
         }
 
-        Query query = entityManager.createQuery(criteriaQuery);
-        return query.getResultList();
+        return criteriaQuery;
     }
 
     public List<Record> getRandomRecords(int numRandomRecords)  {
@@ -160,11 +172,11 @@ public class TransactionRecordService implements RecordService {
             String requestor = record.getRequestor();
             String reason = record.getReason();
             String updatedFields = String.join(", ", record.getUpdatedFields());
-            StringBuilder updateHistory = new StringBuilder(((TxBuDetails) transactionRecord.getBuDetails()).getUpdateHistory());
-            updateHistory.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
+            StringBuilder history = new StringBuilder(((TxBuDetails) transactionRecord.getBuDetails()).getHistory());
+            history.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
                     .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor)
                     .append(" because ").append(reason);
-            ((TxBuDetails) transactionRecord.getBuDetails()).setUpdateHistory(updateHistory.toString());
+            ((TxBuDetails) transactionRecord.getBuDetails()).setHistory(history.toString());
             transactionRecordRepository.save(transactionRecord);
         }
 
@@ -172,40 +184,12 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public List<Record> getArchivedRecords(String searchTerms, boolean exactMatch) {
+    public List<Record> getArchivedRecords(String searchTerms, boolean any, boolean exactMatch) {
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<DeletedTransactionRecord> criteriaQuery = builder.createQuery(DeletedTransactionRecord.class);
         Root<DeletedTransactionRecord> root = criteriaQuery.from(DeletedTransactionRecord.class);
-
-        if (exactMatch) {
-            List<Predicate> outerPredicates = new ArrayList<>();
-            for (String searchTerm : searchTermsSplit) {
-                List<Predicate> innerPredicates = new ArrayList<>();
-                for (String searchableField : searchableFields) {
-                    innerPredicates.add(builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim()));
-                }
-
-                outerPredicates.add(builder.or(innerPredicates.toArray(new Predicate[innerPredicates.size()])));
-            }
-
-            Predicate finalPredicate = outerPredicates.size() == 1 ? outerPredicates.get(0) :
-                    builder.and(outerPredicates.toArray(new Predicate[outerPredicates.size()]));
-            criteriaQuery.where(finalPredicate);
-        } else {
-            List<Predicate> predicates = new ArrayList<>();
-            for (String searchTerm : searchTermsSplit) {
-                for (String searchableField : searchableFields) {
-                    Expression<Integer> index = builder.locate(root.get("buDetails").get(searchableField), searchTerm.trim());
-                    Integer limit = new Integer(0);
-                    predicates.add(builder.notEqual(index, limit));
-                }
-            }
-
-            criteriaQuery.where(builder.or(predicates.toArray(new Predicate[predicates.size()])));
-        }
-
-        Query query = entityManager.createQuery(criteriaQuery);
+        Query query = entityManager.createQuery(buildQuery(searchTermsSplit, any, exactMatch, builder, criteriaQuery, root));
         return query.getResultList();
     }
 
@@ -252,10 +236,10 @@ public class TransactionRecordService implements RecordService {
         TxBuDetails txBuDetails = (TxBuDetails) deletedTransactionRecord.getBuDetails();
 
         TransactionRecord transactionRecord = new TransactionRecord();
-        StringBuilder updateHistory = new StringBuilder(txBuDetails.getUpdateHistory());
-        updateHistory.append(historyDelimiter).append(deletionDetails).append(historyDelimiter)
+        StringBuilder history = new StringBuilder(txBuDetails.getHistory());
+        history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter)
                 .append("Record restored on ").append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
-        txBuDetails.setUpdateHistory(updateHistory.toString());
+        txBuDetails.setHistory(history.toString());
         transactionRecord.setBuDetails(txBuDetails);
         transactionRecordRepository.save(transactionRecord);
         deletedTransactionRecordRepository.delete(id);
