@@ -126,8 +126,8 @@ public class TxBuDetails implements BuDetails {
     @Column(name="Workflow_Operations_Work_Schedule")
     private String workflowOperationsWorkSchedule;
 
-    @Column(name="Update_History", columnDefinition="MEDIUMTEXT")
-    private String updateHistory;
+    @Column(name="History", columnDefinition="MEDIUMTEXT")
+    private String history;
 
     public String getBusinessId() {
         return businessId;
@@ -451,11 +451,11 @@ public class TxBuDetails implements BuDetails {
         this.workflowOperationsWorkSchedule = workflowOperationsWorkSchedule;
     }
 
-    public String getUpdateHistory() {
-        return updateHistory;
+    public String getHistory() {
+        return history;
     }
 
-    public void setUpdateHistory(String updateHistory) {
-        this.updateHistory = updateHistory;
+    public void setHistory(String history) {
+        this.history = history;
     }
 }
