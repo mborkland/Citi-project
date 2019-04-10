@@ -15,7 +15,7 @@ public class DeletedCustomerRecord implements Record {
     @Column(name="Deleted_Record")
     private CxBuDetails buDetails;
 
-    @Column(name="Deletion_Details")
+    @Column(name="Deletion_Details", columnDefinition="MEDIUMTEXT")
     private String deletionDetails;
 
     @Override

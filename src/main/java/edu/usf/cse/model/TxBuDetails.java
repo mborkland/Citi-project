@@ -126,7 +126,7 @@ public class TxBuDetails implements BuDetails {
     @Column(name="Workflow_Operations_Work_Schedule")
     private String workflowOperationsWorkSchedule;
 
-    @Column(name="Update_History")
+    @Column(name="Update_History", columnDefinition="MEDIUMTEXT")
     private String updateHistory;
 
     public String getBusinessId() {
