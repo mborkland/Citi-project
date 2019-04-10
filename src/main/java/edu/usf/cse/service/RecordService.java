@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface RecordService {
 
-    String createRecord(List<String> fields, String requestor);
+    Record createRecord(List<String> fields, String requestor);
+
+    String saveRecord(Record record);
 
     Record getRecordById(Integer id);
 

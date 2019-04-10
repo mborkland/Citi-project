@@ -46,7 +46,7 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String createRecord(List<String> fields, String requestor) {
+    public Record createRecord(List<String> fields, String requestor) {
         CxBuDetails cxBuDetails = new CxBuDetails();
         Iterator<String> iterator = fields.iterator();
         cxBuDetails.setCsiId(iterator.next());
@@ -79,12 +79,19 @@ public class CustomerRecordService implements RecordService {
         cxBuDetails.setTimezone(iterator.next());
         cxBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
-        if(findDuplicateRecords((BuDetails) cxBuDetails).size() > 0)
-            return "Duplicate customer records found";
-
         CustomerRecord customerRecord = new CustomerRecord();
         customerRecord.setBuDetails(cxBuDetails);
-        customerRecordRepository.save(customerRecord);
+
+        return customerRecord;
+    }
+
+    @Override
+    public String saveRecord(Record record) {
+        BuDetails buDetails = record.getBuDetails();
+        if(findDuplicateRecords(buDetails).size() > 0)
+            return "Duplicate customer records found";
+
+        customerRecordRepository.save((CustomerRecord) record);
         return "Customer record created successfully";
     }
 

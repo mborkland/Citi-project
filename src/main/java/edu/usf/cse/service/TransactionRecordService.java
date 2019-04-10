@@ -45,7 +45,7 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String createRecord(List<String> fields, String requestor) {
+    public Record createRecord(List<String> fields, String requestor) {
         TxBuDetails txBuDetails = new TxBuDetails();
         Iterator<String> iterator = fields.iterator();
         txBuDetails.setBusinessId(iterator.next());
@@ -90,14 +90,19 @@ public class TransactionRecordService implements RecordService {
         txBuDetails.setWorkflowOperationsWorkSchedule(iterator.next());
         txBuDetails.setUpdateHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
 
-        if(findDuplicateRecords((BuDetails) txBuDetails).size() > 0)
-            return "Duplicate transaction records found";
-
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setBuDetails(txBuDetails);
-        transactionRecordRepository.save(transactionRecord);
-        return "Transaction record created successfully";
+        return transactionRecord;
+    }
 
+    @Override
+    public String saveRecord(Record record) {
+        BuDetails buDetails = record.getBuDetails();
+        if(findDuplicateRecords(buDetails).size() > 0)
+            return "Duplicate customer records found";
+
+        transactionRecordRepository.save((TransactionRecord) record);
+        return "Customer record created successfully";
     }
 
     @Override

@@ -28,7 +28,7 @@ public class MainController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestParam RecordType recordType, @RequestParam List<String> fields, @RequestParam String requestor) {
-        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).createRecord(fields, requestor) + "\"}", HttpStatus.OK);
+        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).saveRecord(getRecordService(recordType).createRecord(fields, requestor)) + "\"}", HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
@@ -78,6 +78,13 @@ public class MainController {
     @RequestMapping(value = "/archive", method = RequestMethod.GET)
     public ResponseEntity<List<Record>> getArchive(@RequestParam RecordType recordType) {
         return new ResponseEntity<List<Record>>(getRecordService(recordType).getArchive(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/duplicate-records", method = RequestMethod.GET)
+    public ResponseEntity<List<Record>> getDuplicateRecords(@RequestParam RecordType recordType, @RequestParam List<String> fields, @RequestParam String requestor) {
+        Record createdRecord = getRecordService(recordType).createRecord(fields, requestor);
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).findDuplicateRecords(createdRecord.getBuDetails()), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
