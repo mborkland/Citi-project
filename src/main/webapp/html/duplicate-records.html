@@ -72,14 +72,8 @@
 
     app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval', '$uibModal',
     function($window, $scope, uiGridConstants, $interval, $uibModal) {
-        $scope.recordType = "TRANSACTION";
-        //$scope.recordType = $window.opener.parentScope.recordType;
+        $scope.recordType = $window.opener.parentScope.recordType;
         $scope.rowData = $window.opener.parentScope.duplicateRows;
-        //console.log($scope.rowData);
-        $scope.numberOfEditedRecords = 0;
-        var updatedColumns = [];
-
-        var booleanFields = ['gomCompliant', 'workflowFlag', 'anyBatchComponent'];
 
         var xsw = 90;
         var xxsw = xsw / 2;
@@ -88,64 +82,26 @@
         var lw = 4 * xsw;
         var xlw = 4.5 * xsw;
 
-        function trackColumnUpdate(rowEntity, colDef) {
-            for (var i = 0; i < updatedColumns.length; ++i) {
-                if (updatedColumns[i].id === rowEntity.id) {
-                    updatedColumns[i].updatedFields.push(colDef.field);
-                    return;
-                }
-            }
-
-            var updatedColumn = {
-                id: rowEntity.id,
-                updatedFields: [colDef.field]
-            };
-            updatedColumns.push(updatedColumn);
-            console.log(updatedColumn);
-        }
-
-        function getUpdatedFields(id) {
-            for (var i = 0; i < updatedColumns.length; ++i) {
-                if (updatedColumns[i].id === id) {
-                    return updatedColumns[i].updatedFields;
-                }
-            }
-
-            return null;
-        }
-
-        function aggregateUpdateData(dirtyRows) {
-            var updatedRecords = [];
-            angular.forEach(dirtyRows, function(value, key) {
-                updatedRecords.push({
-                    entity: value.entity,
-                    updatedFields: getUpdatedFields(value.entity.id)
-                });
-            });
-            $scope.numberOfEditedRecords = updatedRecords.length;
-            return updatedRecords;
-        }
-
-        function getUpdateHistory(id) {
-            var updateHistory = null;
+        function getHistory(id) {
+            var history = null;
             angular.forEach($scope.rowData, function(value, key) {
                 if (value.id === id) {
-                    updateHistory = value.updateHistory;
+                    history = value.history;
                 }
             });
 
-            return updateHistory;
+            return history;
         }
 
-        $scope.showUpdateHistoryModal = function(id) {
-            var updateHistory = getUpdateHistory(id);
-            var updateHistoryModalInstance = $uibModal.open({
+        $scope.showHistoryModal = function(id) {
+            var history = getHistory(id);
+            var historyModalInstance = $uibModal.open({
                 animation: true,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
-                templateUrl: 'update-history-modal.html',
+                templateUrl: 'history-modal.html',
                 controller: function($uibModalInstance, $scope, modalData) {
-                    $scope.updateHistoryData = modalData.updateHistoryData;
+                    $scope.historyData = modalData.historyData;
 
                     $scope.ok = function () {
                         $uibModalInstance.close();
@@ -154,53 +110,11 @@
                 size: 'md',
                 resolve: {
                     modalData: {
-                        updateHistoryData: updateHistory
+                        historyData: history
                     }
                 }
             });
         };
-
-        $scope.showUpdateConfimationModal = function() {
-            var updateConfirmationModalInstance = $uibModal.open({
-                animation: true,
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'update-confirmation-modal.html',
-                controller: function($uibModalInstance, $scope, modalData) {
-                    var num = modalData.numUpdatedRecords;
-
-                    $scope.successfulUpdateMessage = function () {
-                        if (num === 1) {
-                            return String(num) + " record has been edited.";
-                        }
-                        else {
-                            return String(num) + " records have been edited.";
-                        }
-                    };
-
-                    $scope.ok = function () {
-                        $uibModalInstance.close();
-                    };
-                },
-                size: 'md',
-                resolve: {
-                    modalData: {
-                        numUpdatedRecords: $scope.numberOfEditedRecords
-                    }
-                }
-            });
-
-            updateConfirmationModalInstance.result.then(
-                function () {
-                    $window.close();
-                },
-                function () {
-                    $window.close();
-                }
-            );
-        };
-
-        var updateHistoryCellTemplate = '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
 
         $scope.gridOptions1 = {
             enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
@@ -318,21 +232,19 @@
             data: $scope.rowData
         };
 
-        $scope.saveRow = function(rowEntity) {
-            console.log(rowEntity);
-        };
+        var historyCellTemplate = '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
 
         $scope.gridOptions1.columnDefs = $scope.gridOptions1.columnDefs;
         $scope.gridOptions1.columnDefs[0].enableCellEdit = false;
         var numCxColumns = $scope.gridOptions1.columnDefs.length;
         $scope.gridOptions1.columnDefs[numCxColumns - 1].enableCellEdit = false;
-        $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = updateHistoryCellTemplate;
+        $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = historyCellTemplate;
 
         $scope.gridOptions2.columnDefs = $scope.gridOptions2.columnDefs;
         $scope.gridOptions2.columnDefs[0].enableCellEdit = false;
         var numTxColumns = $scope.gridOptions2.columnDefs.length;
         $scope.gridOptions2.columnDefs[numTxColumns - 1].enableCellEdit = false;
-        $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = updateHistoryCellTemplate;
+        $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = historyCellTemplate;
 
         $scope.cancel = function () {
             $window.close();

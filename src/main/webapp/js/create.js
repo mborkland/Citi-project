@@ -9,8 +9,11 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', func
     }
 
     $scope.duplicateRows = [];
+    $scope.recordType;
 
     $scope.createCx = function() {
+        $scope.recordType = "CUSTOMER";
+
         var url = '/create?';
         angular.forEach($scope.cxData.fields, function(value, key) {
             url += 'fields=' + value + '&';
@@ -27,7 +30,6 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', func
                 $scope.cxDuplicateRecords();
                 $window.parentScope = $scope;
                 $window.open('html/duplicate-records.html', 'Duplicate Records', 'width=1000,height=600');
-                //$scope.cxDuplicateRecords();
             }
         }, function (error) {
             console.log(error);
@@ -37,6 +39,8 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', func
     }
 
     $scope.createTx = function() {
+        $scope.recordType = "TRANSACTION";
+
         var url = '/create?';
         angular.forEach($scope.txData.fields, function(value, key) {
             url += 'fields=' + value + '&';
