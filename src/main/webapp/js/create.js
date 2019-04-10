@@ -8,7 +8,7 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', func
         requestor: ''
     }
 
-    //$scope.duplicateRows = [];
+    $scope.duplicateRows = [];
 
     $scope.createCx = function() {
         var url = '/create?';
@@ -24,10 +24,10 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', func
                 $state.go('read');
             }
             else {
-                //$scope.cxDuplicateRecords();
+                $scope.cxDuplicateRecords();
                 $window.parentScope = $scope;
                 $window.open('html/duplicate-records.html', 'Duplicate Records', 'width=1000,height=600');
-                $scope.cxDuplicateRecords();
+                //$scope.cxDuplicateRecords();
             }
         }, function (error) {
             console.log(error);
@@ -61,14 +61,14 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', func
         });
     }
 
-    $scope.duplicateRecords = function(recordType) {
-            if(recordType == 'CUSTOMER') {
-                return $scope.cxDuplicateRecords();
+    /*$scope.duplicateRecords = function(recordType) {
+            if(recordType === 'CUSTOMER') {
+                $scope.cxDuplicateRecords();
             }
-            else if(recordType == 'TRANSACTION') {
-                return $scope.txDuplicateRecords();
+            else if(recordType === 'TRANSACTION') {
+                $scope.txDuplicateRecords();
             }
-    }
+    }*/
 
     $scope.cxDuplicateRecords = function() {
         var url = '/duplicate-records?';
@@ -79,7 +79,7 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', func
         url += 'requestor=' + $scope.cxData.requestor;
         $http.get(url).then(function (response) {
             console.log(response);
-            return handleResponse(response);
+            handleCxResponse(response);
         }, function (error) {
             console.log(error);
         });
@@ -93,20 +93,26 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', func
         url += 'recordType=TRANSACTION&';
         url += 'requestor=' + $scope.txData.requestor;
         $http.get(url).then(function (response) {
-            return handleResponse(response);
+            handleTxResponse(response);
         }, function (error) {
             console.log(error);
         });
     }
 
-    function handleResponse(response) {
-        var duplicateRows = [];
+    function handleCxResponse(response) {
+        $scope.duplicateRows.length = 0;
         angular.forEach(response.data, function (value, key) {
-            duplicateRows.push(convertResponseData(value, $scope.recordType, false));
+            $scope.duplicateRows.push(convertResponseData(value, "CUSTOMER", false));
         });
-        return duplicateRows;
+        console.log($scope.duplicateRows);
     }
 
+    function handleTxResponse(response) {
+        $scope.duplicateRows.length = 0;
+        angular.forEach(response.data, function (value, key) {
+            $scope.duplicateRows.push(convertResponseData(value, "TRANSACTION", false));
+        });
+    }
 
     function convertResponseData(record, recordType, isRandom) {
         if (recordType === 'CUSTOMER') {

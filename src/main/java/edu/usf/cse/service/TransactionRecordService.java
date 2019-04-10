@@ -99,10 +99,10 @@ public class TransactionRecordService implements RecordService {
     public String saveRecord(Record record) {
         BuDetails buDetails = record.getBuDetails();
         if(findDuplicateRecords(buDetails).size() > 0)
-            return "Duplicate customer records found";
+            return "Duplicate transaction records found";
 
         transactionRecordRepository.save((TransactionRecord) record);
-        return "Customer record created successfully";
+        return "Transaction record created successfully";
     }
 
     @Override
