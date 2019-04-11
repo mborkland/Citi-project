@@ -1,6 +1,6 @@
 <h3 class="text-center font-weight-bold" style="padding-bottom: 30px">Archived Records</h3>
 
-<div class="container" style="background-color:#F3F3F3; border-color: #011a52; border-style: solid; border-radius: 25px;">
+<div class="container grid-box">
     <div class="row px-3 py-2" style="">
         <div class="m-2 p-1" style="width: auto;">
             <select class="bootstrap-select form-control form-control-sm" name="recordType" ng-model="recordType">
@@ -55,40 +55,19 @@
     <div id="grid2" class="grid" ui-grid-auto-resize ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ui-grid-selection
          ui-grid-exporter ng-if="recordType === 'TRANSACTION'"></div>
 
-    <p ng-if="recordType === 'CUSTOMER'" class="my-1">Current page: {{ grid1Api.pagination.getPage() }} of {{ grid1Api.pagination.getTotalPages() }}</p>
-    <p ng-if="recordType === 'TRANSACTION'" class="my-1">Current page: {{ grid2Api.pagination.getPage() }} of {{ grid2Api.pagination.getTotalPages() }}</p>
-
-    <!--SEPARATE BUTTONS FOR EACH TABLE-->
-    <!--<button ng-if="recordType === 'CUSTOMER'" class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.previousPage()">
-        previous page
-    </button>
-    <button ng-if="recordType === 'CUSTOMER'" class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.nextPage()">
-        next page
-    </button>
-    <button ng-if="recordType === 'CUSTOMER'" class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.seek(1)">
-        Go to Page 1
-    </button>
-
-    <button ng-if="recordType === 'TRANSACTION'" class="btn btn-med btn-primary my-1" ng-click="grid2Api.pagination.previousPage()">
-        previous page
-    </button>
-    <button ng-if="recordType === 'TRANSACTION'" class="btn btn-med btn-primary my-1" ng-click="grid2Api.pagination.nextPage()">
-        next page
-    </button>
-    <button ng-if="recordType === 'TRANSACTION'" class="btn btn-med btn-primary my-1" ng-click="grid2Api.pagination.seek(1)">
-        Go to Page 1
-    </button>-->
-
-    <!--SAME BUTTONS FOR BOTH TABLES-->
-    <button class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.previousPage(); grid2Api.pagination.previousPage()">
-        previous page
-    </button>
-    <button class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.nextPage(); grid2Api.pagination.nextPage()">
-        next page
-    </button>
-    <button class="btn btn-med btn-primary my-1" ng-click="grid1Api.pagination.seek(1); grid2Api.pagination.seek(1)">
-        Go to Page 1
-    </button>
+    <div class="row" style="width: 100%;">
+        <div class="col-5">
+            <p ng-if="recordType === 'CUSTOMER'" class="my-1">Current page: {{ grid1Api.pagination.getPage() }} of {{ grid1Api.pagination.getTotalPages() }}</p>
+            <p ng-if="recordType === 'TRANSACTION'" class="my-1">Current page: {{ grid2Api.pagination.getPage() }} of {{ grid2Api.pagination.getTotalPages() }}</p>
+        </div>
+        <div class="col-7">
+            <a href="" class="page-button" ng-click="grid1Api.pagination.seek(1); grid2Api.pagination.seek(1)" style="color: #ffffff;">&#8249;&#8249;</a>
+            <a href="" class="page-button round" ng-click="grid1Api.pagination.previousPage(); grid2Api.pagination.previousPage()" style="color: #ffffff;">&#8249;</a>
+            <a href="" class="page-button round" ng-click="grid1Api.pagination.nextPage(); grid2Api.pagination.nextPage()" style="color: #ffffff;">&#8250;</a>
+            <a href="" class="page-button" ng-click="grid1Api.pagination.seek(grid1Api.pagination.getTotalPages());
+            grid2Api.pagination.seek(grid2Api.pagination.getTotalPages())" style="color: #ffffff;">&#8250;&#8250;</a>
+        </div>
+    </div>
     <div class="row my-2"></div>
 </div>
 <br>

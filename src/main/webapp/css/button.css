@@ -49,3 +49,17 @@
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-primary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(1, 26, 82, 0.5);
 }
+.page-button{
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #011a52;
+  color: #fff;
+}
+.page-button:hover {
+  background-color: #011a52;
+  color: #fff;
+}
+.page-button.round {
+  border-radius: 50%;
+}
