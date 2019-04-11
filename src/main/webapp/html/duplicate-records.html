@@ -159,8 +159,8 @@
                 {field: 'impactToBusiness', displayName: 'Impact To Business', width: mw, enableHiding: false},
                 {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
                 {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
-                {field: 'updateHistory', displayName: 'History', width: sw, enableHiding: false,
-                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
+                {field: 'history', displayName: 'History', width: sw, enableHiding: false,
+                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
             ],
             onRegisterApi: function (gridApi) {
                 $scope.grid1Api = gridApi;
@@ -223,8 +223,8 @@
                 {field: 'thresholdSetForTimeouts', displayName: 'Threshold Set for Timeouts', width: mw, enableHiding: false},
                 {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mw, enableHiding: false},
                 {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
-                {field: 'updateHistory', displayName: 'History', width: sw, enableHiding: false,
-                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showUpdateHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
+                {field: 'history', displayName: 'History', width: sw, enableHiding: false,
+                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
             ],
             onRegisterApi: function (gridApi) {
                 $scope.grid2Api = gridApi;
