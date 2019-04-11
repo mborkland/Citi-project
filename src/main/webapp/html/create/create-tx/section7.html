@@ -1,42 +1,31 @@
 <ng-form name="section7">
 <div class="form-row">
     <div class="col-md-8 mb-3">
-        <label for="batchesOrPeaks">Batches or Peaks for real-time volumes*</label>
-        <input type="text" class="form-control" name="batchesOrPeaks" id="batchesOrPeaks" ng-model="txData.fields[35]" required>
-        <p ng-show="section7.batchesOrPeaks.$invalid && section7.batchesOrPeaks.$touched">Please fill in the Batches or Peaks for real-time volumes</p>
+        <label for="batchesOrPeaksForRealtimeVolumes">Batches or Peaks for Realtime Volumes*</label>
+        <input type="text" class="form-control" name="batchesOrPeaksForRealtimeVolumes" id="batchesOrPeaksForRealtimeVolumes" ng-model="txBuDetails.batchesOrPeaksForRealtimeVolumes" required>
+        <p ng-show="section7.batchesOrPeaksForRealtimeVolumes.$invalid && section7.batchesOrPeaksForRealtimeVolumes.$touched">Please fill in the Batches or Peaks for Realtime Volumes</p>
     </div>
     <div class="col-md-4 mb-4">
-        <!--Initial Screening Response SLA?<br />
-        <div style="padding-top: 13px;">
-            <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="initialScreeningResponseYes" id="initialScreeningResponseYes" value="true" ng-model="txData.fields[35]" checked>
-                <label class="form-check-label" for="initialScreeningResponseYes">Yes</label>
-            </div>
-            <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="initialScreeningResponseNo" id="initialScreeningResponseNo" value="false" ng-model="txData.fields[35]">
-                <label class="form-check-label" for="initialScreeningResponseNo">No</label>
-            </div>
-        </div>-->
-        <label for="initialScreeningResponse">Initial Screening Response SLA*</label>
-        <input type="text" class="form-control" name="initialScreeningResponse" id="initialScreeningResponse" ng-model="txData.fields[36]" required>
-        <p ng-show="section7.initialScreeningResponse.$invalid && section7.initialScreeningResponse.$touched">Please fill in the Initial Screening Response SLA</p>
+        <label for="initialScreeningResponseSla">Initial Screening Response SLA*</label>
+        <input type="text" class="form-control" name="initialScreeningResponseSla" id="initialScreeningResponseSla" ng-model="txBuDetails.initialScreeningResponseSla" required>
+        <p ng-show="section7.initialScreeningResponseSla.$invalid && section7.initialScreeningResponseSla.$touched">Please fill in the Initial Screening Response SLA</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-6 mb-4">
-        <label for="anyThresholdSetForTimeouts">Any Threshold Set For Timeouts*</label>
-        <input type="text" class="form-control" name="anyThresholdSetForTimeouts" id="anyThresholdSetForTimeouts" ng-model="txData.fields[37]" required>
-        <p ng-show="section7.anyThresholdSetForTimeouts.$invalid && section7.anyThresholdSetForTimeouts.$touched">Please fill in the Any Threshold Set For Timeouts</p>
+        <label for="thresholdSetForTimeouts">Threshold Set For Timeouts*</label>
+        <input type="text" class="form-control" name="thresholdSetForTimeouts" id="thresholdSetForTimeouts" ng-model="txBuDetails.thresholdSetForTimeouts" required>
+        <p ng-show="section7.thresholdSetForTimeouts.$invalid && section7.thresholdSetForTimeouts.$touched">Please fill in the Threshold Set For Timeouts</p>
     </div>
-    <div class="col-md-6 mb-4">
+    <div class="col-md-6 mb-4 text-center">
         Any Batch Component (Y/N)*<br />
         <div style="padding-top: 13px;">
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="anyBatchComponentYes" id="anyBatchComponentYes" value="true" ng-model="txData.fields[38]" checked ng-required="!txData.fields[38]">
+                <input class="form-check-input" type="radio" name="anyBatchComponentYes" id="anyBatchComponentYes" value="true" ng-model="txBuDetails.anyBatchComponent" checked ng-required="!txBuDetails.anyBatchComponent">
                 <label class="form-check-label" for="anyBatchComponentYes">Yes</label>
             </div>
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="anyBatchComponentNo" id="anyBatchComponentNo" value="false" ng-model="txData.fields[38]" ng-required="!txData.fields[38]">
+                <input class="form-check-input" type="radio" name="anyBatchComponentNo" id="anyBatchComponentNo" value="false" ng-model="txBuDetails.anyBatchComponent" ng-required="!txBuDetails.anyBatchComponent">
                 <label class="form-check-label" for="anyBatchComponentNo">No</label>
             </div>
         </div>
@@ -45,7 +34,7 @@
 <div class="form-row">
     <div class="col-md-6 mb-3">
         <label for="workflowOperationsWorkSchedule">Workflow Operations Work Schedule (EST)*</label>
-        <input type="text" class="form-control" name="workflowOperationsWorkSchedule" id="workflowOperationsWorkSchedule" ng-model="txData.fields[39]" required>
+        <input type="text" class="form-control" name="workflowOperationsWorkSchedule" id="workflowOperationsWorkSchedule" ng-model="txBuDetails.workflowOperationsWorkSchedule" required>
         <p ng-show="section7.workflowOperationsWorkSchedule.$invalid && section7.workflowOperationsWorkSchedule.$touched">Please fill in the Workflow Operations Work Schedule (EST)</p>
     </div>
     <div class="col-md-6 mb-3">

@@ -1,5 +1,7 @@
 package edu.usf.cse.controller;
 
+import edu.usf.cse.dto.CreatedCustomerRecord;
+import edu.usf.cse.dto.CreatedTransactionRecord;
 import edu.usf.cse.model.*;
 import edu.usf.cse.service.CustomerRecordService;
 import edu.usf.cse.service.RecordService;
@@ -25,13 +27,31 @@ public class MainController {
         this.transactionRecordService = transactionRecordService;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestParam RecordType recordType, @RequestParam List<String> fields, @RequestParam String requestor) {
-        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).saveRecord(getRecordService(recordType).createRecord(fields, requestor)) + "\"}", HttpStatus.OK);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/create-cx")
+    public ResponseEntity<String> createCx(@RequestBody CreatedCustomerRecord record) {
+        return new ResponseEntity<String>("{\"result\":\"" + customerRecordService.createRecord(record) + "\"}", HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/create-tx")
+    public ResponseEntity<String> createTx(@RequestBody CreatedTransactionRecord record) {
+        return new ResponseEntity<String>("{\"result\":\"" + transactionRecordService.createRecord(record) + "\"}", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/duplicate-cx")
+    public ResponseEntity<List<Record>> getDuplicateCx(@RequestBody CxBuDetails buDetails) {
+        return new ResponseEntity<List<Record>>(customerRecordService.findDuplicateRecords(buDetails), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/duplicate-tx")
+    public ResponseEntity<List<Record>> getDuplicateTx(@RequestBody TxBuDetails buDetails) {
+        return new ResponseEntity<List<Record>>(transactionRecordService.findDuplicateRecords(buDetails), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/read")
     public ResponseEntity<List<Record>> read(@RequestParam RecordType recordType, @RequestParam String searchTerms,
                                              @RequestParam boolean any, @RequestParam boolean exactMatch) {
@@ -80,13 +100,6 @@ public class MainController {
     @RequestMapping(value = "/archive", method = RequestMethod.GET)
     public ResponseEntity<List<Record>> getArchive(@RequestParam RecordType recordType) {
         return new ResponseEntity<List<Record>>(getRecordService(recordType).getArchive(), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/duplicate-records", method = RequestMethod.GET)
-    public ResponseEntity<List<Record>> getDuplicateRecords(@RequestParam RecordType recordType, @RequestParam List<String> fields, @RequestParam String requestor) {
-        Record createdRecord = getRecordService(recordType).createRecord(fields, requestor);
-        return new ResponseEntity<List<Record>>(getRecordService(recordType).findDuplicateRecords(createdRecord.getBuDetails()), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

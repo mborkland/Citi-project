@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h5 class="modal-title">Similar Records Found</h5>
+    <button type="button" class="close" aria-label="Close" ng-click="ok()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p>Number of similar records found: {{numDuplicates}}</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" ng-click="openDuplicateWindow()">View</button>
+    <button type="button" class="btn btn-secondary" ng-click="forceCreate()">Force Create</button>
+</div>

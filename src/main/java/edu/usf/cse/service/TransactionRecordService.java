@@ -1,5 +1,6 @@
 package edu.usf.cse.service;
 
+import edu.usf.cse.dto.CreatedRecord;
 import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.DeletedTransactionRecordRepository;
 import edu.usf.cse.persistence.TransactionRecordRepository;
@@ -45,63 +46,12 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public Record createRecord(List<String> fields, String requestor) {
-        TxBuDetails txBuDetails = new TxBuDetails();
-        Iterator<String> iterator = fields.iterator();
-        txBuDetails.setBusinessId(iterator.next());
-        txBuDetails.setProductId(iterator.next());
-        txBuDetails.setCsiId(iterator.next());
-        txBuDetails.setUniqueProductId(iterator.next());
-        txBuDetails.setTxScreeningBusinessUnitName(iterator.next());
-        txBuDetails.setRulesetMapped(iterator.next());
-        txBuDetails.setRegion(iterator.next());
-        txBuDetails.setCountry(iterator.next());
-        txBuDetails.setSector(iterator.next());
-        txBuDetails.setWorkflowFlag(Boolean.parseBoolean(iterator.next()));
-        txBuDetails.setWorkflowInstance(iterator.next());
-        txBuDetails.setWfBusinessGreenzone(iterator.next());
-        txBuDetails.setInterfaceAppId(iterator.next());
-        txBuDetails.setInterfaceApplicationName(iterator.next());
-        txBuDetails.setOperationEntity(iterator.next());
-        txBuDetails.setConnectivityProtocol(iterator.next());
-        txBuDetails.setWorkflowOperationsContacts(iterator.next());
-        txBuDetails.setSourceTechContacts(iterator.next());
-        txBuDetails.setBusinessHotline(iterator.next());
-        txBuDetails.setBusinessEscalationPointOfContact(iterator.next());
-        txBuDetails.setImpactToProductProcessor(iterator.next());
-        txBuDetails.setProductProcessor(iterator.next());
-        txBuDetails.setHotlineNumber(iterator.next());
-        txBuDetails.setEscalationPath1stLevelSupport(iterator.next());
-        txBuDetails.setEscalationPath2ndLevelSupport(iterator.next());
-        txBuDetails.setFirstLevelEscalation(iterator.next());
-        txBuDetails.setSecondLevelEscalation(iterator.next());
-        txBuDetails.setProductProcessorGroupDl(iterator.next());
-        txBuDetails.setProductProcessorSnowGroupName(iterator.next());
-        txBuDetails.setProductProcessorScreeningResponseCutoffTime(iterator.next());
-        txBuDetails.setProductProcessorStandardGreenzones(iterator.next());
-        txBuDetails.setInterfaceConnectivityDoc(iterator.next());
-        txBuDetails.setRetryMechanism(iterator.next());
-        txBuDetails.setDailyOnlineVolumesExpected(iterator.next());
-        txBuDetails.setScheduleForRealtimeVolumes(iterator.next());
-        txBuDetails.setBatchesOrPeaksForRealtimeVolumes(iterator.next());
-        txBuDetails.setInitialScreeningResponseSla(iterator.next());
-        txBuDetails.setThresholdSetForTimeouts(iterator.next());
-        txBuDetails.setAnyBatchComponent(Boolean.parseBoolean(iterator.next()));
-        txBuDetails.setWorkflowOperationsWorkSchedule(iterator.next());
-        txBuDetails.setHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
-
+    public String createRecord(CreatedRecord record) {
+        TxBuDetails txBuDetails = (TxBuDetails) record.getBuDetails();
+        txBuDetails.setHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + record.getRequestor());
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setBuDetails(txBuDetails);
-        return transactionRecord;
-    }
-
-    @Override
-    public String saveRecord(Record record) {
-        BuDetails buDetails = record.getBuDetails();
-        if(findDuplicateRecords(buDetails).size() > 0)
-            return "Duplicate transaction records found";
-
-        transactionRecordRepository.save((TransactionRecord) record);
+        transactionRecordRepository.save(transactionRecord);
         return "Transaction record created successfully";
     }
 

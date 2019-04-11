@@ -2,59 +2,59 @@
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="sector">Sector*</label>
-        <input type="text" class="form-control" name="sector" id="sector" ng-model="txData.fields[8]" required>
+        <input type="text" class="form-control" name="sector" id="sector" ng-model="txBuDetails.sector" required>
         <p ng-show="section2.sector.$invalid && section2.sector.$touched">Please fill in the Sector</p>
     </div>
-    <div class="col-md-3 mb-4">
+    <div class="col-md-3 mb-4 text-center">
         Workflow Flag*<br />
         <div style="padding-top: 13px;">
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="workflowFlagYes" id="workflowFlagYes" value="true" ng-model="txData.fields[9]" checked ng-required="!txData.fields[9]">
+                <input class="form-check-input" type="radio" name="workflowFlagYes" id="workflowFlagYes" value="true" ng-model="txBuDetails.workflowFlag" checked ng-required="!txBuDetails.workflowFlag">
                 <label class="form-check-label" for="workflowFlagYes">Yes</label>
             </div>
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="workflowFlagNo" id="workflowFlagNo" value="false" ng-model="txData.fields[9]" ng-required="!txData.fields[9]">
+                <input class="form-check-input" type="radio" name="workflowFlagNo" id="workflowFlagNo" value="false" ng-model="txBuDetails.workflowFlag" ng-required="!txBuDetails.workflowFlag">
                 <label class="form-check-label" for="workflowFlagNo">No</label>
             </div>
         </div>
     </div>
     <div class="col-md-5 mb-4">
         <label for="workflowInstance">Workflow Instance*</label>
-        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="txData.fields[10]" required>
+        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="txBuDetails.workflowInstance" required>
         <p ng-show="section2.workflowInstance.$invalid && section2.workflowInstance.$touched">Please fill in the Workflow Instance</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-4">
-        <label for="wfBusinessGreenZone">WF Business Green Zone*</label>
-        <input type="text" class="form-control" name="wfBusinessGreenZone" id="wfBusinessGreenZone" ng-model="txData.fields[11]" required>
-        <p ng-show="section2.wfBusinessGreenZone.$invalid && section2.wfBusinessGreenZone.$touched">Please fill in the WF Business Green Zone</p>
+        <label for="wfBusinessGreenzone">WF Business Green Zone*</label>
+        <input type="text" class="form-control" name="wfBusinessGreenzone" id="wfBusinessGreenzone" ng-model="txBuDetails.wfBusinessGreenzone" required>
+        <p ng-show="section2.wfBusinessGreenzone.$invalid && section2.wfBusinessGreenzone.$touched">Please fill in the WF Business Green Zone</p>
     </div>
     <div class="col-md-4 mb-3">
-        <label for="interfaceAppID">Interface App ID*</label>
-        <input type="text" class="form-control" name="interfaceAppID" id="interfaceAppID" ng-model="txData.fields[12]" required>
-        <p ng-show="section2.interfaceAppID.$invalid && section2.interfaceAppID.$touched">Please fill in the Interface App ID</p>
+        <label for="interfaceAppId">Interface App Id*</label>
+        <input type="text" class="form-control" name="interfaceAppId" id="interfaceAppId" ng-model="txBuDetails.interfaceAppId" required>
+        <p ng-show="section2.interfaceAppId.$invalid && section2.interfaceAppId.$touched">Please fill in the Interface App Id</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceApplicationName">Interface Application Name*</label>
-        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="txData.fields[13]" required>
+        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="txBuDetails.interfaceApplicationName" required>
         <p ng-show="section2.interfaceApplicationName.$invalid && section2.interfaceApplicationName.$touched">Please fill in the Interface Application Name</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="operationEntity">Operation Entity*</label>
-        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="txData.fields[14]" required>
+        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="txBuDetails.operationEntity" required>
         <p ng-show="section2.operationEntity.$invalid && section2.operationEntity.$touched">Please fill in the Operation Entity</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="connectivityProtocol">Connectivity Protocol*</label>
-        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="txData.fields[15]" required>
+        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="txBuDetails.connectivityProtocol" required>
         <p ng-show="section2.connectivityProtocol.$invalid && section2.connectivityProtocol.$touched">Please fill in the Connectivity Protocol</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="workflowOperationsContacts">Workflow Operations Contacts*</label>
-        <input type="text" class="form-control" name="workflowOperationsContacts" id="workflowOperationsContacts" ng-model="txData.fields[16]" required>
+        <input type="text" class="form-control" name="workflowOperationsContacts" id="workflowOperationsContacts" ng-model="txBuDetails.workflowOperationsContacts" required>
         <p ng-show="section2.workflowOperationsContacts.$invalid && section2.workflowOperationsContacts.$touched">Please fill in the Workflow Operations Contacts</p>
     </div>
 </div>

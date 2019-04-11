@@ -1,125 +1,149 @@
-app.controller('CreateController', ['$scope', '$http', '$state', '$window', function($scope, $http, $state, $window) {
-    $scope.cxData = $scope.cxData || {
-        fields: [],
-        requestor: ''
-    }
-    $scope.txData = $scope.txData || {
-        fields: [],
-        requestor: ''
-    }
+app.controller('CreateController', ['$scope', '$http', '$state', '$window', '$uibModal',
+function($scope, $http, $state, $window, $uibModal) {
+    $scope.cxBuDetails = $scope.cxBuDetails || {};
+    $scope.txBuDetails = $scope.txBuDetails || {};
+    $scope.requestorData = $scope.requestorData || {};
 
     $scope.duplicateRows = [];
-    $scope.recordType;
 
-    $scope.createCx = function() {
-        $scope.recordType = "CUSTOMER";
+    $scope.forceCreate = function() {
+        if ($scope.recordType === 'CUSTOMER') {
+            $scope.createCx(true);
+        } else {
+            $scope.createTx(true);
+        }
+    };
 
-        var url = '/create?';
-        angular.forEach($scope.cxData.fields, function(value, key) {
-            url += 'fields=' + value + '&';
-        });
-        url += 'recordType=CUSTOMER&';
-        url += 'requestor=' + $scope.cxData.requestor;
-        $http.post(url).then(function (response) {
-            console.log(response);
-            alert(response.data.result);
-            if(response.data.result == "Customer record created successfully") {
+    $scope.createCx = function(force) {
+        var data = {
+            buDetails: $scope.cxBuDetails,
+            requestor: $scope.requestorData.requestor
+        };
+
+        if (force) {
+            $http({
+                method: 'POST',
+                url: '/create-cx',
+                data: data
+            }).then(function (response) {
+                console.log(response);
+                alert(response.data.result);
                 $state.go('read');
-            }
-            else {
-                $scope.cxDuplicateRecords();
-                $window.parentScope = $scope;
-                $window.open('html/duplicate-records.html', 'Duplicate Records', 'width=1000,height=600');
-            }
-        }, function (error) {
-            console.log(error);
-            alert('There was an error');
-            $state.go('read');
-        });
-    }
+            }, function (error) {
+                console.log(error);
+                alert('There was an error');
+            });
+        } else {
+            $scope.recordType = 'CUSTOMER';
+            $http({
+                method: 'POST',
+                url: '/duplicate-cx',
+                data: $scope.cxBuDetails
+            }).then(function (response) {
+                console.log(response);
+                if (response.data.length) {
+                    $scope.duplicateRows.length = 0;
+                    angular.forEach(response.data, function (value, key) {
+                        $scope.duplicateRows.push(convertResponseData(value, false));
+                    });
+                    showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
+                } else {
+                    $scope.createCx(true);
+                }
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    };
 
-    $scope.createTx = function() {
-        $scope.recordType = "TRANSACTION";
+    $scope.createTx = function(force) {
+        var data = {
+            buDetails: $scope.txBuDetails,
+            requestor: $scope.requestorData.requestor
+        };
 
-        var url = '/create?';
-        angular.forEach($scope.txData.fields, function(value, key) {
-            url += 'fields=' + value + '&';
-        });
-        url += 'recordType=TRANSACTION&';
-        url += 'requestor=' + $scope.txData.requestor;
-        $http.post(url).then(function (response) {
-            console.log(response);
-            alert(response.data.result);
-            if(response.data.result == "Transaction record created successfully") {
+        if (force) {
+            $http({
+                method: 'POST',
+                url: '/create-tx',
+                data: data
+            }).then(function (response) {
+                console.log(response);
+                alert(response.data.result);
                 $state.go('read');
+            }, function (error) {
+                console.log(error);
+                alert('There was an error');
+            });
+        } else {
+            $scope.recordType = 'TRANSACTION';
+            $http({
+                method: 'POST',
+                url: '/duplicate-tx',
+                data: $scope.txBuDetails
+            }).then(function (response) {
+                console.log(response);
+                if (response.data.length) {
+                    $scope.duplicateRows.length = 0;
+                    angular.forEach(response.data, function (value, key) {
+                        $scope.duplicateRows.push(convertResponseData(value, false));
+                    });
+                    showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
+                } else {
+                    $scope.createTx(true);
+                }
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    };
+
+    $scope.openDuplicateWindow = function() {
+        $window.parentScope = $scope;
+        $window.open('html/duplicate-records.html', 'Duplicate Records', 'width=1000,height=600');
+    };
+
+    function showDuplicateModal(forceCreate, openDuplicateWindow) {
+        $scope.numDuplicates = $scope.duplicateRows.length;
+        var duplicateModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/duplicate-modal.html',
+            controller: function ($scope) {
+                $scope.forceCreate = function() {
+                    $scope.$close();
+                    forceCreate();
+                };
+                $scope.openDuplicateWindow = function() {
+                    $scope.$close();
+                    openDuplicateWindow();
+                }
+            },
+            scope: $scope,
+            size: 'md'
+        });
+    }
+
+    $scope.showHistoryModal = function(id) {
+        var history = getHistory(id);
+        var historyModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'html/history-modal.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    historyData: history
+                }
             }
-            else {
-                $scope.txDuplicateRecords();
-                $window.parentScope = $scope;
-                $window.open('html/duplicate-records.html', 'Duplicate Records', 'width=1000,height=600');
-            }
-        }, function (error) {
-            console.log(error);
-            alert('There was an error');
-            $state.go('read');
         });
-    }
+    };
 
-    /*$scope.duplicateRecords = function(recordType) {
-            if(recordType === 'CUSTOMER') {
-                $scope.cxDuplicateRecords();
-            }
-            else if(recordType === 'TRANSACTION') {
-                $scope.txDuplicateRecords();
-            }
-    }*/
-
-    $scope.cxDuplicateRecords = function() {
-        var url = '/duplicate-records?';
-        angular.forEach($scope.cxData.fields, function(value, key) {
-            url += 'fields=' + value + '&';
-        });
-        url += 'recordType=CUSTOMER&';
-        url += 'requestor=' + $scope.cxData.requestor;
-        $http.get(url).then(function (response) {
-            console.log(response);
-            handleCxResponse(response);
-        }, function (error) {
-            console.log(error);
-        });
-    }
-
-    $scope.txDuplicateRecords = function() {
-        var url = '/duplicate-records?';
-        angular.forEach($scope.txData.fields, function(value, key) {
-            url += 'fields=' + value + '&';
-        });
-        url += 'recordType=TRANSACTION&';
-        url += 'requestor=' + $scope.txData.requestor;
-        $http.get(url).then(function (response) {
-            handleTxResponse(response);
-        }, function (error) {
-            console.log(error);
-        });
-    }
-
-    function handleCxResponse(response) {
-        $scope.duplicateRows.length = 0;
-        angular.forEach(response.data, function (value, key) {
-            $scope.duplicateRows.push(convertResponseData(value, "CUSTOMER", false));
-        });
-        console.log($scope.duplicateRows);
-    }
-
-    function handleTxResponse(response) {
-        $scope.duplicateRows.length = 0;
-        angular.forEach(response.data, function (value, key) {
-            $scope.duplicateRows.push(convertResponseData(value, "TRANSACTION", false));
-        });
-    }
-
-    function convertResponseData(record, recordType, isRandom) {
-        if (recordType === 'CUSTOMER') {
+    function convertResponseData(record, isRandom) {
+        if ($scope.recordType === 'CUSTOMER') {
             return convertCxData(record, isRandom);
         } else {
             return convertTxData(record, isRandom);

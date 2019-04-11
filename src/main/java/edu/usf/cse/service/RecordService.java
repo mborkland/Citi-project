@@ -1,5 +1,6 @@
 package edu.usf.cse.service;
 
+import edu.usf.cse.dto.CreatedRecord;
 import edu.usf.cse.model.BuDetails;
 import edu.usf.cse.model.Record;
 import edu.usf.cse.model.UpdatedRecord;
@@ -8,9 +9,7 @@ import java.util.List;
 
 public interface RecordService {
 
-    Record createRecord(List<String> fields, String requestor);
-
-    String saveRecord(Record record);
+    String createRecord(CreatedRecord record);
 
     Record getRecordById(Integer id);
 

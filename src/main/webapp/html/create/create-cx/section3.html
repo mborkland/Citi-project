@@ -2,23 +2,23 @@
 <div class="form-row">
     <div class="col-md-3 mb-4">
         <label for="operationEntity">Operation Entity*</label>
-        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="cxData.fields[19]" required>
+        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="cxBuDetails.operationEntity" required>
         <p ng-show="section3.operationEntity.$invalid && section3.operationEntity.$touched">Please fill in the Operation Entity</p>
     </div>
     <div class="col-md-4 mb-4">
         <label for="opsComplianceContacts">Ops Compliance Contacts*</label>
-        <input type="text" class="form-control" name="opsComplianceContacts" id="opsComplianceContacts" ng-model="cxData.fields[20]" required>
+        <input type="text" class="form-control" name="opsComplianceContacts" id="opsComplianceContacts" ng-model="cxBuDetails.opsComplianceContacts" required>
         <p ng-show="section3.opsComplianceContacts.$invalid && section3.opsComplianceContacts.$touched">Please fill in the Ops Compliance Contacts</p>
     </div>
     <div class="col-md-2 mb-4 text-center">
         Cw Version*<br />
         <div style="padding-top: 13px;">
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="cwVersionV1" id="cwVersionV1" value="V1" ng-model="cxData.fields[21]" checked ng-required="!cxData.fields[21]">
+                <input class="form-check-input" type="radio" name="cwVersionV1" id="cwVersionV1" value="V1" ng-model="cxBuDetails.cwVersion" checked ng-required="!cxBuDetails.cwVersion">
                 <label class="form-check-label" for="cwVersionV1">V1</label>
             </div>
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="cwVersionV2" id="cwVersionV2" value="V2" ng-model="cxData.fields[21]" ng-required="!cxData.fields[21]">
+                <input class="form-check-input" type="radio" name="cwVersionV2" id="cwVersionV2" value="V2" ng-model="cxBuDetails.cwVersion" ng-required="!cxBuDetails.cwVersion">
                 <label class="form-check-label" for="cwVersionV2">V2</label>
             </div>
         </div>
@@ -27,11 +27,11 @@
         GOM Compliant?*<br />
         <div style="padding-top: 13px;">
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="gomCompliantYes" id="gomCompliantYes" value="true" ng-model="cxData.fields[22]" checked ng-required="!cxData.fields[22]">
+                <input class="form-check-input" type="radio" name="gomCompliantYes" id="gomCompliantYes" value="true" ng-model="cxBuDetails.gomCompliant" checked ng-required="!cxBuDetails.gomCompliant">
                 <label class="form-check-label" for="gomCompliantYes">Yes</label>
             </div>
             <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="gomCompliantNo" id="gomCompliantNo" value="false" ng-model="cxData.fields[22]" ng-required="!cxData.fields[22]">
+                <input class="form-check-input" type="radio" name="gomCompliantNo" id="gomCompliantNo" value="false" ng-model="cxBuDetails.gomCompliant" ng-required="!cxBuDetails.gomCompliant">
                 <label class="form-check-label" for="gomCompliantNo">No</label>
             </div>
         </div>
@@ -41,34 +41,34 @@
 
     <div class="col-md-4 mb-3">
         <label for="cwUatContactName">Cw UAT Contact Name*</label>
-        <input type="text" class="form-control" name="cwUatContactName" id="cwUatContactName" ng-model="cxData.fields[23]" required>
+        <input type="text" class="form-control" name="cwUatContactName" id="cwUatContactName" ng-model="cxBuDetails.cwUatContactName" required>
         <p ng-show="section3.cwUatContactName.$invalid && section3.cwUatContactName.$touched">Please fill in the Cw UAT Contact Name</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="sourceTechContact">Source Tech Contact*</label>
-        <input type="text" class="form-control" name="sourceTechContact" id="sourceTechContact" ng-model="cxData.fields[24]" required>
+        <input type="text" class="form-control" name="sourceTechContact" id="sourceTechContact" ng-model="cxBuDetails.sourceTechContact" required>
         <p ng-show="section3.sourceTechContact.$invalid && section3.sourceTechContact.$touched">Please fill in the Source Tech Contact</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="impactToBusiness">Impact To Business*</label>
-        <input type="text" class="form-control" name="impactToBusiness" id="impactToBusiness" ng-model="cxData.fields[25]" required>
+        <input type="text" class="form-control" name="impactToBusiness" id="impactToBusiness" ng-model="cxBuDetails.impactToBusiness" required>
         <p ng-show="section3.impactToBusiness.$invalid && section3.impactToBusiness.$touched">Please fill in the Impact To Business</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-5 mb-3">
         <label for="businessEscalationPointOfContact">Business Escalation Point Of Contact*</label>
-        <input type="text" class="form-control" name="businessEscalationPointOfContact" id="businessEscalationPointOfContact" ng-model="cxData.fields[26]" required>
+        <input type="text" class="form-control" name="businessEscalationPointOfContact" id="businessEscalationPointOfContact" ng-model="cxBuDetails.businessEscalationPointOfContact" required>
         <p ng-show="section3.businessEscalationPointOfContact.$invalid && section3.businessEscalationPointOfContact.$touched">Please fill in the Business Escalation Point of Contact</p>
     </div>
     <div class="col-md-3 mb-3">
         <label for="timezone">Timezone*</label>
-        <input type="text" class="form-control" name="timezone" id="timezone" ng-model="cxData.fields[27]" required>
+        <input type="text" class="form-control" name="timezone" id="timezone" ng-model="cxBuDetails.timezone" required>
         <p ng-show="section3.timezone.$invalid && section3.timezone.$touched">Please fill in the Timezone</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="requestor">Requestor*</label>
-        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="cxData.requestor" required>
+        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="requestorData.requestor" required>
         <p ng-show="section3.requestor.$invalid && section3.requestor.$touched">Please fill in the Requestor</p>
     </div>
 </div>

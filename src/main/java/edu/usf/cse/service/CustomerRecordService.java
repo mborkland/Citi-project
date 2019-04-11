@@ -1,5 +1,6 @@
 package edu.usf.cse.service;
 
+import edu.usf.cse.dto.CreatedRecord;
 import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.CustomerRecordRepository;
 import edu.usf.cse.persistence.DeletedCustomerRecordRepository;
@@ -9,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -31,6 +31,8 @@ public class CustomerRecordService implements RecordService {
     
     private static final int numberOfFields = 28;
 
+    private static final int duplicatedRecordPercentage = 50;
+
     private static final String[] searchableFields = {
             "csiId", "csInstance", "businessId", "bizUnitId", "productId", "bizProdId",
             "cxScreeningBusinessUnitName", "rulesetMapped", "region", "country", "sector",
@@ -46,52 +48,12 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public Record createRecord(List<String> fields, String requestor) {
-        CxBuDetails cxBuDetails = new CxBuDetails();
-        Iterator<String> iterator = fields.iterator();
-        cxBuDetails.setCsiId(iterator.next());
-        cxBuDetails.setCsInstance(iterator.next());
-        cxBuDetails.setBusinessId(iterator.next());
-        cxBuDetails.setBizUnitId(iterator.next());
-        cxBuDetails.setProductId(iterator.next());
-        cxBuDetails.setBizProdId(iterator.next());
-        cxBuDetails.setCxScreeningBusinessUnitName(iterator.next());
-        cxBuDetails.setCxBusinessGreenzone(iterator.next());
-        cxBuDetails.setRulesetMapped(iterator.next());
-        cxBuDetails.setRegion(iterator.next());
-        cxBuDetails.setCountry(iterator.next());
-        cxBuDetails.setSector(iterator.next());
-        cxBuDetails.setWorkflowFlag(Boolean.parseBoolean(iterator.next()));
-        cxBuDetails.setWorkflowInstance(iterator.next());
-        cxBuDetails.setWfBusinessUnitNameDisplayValue(iterator.next());
-        cxBuDetails.setWfBusinessGreenzone(iterator.next());
-        cxBuDetails.setConnectivityProtocol(iterator.next());
-        cxBuDetails.setInterfaceAppId(iterator.next());
-        cxBuDetails.setInterfaceApplicationName(iterator.next());
-        cxBuDetails.setOperationEntity(iterator.next());
-        cxBuDetails.setOpsComplianceContacts(iterator.next());
-        cxBuDetails.setCwVersion(iterator.next());
-        cxBuDetails.setGomCompliant(Boolean.parseBoolean(iterator.next()));
-        cxBuDetails.setCwUatContactName(iterator.next());
-        cxBuDetails.setSourceTechContact(iterator.next());
-        cxBuDetails.setImpactToBusiness(iterator.next());
-        cxBuDetails.setBusinessEscalationPointOfContact(iterator.next());
-        cxBuDetails.setTimezone(iterator.next());
-        cxBuDetails.setHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + requestor);
-
+    public String createRecord(CreatedRecord record) {
+        CxBuDetails cxBuDetails = (CxBuDetails) record.getBuDetails();
+        cxBuDetails.setHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + record.getRequestor());
         CustomerRecord customerRecord = new CustomerRecord();
         customerRecord.setBuDetails(cxBuDetails);
-
-        return customerRecord;
-    }
-
-    @Override
-    public String saveRecord(Record record) {
-        BuDetails buDetails = record.getBuDetails();
-        if(findDuplicateRecords(buDetails).size() > 0)
-            return "Duplicate customer records found";
-
-        customerRecordRepository.save((CustomerRecord) record);
+        customerRecordRepository.save(customerRecord);
         return "Customer record created successfully";
     }
 

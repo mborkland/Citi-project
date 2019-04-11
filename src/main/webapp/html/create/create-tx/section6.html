@@ -1,45 +1,32 @@
 <ng-form name="section6">
 <div class="form-row">
     <div class="col-md-6 mb-3">
-        <label for="productProcessorStandardGreenZones">Product Processor Standard Green Zones*</label>
-        <input type="text" class="form-control" name="productProcessorStandardGreenZones" id="productProcessorStandardGreenZones" ng-model="txData.fields[30]" required>
-        <p ng-show="section6.productProcessorStandardGreenZones.$invalid && section6.productProcessorStandardGreenZones.$touched">Please fill in the Product Processor Standard Green Zones</p>
+        <label for="productProcessorStandardGreenzones">Product Processor Standard Green Zones*</label>
+        <input type="text" class="form-control" name="productProcessorStandardGreenzones" id="productProcessorStandardGreenzones" ng-model="txBuDetails.productProcessorStandardGreenzones" required>
+        <p ng-show="section6.productProcessorStandardGreenzones.$invalid && section6.productProcessorStandardGreenzones.$touched">Please fill in the Product Processor Standard Green Zones</p>
     </div>
     <div class="col-md-6 mb-3">
         <label for="interfaceConnectivityDoc">Interface/Connectivity Doc (LINK)*</label>
-        <input type="text" class="form-control" name="interfaceConnectivityDoc" id="interfaceConnectivityDoc" ng-model="txData.fields[31]" required>
+        <input type="text" class="form-control" name="interfaceConnectivityDoc" id="interfaceConnectivityDoc" ng-model="txBuDetails.interfaceConnectivityDoc" required>
         <p ng-show="section6.interfaceConnectivityDoc.$invalid && section6.interfaceConnectivityDoc.$touched">Please fill in the Interface/Connectivity Doc (LINK)</p>
     </div>
 </div>
 <div class="form-row">
-    <!--<div class="col-md-3 mb-3">
-        Retry Mechanism (Y/N)<br />
-        <div style="padding-top: 13px;">
-            <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="workflowFlagYes" id="workflowFlagYes" value="true" ng-model="txData.fields[32]" checked>
-                <label class="form-check-label" for="workflowFlagYes">Yes</label>
-            </div>
-            <div class="form-check form-check-inline vertical-align">
-                <input class="form-check-input" type="radio" name="workflowFlagNo" id="workflowFlagNo" value="false" ng-model="txData.fields[32]">
-                <label class="form-check-label" for="workflowFlagNo">No</label>
-            </div>
-        </div>
-    </div>-->
     <div class="col-md-6 mb-3">
         <label for="retryMechanism">Retry Mechanism (Y/N)*</label>
-        <input type="text" class="form-control" name="retryMechanism" id="retryMechanism" ng-model="txData.fields[32]" required>
+        <input type="text" class="form-control" name="retryMechanism" id="retryMechanism" ng-model="txBuDetails.retryMechanism" required>
         <p ng-show="section6.retryMechanism.$invalid && section6.retryMechanism.$touched">Please fill in the Retry Mechanism (Y/N)</p>
     </div>
     <div class="col-md-6 mb-3">
         <label for="dailyOnlineVolumesExpected">Daily Online Volumes Expected*</label>
-        <input type="text" class="form-control" name="dailyOnlineVolumesExpected" id="dailyOnlineVolumesExpected" ng-model="txData.fields[33]" required>
+        <input type="text" class="form-control" name="dailyOnlineVolumesExpected" id="dailyOnlineVolumesExpected" ng-model="txBuDetails.dailyOnlineVolumesExpected" required>
         <p ng-show="section6.dailyOnlineVolumesExpected.$invalid && section6.dailyOnlineVolumesExpected.$touched">Please fill in the Daily Online Volumes Expected</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="scheduleForRealtimeVolumes">Schedule for real-time volumes*</label>
-        <input type="text" class="form-control" name="scheduleForRealtimeVolumes" id="scheduleForRealtimeVolumes" ng-model="txData.fields[34]" required>
+        <input type="text" class="form-control" name="scheduleForRealtimeVolumes" id="scheduleForRealtimeVolumes" ng-model="txBuDetails.scheduleForRealtimeVolumes" required>
         <p ng-show="section6.scheduleForRealtimeVolumes.$invalid && section6.scheduleForRealtimeVolumes.$touched">Please fill in the Schedule for real-time volumes</p>
     </div>
 </div>

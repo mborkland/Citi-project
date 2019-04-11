@@ -35,6 +35,9 @@
         <div class="row px-3 py-2">
             <div class="row ml-auto mr-0">
                 <div class="m-2 p-1" style="width: auto;">
+                    <button class="btn btn-md btn-primary" ng-click="forceCreate()">Force Create</button>
+                </div>
+                <div class="m-2 p-1" style="width: auto;">
                     <button class="btn btn-md btn-primary" ng-click="cancel()">Cancel</button>
                 </div>
             </div>
@@ -234,22 +237,25 @@
 
         var historyCellTemplate = '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
 
-        $scope.gridOptions1.columnDefs = $scope.gridOptions1.columnDefs;
         $scope.gridOptions1.columnDefs[0].enableCellEdit = false;
         var numCxColumns = $scope.gridOptions1.columnDefs.length;
         $scope.gridOptions1.columnDefs[numCxColumns - 1].enableCellEdit = false;
         $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = historyCellTemplate;
 
-        $scope.gridOptions2.columnDefs = $scope.gridOptions2.columnDefs;
         $scope.gridOptions2.columnDefs[0].enableCellEdit = false;
         var numTxColumns = $scope.gridOptions2.columnDefs.length;
         $scope.gridOptions2.columnDefs[numTxColumns - 1].enableCellEdit = false;
         $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = historyCellTemplate;
 
+        $scope.forceCreate = function() {
+            $window.opener.parentScope.forceCreate();
+            $window.close();
+        };
+
         $scope.cancel = function () {
             $window.close();
         };
-        }]);
+    }]);
 </script>
 </body>
 </html>

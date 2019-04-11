@@ -1,42 +1,42 @@
 <ng-form name="section1">
 <div class="form-row">
     <div class="col-md-5 mb-4">
-        <label for="businessID">Business ID*</label>
-        <input type="text" class="form-control" name="businessID" id="businessID" ng-model="txData.fields[0]" required>
-        <p ng-show="section1.businessID.$invalid && section1.businessID.$touched">Please fill in the Business ID</p>
+        <label for="businessId">Business ID*</label>
+        <input type="text" class="form-control" name="businessId" id="businessId" ng-model="txBuDetails.businessId" required>
+        <p ng-show="section1.businessId.$invalid && section1.businessId.$touched">Please fill in the Business ID</p>
     </div>
     <div class="col-md-5 mb-4">
         <label for="productID">Product ID*</label>
-        <input type="text" class="form-control" name="productID" id="productID" ng-model="txData.fields[1]" required>
+        <input type="text" class="form-control" name="productID" id="productID" ng-model="txBuDetails.productId" required>
         <p ng-show="section1.productID.$invalid && section1.productID.$touched">Please fill in the Product ID</p>
     </div>
     <div class="col-md-2 mb-4">
-        <label for="csiID">CSI ID*</label>
-        <input type="text" class="form-control" name="csiID" id="csiID" ng-model="txData.fields[2]" required>
-        <p ng-show="section1.csiID.$invalid && section1.csiID.$touched">Please fill in the CSI ID</p>
+        <label for="csiId">CSI ID*</label>
+        <input type="text" class="form-control" name="csiId" id="csiId" ng-model="txBuDetails.csiId" required>
+        <p ng-show="section1.csiId.$invalid && section1.csiId.$touched">Please fill in the CSI ID</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-6 mb-3">
-        <label for="uniqueProductIDWorkflowBUID">Unique_Product_ID/Workflow BU ID*</label>
-        <input type="text" class="form-control" name="uniqueProductIDWorkflowBUID" id="uniqueProductIDWorkflowBUID" ng-model="txData.fields[3]" required>
-        <p ng-show="section1.uniqueProductIDWorkflowBUID.$invalid && section1.uniqueProductIDWorkflowBUID.$touched">Please fill in the Unique_Product_ID/Workflow BU ID</p>
+        <label for="uniqueProductId">Unique_Product_ID/Workflow BU ID*</label>
+        <input type="text" class="form-control" name="uniqueProductId" id="uniqueProductId" ng-model="txBuDetails.uniqueProductId" required>
+        <p ng-show="section1.uniqueProductId.$invalid && section1.uniqueProductId.$touched">Please fill in the Unique_Product_ID/Workflow BU ID</p>
     </div>
     <div class="col-md-6 mb-3">
         <label for="txScreeningBusinessUnitName">Tx Screening Business Unit Name*</label>
-        <input type="text" class="form-control" name="txScreeningBusinessUnitName" id="txScreeningBusinessUnitName" ng-model="txData.fields[4]" required>
+        <input type="text" class="form-control" name="txScreeningBusinessUnitName" id="txScreeningBusinessUnitName" ng-model="txBuDetails.txScreeningBusinessUnitName" required>
         <p ng-show="section1.txScreeningBusinessUnitName.$invalid && section1.txScreeningBusinessUnitName.$touched">Please fill in the Tx Screening Business Unit Name</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="rulesetMapped">Ruleset Mapped*</label>
-        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="txData.fields[5]" required>
+        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="txBuDetails.rulesetMapped" required>
         <p ng-show="section1.rulesetMapped.$invalid && section1.rulesetMapped.$touched">Please fill in the Ruleset Mapped</p>
     </div>
     <div class="col-md-4 mb-3">
         <label for="region">Region*</label>
-        <select class="custom-select mr-sm-2" name="region" id="region" ng-model="txData.fields[6]" required>
+        <select class="custom-select mr-sm-2" name="region" id="region" ng-model="txBuDetails.region" required>
             <option value="APAC">APAC</option>
             <option value="EMEA">EMEA</option>
             <option value="LATAM">LATAM</option>
@@ -46,7 +46,7 @@
     </div>
     <div class="col-md-4 mb-3">
         <label for="country">Country*</label>
-        <input type="text" class="form-control" name="country" id="country" ng-model="txData.fields[7]" required>
+        <input type="text" class="form-control" name="country" id="country" ng-model="txBuDetails.country" required>
         <p ng-show="section1.country.$invalid && section1.country.$touched">Please fill in the Country</p>
     </div>
 </div>
