@@ -67,4 +67,15 @@ body {
 }
 .ui-grid, .ui-grid-viewport {
     height: auto !important;
+    width: 100% !important;
+}
+.container {
+    max-width: 100%;
+}
+.resizedtextbox {
+    minheight: 38px;
+    width: 200px;
+}
+.resizedcommentbox {
+
 }

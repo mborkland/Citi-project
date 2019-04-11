@@ -32,16 +32,20 @@
                  ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'TRANSACTION'"></div>
             <div class="row px-3 py-2"></div>
         </div>
-        <div class="row px-3 py-2">
-            <div class="row ml-auto mr-0">
-                <label for="SOEID">Please enter your SOEID:</label>
-                <input type="text" id="SOEID" name="SOEID" ng-model="SOEID" required>
+        <br>
+        <div class="row">
+            <div class="col-8">
+                <div class="row ml-auto mr-0">
+                    <label for="SOEID">Please enter your SOEID:&nbsp</label>
+                    <input class="resizedtextbox" type="text" id="SOEID" name="SOEID" ng-model="SOEID" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="reason">Please enter the reason for editing the record(s):&nbsp</label>
+                    <textarea class="form-control" style="resize: both;" rows="5" id="reason" name="reason" ng-model="reason" required></textarea>
+                </div>
             </div>
-            <div class="row ml-auto mr-0">
-                <label for="reason">Please enter the reason for editing the record(s):</label>
-                <input type="text" id="reason" name="reason" ng-model="reason" required>
-            </div>
-            <div class="row ml-auto mr-0">
+            <div class="row mr-0 ml-auto">
                 <div class="m-2 p-1" style="width: auto;">
                     <button class="btn btn-md btn-primary" ng-disabled="validate()" ng-click="makeChanges()"
                     >Make Changes</button>

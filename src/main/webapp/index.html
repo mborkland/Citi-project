@@ -24,13 +24,10 @@
 <body ng-app="app" ng-cloak class="ng-cloak">
     <div ng-controller="AppController">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="navbar-brand">
-                <img src="images/citi-logo-transparent.png" width="52" height="36" alt="Citi logo">
-            </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown" ng-if="isAdmin()">
-                        <a class="nav-link dropdown-toggle" roles="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a href="" class="nav-link dropdown-toggle" roles="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             CREATE
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -45,12 +42,13 @@
                     <li class="nav-item" ng-if="isAdmin()">
                         <a class="nav-link" ui-sref="archive">ARCHIVE</a>
                     </li>
-                </ul>
-                <ul class="navbar-nav">
                     <li class="nav-item" ng-if="isUser()">
                         <a class="nav-link" href="#!/login" ng-click="logout()">LOGOUT</a>
                     </li>
                 </ul>
+            </div>
+            <div class="navbar-brand">
+                <img src="images/citi-logo-transparent.png" width="52" height="36" style="left: auto; right: 0;" alt="Citi logo">
             </div>
         </nav>
     </div>
