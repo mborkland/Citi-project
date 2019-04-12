@@ -6,6 +6,31 @@ function($scope, $http, $state, $window, $uibModal) {
 
     $scope.duplicateRows = [];
 
+    $scope.isFormValid = function(ngForm) {
+        //$scope.$broadcast('$validate');
+        if(!ngForm.$invalid) {
+            alert("All required fields are filled");
+            if($state.current.name === 'create-cx.section1')
+                $state.go('create-cx.section2');
+            else if($state.current.name === 'create-cx.section2')
+                $state.go('create-cx.section3');
+            else if($state.current.name === 'create-tx.section1')
+                $state.go('create-tx.section2');
+            else if($state.current.name === 'create-tx.section2')
+                $state.go('create-tx.section3');
+            else if($state.current.name === 'create-tx.section3')
+                $state.go('create-tx.section4');
+            else if($state.current.name === 'create-tx.section4')
+                $state.go('create-tx.section5');
+            else if($state.current.name === 'create-tx.section5')
+                $state.go('create-tx.section6');
+        }
+        else {
+            alert("Not all required fields are filled");
+            $state.go($state.current.name);
+        }
+    }
+
     $scope.forceCreate = function() {
         if ($scope.recordType === 'CUSTOMER') {
             $scope.createCx(true);
