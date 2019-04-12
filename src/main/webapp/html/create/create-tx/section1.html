@@ -2,36 +2,36 @@
 <div class="form-row">
     <div class="col-md-5 mb-4">
         <label for="businessId">Business ID*</label>
-        <input type="text" class="form-control" name="businessId" id="businessId" ng-model="txBuDetails.businessId" required>
+        <input type="text" class="form-control" name="businessId" id="businessId" ng-model="txBuDetails.businessId" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section1.businessId.$invalid && section1.businessId.$touched">Please fill in the Business ID</p>
     </div>
     <div class="col-md-5 mb-4">
         <label for="productID">Product ID*</label>
-        <input type="text" class="form-control" name="productID" id="productID" ng-model="txBuDetails.productId" required>
+        <input type="text" class="form-control" name="productID" id="productID" ng-model="txBuDetails.productId" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section1.productID.$invalid && section1.productID.$touched">Please fill in the Product ID</p>
     </div>
     <div class="col-md-2 mb-4">
         <label for="csiId">CSI ID*</label>
-        <input type="text" class="form-control" name="csiId" id="csiId" ng-model="txBuDetails.csiId" required>
+        <input type="text" class="form-control" name="csiId" id="csiId" ng-model="txBuDetails.csiId" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section1.csiId.$invalid && section1.csiId.$touched">Please fill in the CSI ID</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-6 mb-3">
         <label for="uniqueProductId">Unique_Product_ID/Workflow BU ID*</label>
-        <input type="text" class="form-control" name="uniqueProductId" id="uniqueProductId" ng-model="txBuDetails.uniqueProductId" required>
+        <input type="text" class="form-control" name="uniqueProductId" id="uniqueProductId" ng-model="txBuDetails.uniqueProductId" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section1.uniqueProductId.$invalid && section1.uniqueProductId.$touched">Please fill in the Unique_Product_ID/Workflow BU ID</p>
     </div>
     <div class="col-md-6 mb-3">
         <label for="txScreeningBusinessUnitName">Tx Screening Business Unit Name*</label>
-        <input type="text" class="form-control" name="txScreeningBusinessUnitName" id="txScreeningBusinessUnitName" ng-model="txBuDetails.txScreeningBusinessUnitName" required>
+        <input type="text" class="form-control" name="txScreeningBusinessUnitName" id="txScreeningBusinessUnitName" ng-model="txBuDetails.txScreeningBusinessUnitName" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section1.txScreeningBusinessUnitName.$invalid && section1.txScreeningBusinessUnitName.$touched">Please fill in the Tx Screening Business Unit Name</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="rulesetMapped">Ruleset Mapped*</label>
-        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="txBuDetails.rulesetMapped" required>
+        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="txBuDetails.rulesetMapped" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section1.rulesetMapped.$invalid && section1.rulesetMapped.$touched">Please fill in the Ruleset Mapped</p>
     </div>
     <div class="col-md-4 mb-3">
@@ -46,7 +46,7 @@
     </div>
     <div class="col-md-4 mb-3">
         <label for="country">Country*</label>
-        <input type="text" class="form-control" name="country" id="country" ng-model="txBuDetails.country" required>
+        <input type="text" class="form-control" name="country" id="country" ng-model="txBuDetails.country" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section1.country.$invalid && section1.country.$touched">Please fill in the Country</p>
     </div>
 </div>

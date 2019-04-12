@@ -2,21 +2,21 @@
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="escalationPath1stLevelSupport">Escalation Path 1st Level Support*</label>
-        <input type="text" class="form-control" name="escalationPath1stLevelSupport" id="escalationPath1stLevelSupport" ng-model="txBuDetails.escalationPath1stLevelSupport" required>
+        <input type="text" class="form-control" name="escalationPath1stLevelSupport" id="escalationPath1stLevelSupport" ng-model="txBuDetails.escalationPath1stLevelSupport" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section4.escalationPath1stLevelSupport.$invalid && section4.escalationPath1stLevelSupport.$touched">Please fill in the Escalation Path 1st Level Support</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="escalationPath2ndLevelSupport">Escalation Path 2nd Level Support*</label>
-        <input type="text" class="form-control" name="escalationPath2ndLevelSupport" id="escalationPath2ndLevelSupport" ng-model="txBuDetails.escalationPath2ndLevelSupport" required>
+        <input type="text" class="form-control" name="escalationPath2ndLevelSupport" id="escalationPath2ndLevelSupport" ng-model="txBuDetails.escalationPath2ndLevelSupport" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section4.escalationPath2ndLevelSupport.$invalid && section4.escalationPath2ndLevelSupport.$touched">Please fill in the Escalation Path 2nd Level Support</p>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="firstLevelEscalation">1st Level Escalation: Application Manager*</label>
-        <input type="text" class="form-control" name="firstLevelEscalation" id="firstLevelEscalation" ng-model="txBuDetails.firstLevelEscalation" required>
+        <input type="text" class="form-control" name="firstLevelEscalation" id="firstLevelEscalation" ng-model="txBuDetails.firstLevelEscalation" pattern="^$|^[A-Za-z0-9]+$" ng-pattern-restrict required>
         <p ng-show="section4.firstLevelEscalation.$invalid && section4.firstLevelEscalation.$touched">Please fill in the 1st Level Escalation: Application Manager</p>
     </div>
 </div>
