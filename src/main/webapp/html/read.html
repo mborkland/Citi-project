@@ -14,20 +14,20 @@
                     <div class="my-2 ml-2 p-1" style="width: auto;">
                         <input class="form-control" type="text" name="searchTerms" ng-model="searchTerms" placeholder="Enter search terms">
                     </div>
-                    <div class="my-2 mr-4 p-1" style="width: auto;">
+                    <div class="my-2 mr-4 p-1 pr-5" style="width: auto;">
                         <button type="submit" style="border-radius: 10px;">Search</button>
                     </div>
-                    <div class="my-2 p-1 form-check">
+                    <div class="my-2 p-1 pr-5 form-check">
                         <input class="form-check-input" type="radio" ng-value="true" id="any" ng-model="any" checked>
-                        <label class="form-check-label" for="any">
-                            Any
+                        <label class="form-check-label" title="Returns every record that contains a search term" for="any" style="border-bottom: 1px dotted black;">
+                            OR
                         </label><br />
                         <input class="form-check-input" type="radio" ng-value="false" id="all" ng-model="any">
-                        <label class="form-check-label" for="all">
-                            All
+                        <label class="form-check-label" title="Returns any record that contains all of the search terms" for="all" style="border-bottom: 1px dotted black;">
+                            AND
                         </label>
                     </div>
-                    <div class="my-2 p-1 form-group">
+                    <div class="my-2 p-1 pr-5 form-group">
                         <span class="switch switch-sm">
                             <input type="checkbox" class="switch" id="switch-sm" ng-model="exactMatch">
                             <label for="switch-sm">Exact Match</label>
@@ -35,8 +35,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="m-2 p-1" style="width: auto;">
         </div>
         <div class="row ml-auto mr-0">
             <div class="m-2 p-1" style="width: auto;">
