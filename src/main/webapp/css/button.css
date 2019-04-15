@@ -63,3 +63,6 @@
 .page-button.round {
   border-radius: 50%;
 }
+.confirm-button {
+  background-color: #ff0000 !important;
+}

@@ -51,7 +51,7 @@ public class MainController {
         return new ResponseEntity<List<Record>>(transactionRecordService.findDuplicateRecords(buDetails), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/read")
     public ResponseEntity<List<Record>> read(@RequestParam RecordType recordType, @RequestParam String searchTerms,
                                              @RequestParam boolean any, @RequestParam boolean exactMatch) {
