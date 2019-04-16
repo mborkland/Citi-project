@@ -1,33 +1,52 @@
 <ng-form name="section6">
 <div class="form-row">
+    <div class="col-md-9 mb-4">Alphanumeric characters, spaces and commas only</div>
+    <div class="col-md-3 mb-4">* means required field</div>
+</div>
+<div class="form-row">
     <div class="col-md-6 mb-3">
         <label for="productProcessorStandardGreenzones">Product Processor Standard Greenzones*</label>
-        <input type="text" class="form-control" name="productProcessorStandardGreenzones" id="productProcessorStandardGreenzones" ng-model="txBuDetails.productProcessorStandardGreenzones" required>
-        <p ng-show="section6.productProcessorStandardGreenzones.$invalid && section6.productProcessorStandardGreenzones.$touched">Please fill in the Product Processor Standard Green Zones</p>
+        <input type="text" class="form-control" name="productProcessorStandardGreenzones" id="productProcessorStandardGreenzones" ng-model="txBuDetails.productProcessorStandardGreenzones" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <!--<p ng-show="section6.productProcessorStandardGreenzones.$invalid && section6.productProcessorStandardGreenzones.$touched">Please fill in the Product Processor Standard Green Zones</p>-->
+        <div ng-messages="section6.productProcessorStandardGreenzones.$error">
+            <p ng-if="section6.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
+        </div>
     </div>
     <div class="col-md-6 mb-3">
         <label for="interfaceConnectivityDoc">Interface/Connectivity Doc (LINK)*</label>
-        <input type="text" class="form-control" name="interfaceConnectivityDoc" id="interfaceConnectivityDoc" ng-model="txBuDetails.interfaceConnectivityDoc" required>
-        <p ng-show="section6.interfaceConnectivityDoc.$invalid && section6.interfaceConnectivityDoc.$touched">Please fill in the Interface/Connectivity Doc (LINK)</p>
+        <input type="text" class="form-control" name="interfaceConnectivityDoc" id="interfaceConnectivityDoc" ng-model="txBuDetails.interfaceConnectivityDoc" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <!--<p ng-show="section6.interfaceConnectivityDoc.$invalid && section6.interfaceConnectivityDoc.$touched">Please fill in the Interface/Connectivity Doc (LINK)</p>-->
+        <div ng-messages="section6.interfaceConnectivityDoc.$error">
+            <p ng-if="section6.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
+        </div>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-6 mb-3">
         <label for="retryMechanism">Retry Mechanism (Y/N)*</label>
-        <input type="text" class="form-control" name="retryMechanism" id="retryMechanism" ng-model="txBuDetails.retryMechanism" required>
-        <p ng-show="section6.retryMechanism.$invalid && section6.retryMechanism.$touched">Please fill in the Retry Mechanism (Y/N)</p>
+        <input type="text" class="form-control" name="retryMechanism" id="retryMechanism" ng-model="txBuDetails.retryMechanism" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <!--<p ng-show="section6.retryMechanism.$invalid && section6.retryMechanism.$touched">Please fill in the Retry Mechanism (Y/N)</p>-->
+        <div ng-messages="section6.retryMechanism.$error">
+            <p ng-if="section6.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
+        </div>
     </div>
     <div class="col-md-6 mb-3">
         <label for="dailyOnlineVolumesExpected">Daily Online Volumes Expected*</label>
-        <input type="text" class="form-control" name="dailyOnlineVolumesExpected" id="dailyOnlineVolumesExpected" ng-model="txBuDetails.dailyOnlineVolumesExpected" required>
-        <p ng-show="section6.dailyOnlineVolumesExpected.$invalid && section6.dailyOnlineVolumesExpected.$touched">Please fill in the Daily Online Volumes Expected</p>
+        <input type="text" class="form-control" name="dailyOnlineVolumesExpected" id="dailyOnlineVolumesExpected" ng-model="txBuDetails.dailyOnlineVolumesExpected" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <!--<p ng-show="section6.dailyOnlineVolumesExpected.$invalid && section6.dailyOnlineVolumesExpected.$touched">Please fill in the Daily Online Volumes Expected</p>-->
+        <div ng-messages="section6.dailyOnlineVolumesExpected.$error">
+            <p ng-if="section6.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
+        </div>
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="scheduleForRealtimeVolumes">Schedule for Realtime volumes*</label>
-        <input type="text" class="form-control" name="scheduleForRealtimeVolumes" id="scheduleForRealtimeVolumes" ng-model="txBuDetails.scheduleForRealtimeVolumes" required>
-        <p ng-show="section6.scheduleForRealtimeVolumes.$invalid && section6.scheduleForRealtimeVolumes.$touched">Please fill in the Schedule for real-time volumes</p>
+        <input type="text" class="form-control" name="scheduleForRealtimeVolumes" id="scheduleForRealtimeVolumes" ng-model="txBuDetails.scheduleForRealtimeVolumes" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <!--<p ng-show="section6.scheduleForRealtimeVolumes.$invalid && section6.scheduleForRealtimeVolumes.$touched">Please fill in the Schedule for real-time volumes</p>-->
+        <div ng-messages="section6.scheduleForRealtimeVolumes.$error">
+            <p ng-if="section6.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
+        </div>
     </div>
 </div>
 <div class="float-left">
@@ -36,9 +55,9 @@
     </a>
 </div>
 <div class="float-right">
-    <a ui-sref="create-tx.section7">
-        <button class="btn btn-primary btn-lg font-weight-bold" ng-disabled="section6.$invalid">Next</button>
-    </a>
+    <!--<a ui-sref="create-tx.section7">-->
+        <button class="btn btn-primary btn-lg font-weight-bold" ng-click="nextButton(section6)">Next</button>
+    <!--</a>-->
 </div>
 <div class="progress custom-progress">
     <div class="progress-bar progress-color" role="progressbar" style="width: 71%;" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100">71%</div>

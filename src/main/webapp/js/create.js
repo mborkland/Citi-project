@@ -37,6 +37,8 @@ function($scope, $http, $state, $window, $uibModal) {
                 $state.go('create-tx.section5');
             else if($state.current.name === 'create-tx.section5')
                 $state.go('create-tx.section6');
+            else if($state.current.name === 'create-tx.section6')
+                $state.go('create-tx.section7');
         }
         else {
             $state.go($state.current.name);
@@ -101,39 +103,41 @@ function($scope, $http, $state, $window, $uibModal) {
             requestor: $scope.requestorData.requestor
         };
 
-        if (force) {
-            $http({
-                method: 'POST',
-                url: '/create-tx',
-                data: data
-            }).then(function (response) {
-                console.log(response);
-                alert(response.data.result);
-                $state.go('read');
-            }, function (error) {
-                console.log(error);
-                alert('There was an error');
-            });
-        } else {
-            $scope.recordType = 'TRANSACTION';
-            $http({
-                method: 'POST',
-                url: '/duplicate-tx',
-                data: $scope.txBuDetails
-            }).then(function (response) {
-                console.log(response);
-                if (response.data.length) {
-                    $scope.duplicateRows.length = 0;
-                    angular.forEach(response.data, function (value, key) {
-                        $scope.duplicateRows.push(convertResponseData(value, false));
-                    });
-                    showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
-                } else {
-                    $scope.createTx(true);
-                }
-            }, function (error) {
-                console.log(error);
-            });
+        if ($scope.isFormValid($scope['section7'])) {
+            if (force) {
+                $http({
+                    method: 'POST',
+                    url: '/create-tx',
+                    data: data
+                }).then(function (response) {
+                    console.log(response);
+                    alert(response.data.result);
+                    $state.go('read');
+                }, function (error) {
+                    console.log(error);
+                    alert('There was an error');
+                });
+            } else {
+                $scope.recordType = 'TRANSACTION';
+                $http({
+                    method: 'POST',
+                    url: '/duplicate-tx',
+                    data: $scope.txBuDetails
+                }).then(function (response) {
+                    console.log(response);
+                    if (response.data.length) {
+                        $scope.duplicateRows.length = 0;
+                        angular.forEach(response.data, function (value, key) {
+                            $scope.duplicateRows.push(convertResponseData(value, false));
+                        });
+                        showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
+                    } else {
+                        $scope.createTx(true);
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+            }
         }
     };
 
