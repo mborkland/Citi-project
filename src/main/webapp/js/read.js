@@ -15,12 +15,12 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     $scope.recordType = 'CUSTOMER';
     $scope.rowsSelected = [];
 
-    var numRandomRows = 100;
+    var numRecentRows = 100;
     $scope.rowData = [];
-    populateWithRandomRows(numRandomRows);
+    populateWithRecentRows(numRecentRows);
 
     $scope.$watch('recordType', function(newValue, oldValue) {
-        populateWithRandomRows(numRandomRows);
+        populateWithRecentRows(numRecentRows);
     });
 
     $scope.gridOptions1 = {
@@ -246,7 +246,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
                 console.log(error);
             });
         } else {
-            populateWithRandomRows(numRandomRows);
+            populateWithRecentRows(numRecentRows);
         }
     };
 
@@ -268,9 +268,9 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         });
     }
 
-    function populateWithRandomRows(numRandomRows) {
-        var url = '/read-random?recordType=';
-        $http.get(url + $scope.recordType + '&numRandomRecords=' + numRandomRows).then(function (response) {
+    function populateWithRecentRows(numRecentRows) {
+        var url = '/read-recent?recordType=';
+        $http.get(url + $scope.recordType + '&numRecentRecords=' + numRecentRows).then(function (response) {
             handleResponse(response, true);
         }, function (error) {
             console.log(error);

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -59,9 +60,9 @@ public class MainController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @GetMapping("/read-random")
-    public ResponseEntity<List<Record>> readRandom(@RequestParam RecordType recordType, @RequestParam int numRandomRecords) {
-        return new ResponseEntity<List<Record>>(getRecordService(recordType).getRandomRecords(numRandomRecords), HttpStatus.OK);
+    @GetMapping("/read-recent")
+    public ResponseEntity<List<Record>> readRecent(@RequestParam RecordType recordType, @RequestParam int numRecentRecords) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getRecentRecords(numRecentRecords), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -88,9 +89,11 @@ public class MainController {
     public ResponseEntity<String> delete(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String requestor, @RequestParam String reason) {
         RecordService recordService = getRecordService(recordType);
         for (Integer id : ids) {
-            BuDetails buDetails = recordService.getRecordById(id).getBuDetails();
+            Record record = recordService.getRecordById(id);
+            BuDetails buDetails = record.getBuDetails();
+            Date creationDate = record.getCreationDate();
             recordService.deleteRecord(id);
-            recordService.saveDeletedRecord(buDetails, requestor, reason);
+            recordService.saveDeletedRecord(buDetails, creationDate, requestor, reason);
         }
 
         return new ResponseEntity<String>("{\"result\":\"Record(s) deleted and archived successfully.\"}", HttpStatus.OK);

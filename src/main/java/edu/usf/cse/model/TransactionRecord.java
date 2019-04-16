@@ -1,6 +1,7 @@
 package edu.usf.cse.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="TX_BU_DETAILS")
@@ -13,6 +14,10 @@ public class TransactionRecord implements Record {
 
     @Embedded
     private TxBuDetails buDetails;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="Creation_Date")
+    private Date creationDate;
 
     @Override
     public Integer getId() {
@@ -31,6 +36,16 @@ public class TransactionRecord implements Record {
 
     public void setBuDetails(TxBuDetails buDetails) {
         this.buDetails = buDetails;
+    }
+
+    @Override
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    @Override
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
 }

@@ -5,6 +5,7 @@ import edu.usf.cse.model.BuDetails;
 import edu.usf.cse.model.Record;
 import edu.usf.cse.model.UpdatedRecord;
 
+import java.util.Date;
 import java.util.List;
 
 public interface RecordService {
@@ -15,7 +16,7 @@ public interface RecordService {
 
     List<Record> getRecords(String searchTerms, boolean any, boolean exactMatch);
 
-    List<Record> getRandomRecords(int numRandomRecords);
+    List<Record> getRecentRecords(int numRandomRecords);
 
     String updateRecord(List<? extends UpdatedRecord> records);
 
@@ -25,7 +26,7 @@ public interface RecordService {
 
     List<Record> getArchive();
 
-    String saveDeletedRecord(BuDetails buDetails, String requestor, String reason);
+    String saveDeletedRecord(BuDetails buDetails, Date creationDate, String requestor, String reason);
 
     String clearDeletedRecords(List<Integer> ids);
 

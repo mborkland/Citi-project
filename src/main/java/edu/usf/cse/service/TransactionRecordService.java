@@ -9,8 +9,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -25,6 +27,8 @@ public class TransactionRecordService implements RecordService {
     private DeletedTransactionRecordRepository deletedTransactionRecordRepository;
     
     private EntityManager entityManager;
+
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	private static final char historyDelimiter = ';';
 
@@ -48,9 +52,11 @@ public class TransactionRecordService implements RecordService {
     @Override
     public String createRecord(CreatedRecord record) {
         TxBuDetails txBuDetails = (TxBuDetails) record.getBuDetails();
-        txBuDetails.setHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + record.getRequestor());
+        LocalDateTime now = LocalDateTime.now();
+        txBuDetails.setHistory("Record created on " + now.format(formatter) + " by " + record.getRequestor());
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setBuDetails(txBuDetails);
+        transactionRecord.setCreationDate(Timestamp.valueOf(now));
         transactionRecordRepository.save(transactionRecord);
         return "Transaction record created successfully";
     }
@@ -110,8 +116,8 @@ public class TransactionRecordService implements RecordService {
         return criteriaQuery;
     }
 
-    public List<Record> getRandomRecords(int numRandomRecords)  {
-        return transactionRecordRepository.getRandomRecords(numRandomRecords);
+    public List<Record> getRecentRecords(int numRecentRecords)  {
+        return transactionRecordRepository.getRecentRecords(numRecentRecords);
     }
 
     @Override
@@ -123,8 +129,9 @@ public class TransactionRecordService implements RecordService {
             String reason = record.getReason();
             String updatedFields = String.join(", ", record.getUpdatedFields());
             StringBuilder history = new StringBuilder(((TxBuDetails) transactionRecord.getBuDetails()).getHistory());
+            LocalDateTime now = LocalDateTime.now();
             history.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
-                    .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor)
+                    .append(now.format(formatter)).append(" by ").append(requestor)
                     .append(" because ").append(reason);
             ((TxBuDetails) transactionRecord.getBuDetails()).setHistory(history.toString());
             transactionRecordRepository.save(transactionRecord);
@@ -159,10 +166,12 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String saveDeletedRecord(BuDetails buDetails, String requestor, String reason) {
+    public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String requestor, String reason) {
         DeletedTransactionRecord deletedTransactionRecord = new DeletedTransactionRecord();
         deletedTransactionRecord.setBuDetails((TxBuDetails) buDetails);
-        deletedTransactionRecord.setDeletionDetails("Record deleted on " + new Timestamp(System.currentTimeMillis()) +
+        deletedTransactionRecord.setCreationDate(creationDate);
+        LocalDateTime now = LocalDateTime.now();
+        deletedTransactionRecord.setDeletionDetails("Record deleted on " + now.format(formatter) +
                 " by " + requestor + ". Reason: " + reason);
         deletedTransactionRecordRepository.save(deletedTransactionRecord);
         return "Deleted record saved successfully";
@@ -184,13 +193,16 @@ public class TransactionRecordService implements RecordService {
         DeletedTransactionRecord deletedTransactionRecord = deletedTransactionRecordRepository.findOne(id);
         String deletionDetails = deletedTransactionRecord.getDeletionDetails();
         TxBuDetails txBuDetails = (TxBuDetails) deletedTransactionRecord.getBuDetails();
+        Date creationDate = deletedTransactionRecord.getCreationDate();
 
         TransactionRecord transactionRecord = new TransactionRecord();
         StringBuilder history = new StringBuilder(txBuDetails.getHistory());
+        LocalDateTime now = LocalDateTime.now();
         history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter)
-                .append("Record restored on ").append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
+                .append("Record restored on ").append(now.format(formatter)).append(" by ").append(requestor);
         txBuDetails.setHistory(history.toString());
         transactionRecord.setBuDetails(txBuDetails);
+        transactionRecord.setCreationDate(creationDate);
         transactionRecordRepository.save(transactionRecord);
         deletedTransactionRecordRepository.delete(id);
         return "Deleted record restored successfully";

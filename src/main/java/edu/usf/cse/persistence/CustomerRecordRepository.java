@@ -12,7 +12,7 @@ public interface CustomerRecordRepository extends CrudRepository<CustomerRecord,
         @Query(value = "select Update_History from CX_BU_DETAILS c where c.id = ?1", nativeQuery = true)
         String getUpdateHistory(Integer id);
 
-        @Query(value="select * from CX_BU_DETAILS c order by rand() limit ?1", nativeQuery = true)
-        List<Record> getRandomRecords(int numRandomRecords);
+        @Query(value="select * from CX_BU_DETAILS c order by c.creation_date desc limit ?1", nativeQuery = true)
+        List<Record> getRecentRecords(int numRandomRecords);
 
 }

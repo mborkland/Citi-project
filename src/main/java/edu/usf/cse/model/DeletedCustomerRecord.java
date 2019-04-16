@@ -1,6 +1,7 @@
 package edu.usf.cse.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="DELETED_CX_BU_DETAILS")
@@ -17,6 +18,10 @@ public class DeletedCustomerRecord implements Record {
 
     @Column(name="Deletion_Details", columnDefinition="MEDIUMTEXT")
     private String deletionDetails;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="Creation_Date")
+    private Date creationDate;
 
     @Override
     public Integer getId() {
@@ -43,5 +48,15 @@ public class DeletedCustomerRecord implements Record {
 
     public String getDeletionDetails() {
         return deletionDetails;
+    }
+
+    @Override
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    @Override
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

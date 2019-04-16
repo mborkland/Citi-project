@@ -9,7 +9,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -24,6 +27,8 @@ public class CustomerRecordService implements RecordService {
     private DeletedCustomerRecordRepository deletedCustomerRecordRepository;
 
     private EntityManager entityManager;
+
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static final char historyDelimiter = ';';
 
@@ -50,9 +55,11 @@ public class CustomerRecordService implements RecordService {
     @Override
     public String createRecord(CreatedRecord record) {
         CxBuDetails cxBuDetails = (CxBuDetails) record.getBuDetails();
-        cxBuDetails.setHistory("Record created on " + new Timestamp(System.currentTimeMillis()) + " by " + record.getRequestor());
+        LocalDateTime now = LocalDateTime.now();
+        cxBuDetails.setHistory("Record created on " + now.format(formatter) + " by " + record.getRequestor());
         CustomerRecord customerRecord = new CustomerRecord();
         customerRecord.setBuDetails(cxBuDetails);
+        customerRecord.setCreationDate(Timestamp.valueOf(now));
         customerRecordRepository.save(customerRecord);
         return "Customer record created successfully";
     }
@@ -109,8 +116,8 @@ public class CustomerRecordService implements RecordService {
         }
     }
 
-    public List<Record> getRandomRecords(int numRandomRecords)  {
-        return customerRecordRepository.getRandomRecords(numRandomRecords);
+    public List<Record> getRecentRecords(int numRecentRecords)  {
+        return customerRecordRepository.getRecentRecords(numRecentRecords);
     }
 
     @Override
@@ -133,8 +140,9 @@ public class CustomerRecordService implements RecordService {
             String reason = record.getReason();
             String updatedFields = String.join(", ", record.getUpdatedFields());
             StringBuilder history = new StringBuilder(((CxBuDetails) customerRecord.getBuDetails()).getHistory());
+            LocalDateTime now = LocalDateTime.now();
             history.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
-                    .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor)
+                    .append(now.format(formatter)).append(" by ").append(requestor)
                     .append(" because ").append(reason);
             ((CxBuDetails) customerRecord.getBuDetails()).setHistory(history.toString());
             customerRecordRepository.save(customerRecord);
@@ -159,10 +167,12 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String saveDeletedRecord(BuDetails buDetails, String requestor, String reason) {
+    public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String requestor, String reason) {
         DeletedCustomerRecord deletedCustomerRecord = new DeletedCustomerRecord();
         deletedCustomerRecord.setBuDetails((CxBuDetails) buDetails);
-        deletedCustomerRecord.setDeletionDetails("Record deleted on " + new Timestamp(System.currentTimeMillis()) +
+        deletedCustomerRecord.setCreationDate(creationDate);
+        LocalDateTime now = LocalDateTime.now();
+        deletedCustomerRecord.setDeletionDetails("Record deleted on " + now.format(formatter) +
                 " by " + requestor + ". Reason: " + reason);
         deletedCustomerRecordRepository.save(deletedCustomerRecord);
         return "Deleted record saved successfully";
@@ -184,13 +194,16 @@ public class CustomerRecordService implements RecordService {
         DeletedCustomerRecord deletedCustomerRecord = deletedCustomerRecordRepository.findOne(id);
         String deletionDetails = deletedCustomerRecord.getDeletionDetails();
         CxBuDetails cxBuDetails = (CxBuDetails) deletedCustomerRecord.getBuDetails();
+        Date creationDate = deletedCustomerRecord.getCreationDate();
 
         CustomerRecord customerRecord = new CustomerRecord();
         StringBuilder history = new StringBuilder(cxBuDetails.getHistory());
+        LocalDateTime now = LocalDateTime.now();
         history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter).append("Record restored on ")
-                .append(new Timestamp(System.currentTimeMillis())).append(" by ").append(requestor);
+                .append(now.format(formatter)).append(" by ").append(requestor);
         cxBuDetails.setHistory(history.toString());
         customerRecord.setBuDetails(cxBuDetails);
+        customerRecord.setCreationDate(creationDate);
         customerRecordRepository.save(customerRecord);
         deletedCustomerRecordRepository.delete(id);
         return "Deleted record restored successfully";

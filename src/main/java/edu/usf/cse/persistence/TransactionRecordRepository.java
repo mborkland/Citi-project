@@ -12,7 +12,7 @@ public interface TransactionRecordRepository extends CrudRepository<TransactionR
         @Query(value = "select Update_History from TX_BU_DETAILS t where t.id = ?1", nativeQuery = true)
         String getUpdateHistory(Integer id);
 
-        @Query(value="select * from TX_BU_DETAILS t order by rand() limit ?1", nativeQuery = true)
-        List<Record> getRandomRecords(int numRandomRecords);
+        @Query(value="select * from TX_BU_DETAILS t order by t.creation_date desc limit ?1", nativeQuery = true)
+        List<Record> getRecentRecords(int numRandomRecords);
 
 }
