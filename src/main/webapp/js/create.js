@@ -7,9 +7,22 @@ function($scope, $http, $state, $window, $uibModal) {
     $scope.duplicateRows = [];
 
     $scope.isFormValid = function(ngForm) {
-        //$scope.$broadcast('$validate');
+        $scope.$broadcast('$validate');
         if(!ngForm.$invalid) {
-            alert("All required fields are filled");
+            return true;
+        }
+        else {
+            ngForm.$dirty = true;
+            for(var i in ngForm) {
+                if(ngForm[i] && ngForm[i].hasOwnProperty && ngForm[i].hasOwnProperty('$dirty')) {
+                    ngForm[i].$dirty = true;
+                }
+            }
+        }
+    }
+
+    $scope.nextButton = function(ngForm) {
+        if($scope.isFormValid(ngForm)) {
             if($state.current.name === 'create-cx.section1')
                 $state.go('create-cx.section2');
             else if($state.current.name === 'create-cx.section2')
@@ -26,7 +39,6 @@ function($scope, $http, $state, $window, $uibModal) {
                 $state.go('create-tx.section6');
         }
         else {
-            alert("Not all required fields are filled");
             $state.go($state.current.name);
         }
     }
@@ -45,39 +57,41 @@ function($scope, $http, $state, $window, $uibModal) {
             requestor: $scope.requestorData.requestor
         };
 
-        if (force) {
-            $http({
-                method: 'POST',
-                url: '/create-cx',
-                data: data
-            }).then(function (response) {
-                console.log(response);
-                alert(response.data.result);
-                $state.go('read');
-            }, function (error) {
-                console.log(error);
-                alert('There was an error');
-            });
-        } else {
-            $scope.recordType = 'CUSTOMER';
-            $http({
-                method: 'POST',
-                url: '/duplicate-cx',
-                data: $scope.cxBuDetails
-            }).then(function (response) {
-                console.log(response);
-                if (response.data.length) {
-                    $scope.duplicateRows.length = 0;
-                    angular.forEach(response.data, function (value, key) {
-                        $scope.duplicateRows.push(convertResponseData(value, false));
-                    });
-                    showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
-                } else {
-                    $scope.createCx(true);
-                }
-            }, function (error) {
-                console.log(error);
-            });
+        if ($scope.isFormValid($scope['section3'])) {
+            if (force) {
+                $http({
+                    method: 'POST',
+                    url: '/create-cx',
+                    data: data
+                }).then(function (response) {
+                    console.log(response);
+                    alert(response.data.result);
+                    $state.go('read');
+                }, function (error) {
+                    console.log(error);
+                    alert('There was an error');
+                });
+            } else {
+                $scope.recordType = 'CUSTOMER';
+                $http({
+                    method: 'POST',
+                    url: '/duplicate-cx',
+                    data: $scope.cxBuDetails
+                }).then(function (response) {
+                    console.log(response);
+                    if (response.data.length) {
+                        $scope.duplicateRows.length = 0;
+                        angular.forEach(response.data, function (value, key) {
+                            $scope.duplicateRows.push(convertResponseData(value, false));
+                        });
+                        showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
+                    } else {
+                        $scope.createCx(true);
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+            }
         }
     };
 
