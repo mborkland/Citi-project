@@ -4,9 +4,9 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     $scope.isAdmin = $rootScope.isAdmin;
 
     var booleanFields = ['gomCompliant', 'workflowFlag', 'anyBatchComponent'];
+    var historyCellTemplate = '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>';
 
     var xsw = 90;
-    var xxsw = xsw / 2;
     var sw = 2 * xsw;
     var mw = 3 * xsw;
     var lw = 4 * xsw;
@@ -28,7 +28,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         enableColumnResizing: true,
         enableSorting: true,
-        enableFullRowSelection: true,
         selectionRowHeaderWidth: 35,
         rowHeight: 35,
         enablePaginationControls: false,
@@ -36,7 +35,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         showGridFooter: true,
         enableSelectAll: true,
         columnDefs: [
-            {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},
+            {field: 'id', displayName: 'ID', width: xsw, enableSorting: false, enableHiding: false},
             {field: 'csiId', displayName: 'CSI ID', width: xsw, enableHiding: false},
             {field: 'csInstance', displayName: 'CS Instance', width: sw, enableHiding: false},
             {field: 'businessId', displayName: 'BUSINESS ID', width: sw, enableHiding: false},
@@ -66,7 +65,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
             {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
             {field: 'history', displayName: 'History', width: sw, enableHiding: false,
-                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
+                cellTemplate: historyCellTemplate}
         ],
         onRegisterApi: function (gridApi) {
             $scope.grid1Api = gridApi;
@@ -79,16 +78,14 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         enableColumnResizing: true,
         enableSorting: true,
-        enableFullRowSelection: true,
         selectionRowHeaderWidth: 35,
         rowHeight: 35,
-        //paginationPageSizes: [10, 20, 50],
         enablePaginationControls: false,
         paginationPageSize: 15,
         showGridFooter:true,
         enableSelectAll: true,
         columnDefs: [
-            {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},
+            {field: 'id', displayName: 'ID', width: xsw, enableSorting: false, enableHiding: false},
             {field: 'businessId', displayName: 'BUSINESS ID', width: sw, enableHiding: false},
             {field: 'productId', displayName: 'PRODUCT ID', width: sw, enableHiding: false},
             {field: 'csiId', displayName: 'CSI ID', width: xsw, enableHiding: false},
@@ -130,7 +127,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mw, enableHiding: false},
             {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
             {field: 'history', displayName: 'History', width: sw, enableHiding: false,
-                cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
+                cellTemplate: historyCellTemplate}
         ],
         onRegisterApi: function (gridApi) {
             $scope.grid2Api = gridApi;

@@ -26,11 +26,21 @@
         <hr class="my-4" />
         <div class="container grid-box">
             <div class="row px-3 py-2"></div>
-            <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-selection
-                 ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'CUSTOMER'"></div>
-            <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-selection
-                 ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'TRANSACTION'"></div>
-            <div class="row px-3 py-2"></div>
+            <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination ng-if="recordType === 'CUSTOMER'"></div>
+            <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination ng-if="recordType === 'TRANSACTION'"></div>
+            <div class="row" style="width: 100%;">
+                <div class="col-5">
+                    <p ng-if="recordType === 'CUSTOMER'" class="my-1">Current page: {{ grid1Api.pagination.getPage() }} of {{ grid1Api.pagination.getTotalPages() }}</p>
+                    <p ng-if="recordType === 'TRANSACTION'" class="my-1">Current page: {{ grid2Api.pagination.getPage() }} of {{ grid2Api.pagination.getTotalPages() }}</p>
+                </div>
+                <div class="col-7 h4 font-weight-bold">
+                    <a href="" class="page-button" ng-click="grid1Api.pagination.seek(1); grid2Api.pagination.seek(1)" style="color: #ffffff;">&#8249;&#8249;</a>
+                    <a href="" class="page-button round" ng-click="grid1Api.pagination.previousPage(); grid2Api.pagination.previousPage()" style="color: #ffffff;">&#8249;</a>
+                    <a href="" class="page-button round" ng-click="grid1Api.pagination.nextPage(); grid2Api.pagination.nextPage()" style="color: #ffffff;">&#8250;</a>
+                    <a href="" class="page-button" ng-click="grid1Api.pagination.seek(grid1Api.pagination.getTotalPages());
+                grid2Api.pagination.seek(grid2Api.pagination.getTotalPages())" style="color: #ffffff;">&#8250;&#8250;</a>
+                </div>
+            </div>
         </div>
         <div class="row px-3 py-2">
             <div class="row ml-auto mr-0">
@@ -42,6 +52,7 @@
                 </div>
             </div>
         </div>
+        <div class="row my-2"></div>
     </div>
 </div>
 
@@ -70,8 +81,7 @@
 <script src="https://cdn.jsdelivr.net/gh/angular-ui/bower-ui-grid/ui-grid.min.js"></script>
 <script>
     'use strict';
-    var app = angular.module('duplicate-records', ['ui.grid', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.exporter',
-        'ui.grid.edit', 'ui.grid.rowEdit', 'ui.bootstrap']);
+    var app = angular.module('duplicate-records', ['ui.grid', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap']);
 
     app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval', '$uibModal',
     function($window, $scope, uiGridConstants, $interval, $uibModal) {
@@ -79,7 +89,6 @@
         $scope.rowData = $window.opener.parentScope.duplicateRows;
 
         var xsw = 90;
-        var xxsw = xsw / 2;
         var sw = 2 * xsw;
         var mw = 3 * xsw;
         var lw = 4 * xsw;
@@ -124,16 +133,13 @@
             enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
             enableColumnResizing: true,
             enableSorting: true,
-            enableFullRowSelection: true,
             selectionRowHeaderWidth: 35,
             rowHeight: 35,
-            //paginationPageSizes: [10, 20, 50],
             enablePaginationControls: false,
             paginationPageSize: 15,
-            showGridFooter:true,
-            enableSelectAll: true,
+            showGridFooter: true,
             columnDefs: [
-                {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},
+                {field: 'id', displayName: 'ID', width: xsw, enableSorting: false, enableHiding: false},
                 {field: 'csiId', displayName: 'CSI ID', width: xsw, enableHiding: false},
                 {field: 'csInstance', displayName: 'CS Instance', width: sw, enableHiding: false},
                 {field: 'businessId', displayName: 'BUSINESS ID', width: sw, enableHiding: false},
@@ -163,7 +169,7 @@
                 {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
                 {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
                 {field: 'history', displayName: 'History', width: sw, enableHiding: false,
-                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
+                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>'}
             ],
             onRegisterApi: function (gridApi) {
                 $scope.grid1Api = gridApi;
@@ -176,16 +182,13 @@
             enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
             enableColumnResizing: true,
             enableSorting: true,
-            enableFullRowSelection: true,
             selectionRowHeaderWidth: 35,
             rowHeight: 35,
-            //paginationPageSizes: [10, 20, 50],
             enablePaginationControls: false,
             paginationPageSize: 15,
-            showGridFooter:true,
-            enableSelectAll: true,
+            showGridFooter: true,
             columnDefs: [
-                {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},
+                {field: 'id', displayName: 'ID', width: xsw, enableSorting: false, enableHiding: false},
                 {field: 'businessId', displayName: 'BUSINESS ID', width: sw, enableHiding: false},
                 {field: 'productId', displayName: 'PRODUCT ID', width: sw, enableHiding: false},
                 {field: 'csiId', displayName: 'CSI ID', width: xsw, enableHiding: false},
@@ -227,25 +230,13 @@
                 {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mw, enableHiding: false},
                 {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
                 {field: 'history', displayName: 'History', width: sw, enableHiding: false,
-                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>'}
+                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>'}
             ],
             onRegisterApi: function (gridApi) {
                 $scope.grid2Api = gridApi;
             },
             data: $scope.rowData
         };
-
-        var historyCellTemplate = '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>';
-
-        $scope.gridOptions1.columnDefs[0].enableCellEdit = false;
-        var numCxColumns = $scope.gridOptions1.columnDefs.length;
-        $scope.gridOptions1.columnDefs[numCxColumns - 1].enableCellEdit = false;
-        $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = historyCellTemplate;
-
-        $scope.gridOptions2.columnDefs[0].enableCellEdit = false;
-        var numTxColumns = $scope.gridOptions2.columnDefs.length;
-        $scope.gridOptions2.columnDefs[numTxColumns - 1].enableCellEdit = false;
-        $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = historyCellTemplate;
 
         $scope.forceCreate = function() {
             $window.opener.parentScope.forceCreate();

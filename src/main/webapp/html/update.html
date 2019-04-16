@@ -26,11 +26,23 @@
         <hr class="my-4" />
         <div class="container grid-box">
             <div class="row px-3 py-2"></div>
-            <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns
+            <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-pagination
                  ui-grid-exporter ui-grid-edit ui-grid-row-edit ui-grid-cellNav ng-if="recordType === 'CUSTOMER'"></div>
-            <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns
+            <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-pagination
                  ui-grid-exporter ui-grid-edit ui-grid-row-edit ui-grid-cellNav ng-if="recordType === 'TRANSACTION'"></div>
-            <div class="row px-3 py-2"></div>
+            <div class="row" style="width: 100%;">
+                <div class="col-5">
+                    <p ng-if="recordType === 'CUSTOMER'" class="my-1">Current page: {{ grid1Api.pagination.getPage() }} of {{ grid1Api.pagination.getTotalPages() }}</p>
+                    <p ng-if="recordType === 'TRANSACTION'" class="my-1">Current page: {{ grid2Api.pagination.getPage() }} of {{ grid2Api.pagination.getTotalPages() }}</p>
+                </div>
+                <div class="col-7 h4 font-weight-bold">
+                    <a href="" class="page-button" ng-click="grid1Api.pagination.seek(1); grid2Api.pagination.seek(1)" style="color: #ffffff;">&#8249;&#8249;</a>
+                    <a href="" class="page-button round" ng-click="grid1Api.pagination.previousPage(); grid2Api.pagination.previousPage()" style="color: #ffffff;">&#8249;</a>
+                    <a href="" class="page-button round" ng-click="grid1Api.pagination.nextPage(); grid2Api.pagination.nextPage()" style="color: #ffffff;">&#8250;</a>
+                    <a href="" class="page-button" ng-click="grid1Api.pagination.seek(grid1Api.pagination.getTotalPages());
+                grid2Api.pagination.seek(grid2Api.pagination.getTotalPages())" style="color: #ffffff;">&#8250;&#8250;</a>
+                </div>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -55,6 +67,7 @@
                 </div>
             </div>
         </div>
+        <div class="row my-2"></div>
     </div>
 </div>
 
@@ -84,7 +97,7 @@
 <script>
     'use strict';
     var app = angular.module('update', ['ui.grid', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.exporter',
-        'ui.grid.edit', 'ui.grid.rowEdit', 'ui.bootstrap']);
+        'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.pagination', 'ui.bootstrap']);
 
     app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval', '$uibModal',
     function($window, $scope, uiGridConstants, $interval, $uibModal) {
@@ -214,6 +227,9 @@
             enableSorting: true,
             selectionRowHeaderWidth: 35,
             rowHeight: 35,
+            enablePaginationControls: false,
+            paginationPageSize: 15,
+            showGridFooter: true,
             rowEditWaitInterval: -1,
             onRegisterApi: function (gridApi) {
                 $scope.grid1Api = gridApi;
@@ -236,7 +252,9 @@
             enableFullRowSelection: true,
             selectionRowHeaderWidth: 35,
             rowHeight: 35,
-            enableSelectAll: true,
+            enablePaginationControls: false,
+            paginationPageSize: 15,
+            showGridFooter: true,
             rowEditWaitInterval: -1,
             onRegisterApi: function (gridApi) {
                 $scope.grid2Api = gridApi;
