@@ -6,16 +6,14 @@
 <div class="form-row">
     <div class="col-md-8 mb-3">
         <label for="batchesOrPeaksForRealtimeVolumes">Batches or Peaks for Realtime Volumes*</label>
-        <input type="text" class="form-control" name="batchesOrPeaksForRealtimeVolumes" id="batchesOrPeaksForRealtimeVolumes" ng-model="txBuDetails.batchesOrPeaksForRealtimeVolumes" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section7.batchesOrPeaksForRealtimeVolumes.$invalid && section7.batchesOrPeaksForRealtimeVolumes.$touched">Please fill in the Batches or Peaks for Realtime Volumes</p>-->
+        <input type="text" class="form-control" name="batchesOrPeaksForRealtimeVolumes" id="batchesOrPeaksForRealtimeVolumes" ng-model="txBuDetails.batchesOrPeaksForRealtimeVolumes" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section7.batchesOrPeaksForRealtimeVolumes.$error">
             <p ng-if="section7.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-4 mb-4">
         <label for="initialScreeningResponseSla">Initial Screening Response SLA*</label>
-        <input type="text" class="form-control" name="initialScreeningResponseSla" id="initialScreeningResponseSla" ng-model="txBuDetails.initialScreeningResponseSla" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section7.initialScreeningResponseSla.$invalid && section7.initialScreeningResponseSla.$touched">Please fill in the Initial Screening Response SLA</p>-->
+        <input type="text" class="form-control" name="initialScreeningResponseSla" id="initialScreeningResponseSla" ng-model="txBuDetails.initialScreeningResponseSla" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section7.initialScreeningResponseSla.$error">
             <p ng-if="section7.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -24,8 +22,7 @@
 <div class="form-row">
     <div class="col-md-6 mb-4">
         <label for="thresholdSetForTimeouts">Threshold Set for Timeouts*</label>
-        <input type="text" class="form-control" name="thresholdSetForTimeouts" id="thresholdSetForTimeouts" ng-model="txBuDetails.thresholdSetForTimeouts" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section7.thresholdSetForTimeouts.$invalid && section7.thresholdSetForTimeouts.$touched">Please fill in the Threshold Set For Timeouts</p>-->
+        <input type="text" class="form-control" name="thresholdSetForTimeouts" id="thresholdSetForTimeouts" ng-model="txBuDetails.thresholdSetForTimeouts" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section7.thresholdSetForTimeouts.$error">
             <p ng-if="section7.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -48,16 +45,14 @@
 <div class="form-row">
     <div class="col-md-6 mb-3">
         <label for="workflowOperationsWorkSchedule">Workflow Operations Work Schedule (EST)*</label>
-        <input type="text" class="form-control" name="workflowOperationsWorkSchedule" id="workflowOperationsWorkSchedule" ng-model="txBuDetails.workflowOperationsWorkSchedule" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section7.workflowOperationsWorkSchedule.$invalid && section7.workflowOperationsWorkSchedule.$touched">Please fill in the Workflow Operations Work Schedule (EST)</p>-->
+        <input type="text" class="form-control" name="workflowOperationsWorkSchedule" id="workflowOperationsWorkSchedule" ng-model="txBuDetails.workflowOperationsWorkSchedule" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section7.workflowOperationsWorkSchedule.$error">
             <p ng-if="section7.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-6 mb-3">
         <label for="requestor">Requestor*</label>
-        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="txData.requestor" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section7.requestor.$invalid && section7.requestor.$touched">Please fill in the Requestor</p>-->
+        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="txData.requestor" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section7.requestor.$error">
             <p ng-if="section7.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>

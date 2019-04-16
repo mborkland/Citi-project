@@ -3,6 +3,7 @@ function($scope, $http, $state, $window, $uibModal) {
     $scope.cxBuDetails = $scope.cxBuDetails || {};
     $scope.txBuDetails = $scope.txBuDetails || {};
     $scope.requestorData = $scope.requestorData || {};
+    $scope.pattern = "^[a-zA-Z0-9.:;, ]*$";
 
     $scope.duplicateRows = [];
 

@@ -6,8 +6,7 @@
 <div class="form-row">
     <div class="col-md-12 mb-3">
         <label for="secondLevelEscalation">2nd Level Escalation: One Level Above Application Manager*</label>
-        <input type="text" class="form-control" name="secondLevelEscalation" id="secondLevelEscalation" ng-model="txBuDetails.secondLevelEscalation" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section5.secondLevelEscalation.$invalid && section5.secondLevelEscalation.$touched">Please fill in the 2nd Level Escalation: One Level Above Application Manager</p>-->
+        <input type="text" class="form-control" name="secondLevelEscalation" id="secondLevelEscalation" ng-model="txBuDetails.secondLevelEscalation" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section5.secondLevelEscalation.$error">
             <p ng-if="section5.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -16,16 +15,14 @@
 <div class="form-row">
     <div class="col-md-6 mb-4">
         <label for="productProcessorGroupDl">Product Processor Group DL*</label>
-        <input type="text" class="form-control" name="productProcessorGroupDl" id="productProcessorGroupDl" ng-model="txBuDetails.productProcessorGroupDl" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section5.productProcessorGroupDl.$invalid && section5.productProcessorGroupDl.$touched">Please fill in the Product Processor Group DL</p>-->
+        <input type="text" class="form-control" name="productProcessorGroupDl" id="productProcessorGroupDl" ng-model="txBuDetails.productProcessorGroupDl" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section5.productProcessorGroupDl.$error">
             <p ng-if="section5.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-6 mb-4">
         <label for="productProcessorSnowGroupName">Product Processor SNOW Group Name*</label>
-        <input type="text" class="form-control" name="productProcessorSnowGroupName" id="productProcessorSnowGroupName" ng-model="txBuDetails.productProcessorSnowGroupName" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section5.productProcessorSnowGroupName.$invalid && section5.productProcessorSnowGroupName.$touched">Please fill in the Product Processor SNOW Group Name</p>-->
+        <input type="text" class="form-control" name="productProcessorSnowGroupName" id="productProcessorSnowGroupName" ng-model="txBuDetails.productProcessorSnowGroupName" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section5.productProcessorSnowGroupName.$error">
             <p ng-if="section5.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -34,8 +31,7 @@
 <div class="form-row">
     <div class="col-md-12 mb-4">
         <label for="productProcessorScreeningResponseCutoffTime">Product Processor Screening Response Cutoff Time*</label>
-        <input type="text" class="form-control" name="productProcessorScreeningResponseCutoffTime" id="productProcessorScreeningResponseCutoffTime" ng-model="txBuDetails.productProcessorScreeningResponseCutoffTime" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section5.productProcessorScreeningResponseCutoffTime.$invalid && section5.productProcessorScreeningResponseCutoffTime.$touched">Please fill in the Product Processor Screening Response Cut-off Time</p>-->
+        <input type="text" class="form-control" name="productProcessorScreeningResponseCutoffTime" id="productProcessorScreeningResponseCutoffTime" ng-model="txBuDetails.productProcessorScreeningResponseCutoffTime" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section5.productProcessorScreeningResponseCutoffTime.$error">
             <p ng-if="section5.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -47,9 +43,7 @@
     </a>
 </div>
 <div class="float-right">
-    <!--<a ui-sref="create-tx.section6">-->
-        <button class="btn btn-primary btn-lg font-weight-bold" ng-click="nextButton(section5)">Next</button>
-    <!--</a>-->
+    <button class="btn btn-primary btn-lg font-weight-bold" ng-click="nextButton(section5)">Next</button>
 </div>
 <div class="progress custom-progress">
     <div class="progress-bar progress-color" role="progressbar" style="width: 57%;" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100">57%</div>

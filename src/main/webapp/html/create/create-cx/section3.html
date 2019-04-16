@@ -6,16 +6,14 @@
 <div class="form-row">
     <div class="col-md-3 mb-4">
         <label for="operationEntity">Operation Entity*</label>
-        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="cxBuDetails.operationEntity" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section3.operationEntity.$invalid && section3.operationEntity.$dirty" style="color:maroon">Required Field</p>-->
+        <input type="text" class="form-control" name="operationEntity" id="operationEntity" ng-model="cxBuDetails.operationEntity" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section3.operationEntity.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-4 mb-4">
         <label for="opsComplianceContacts">Ops Compliance Contacts*</label>
-        <input type="text" class="form-control" name="opsComplianceContacts" id="opsComplianceContacts" ng-model="cxBuDetails.opsComplianceContacts" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section3.opsComplianceContacts.$invalid && section3.opsComplianceContacts.$dirty" style="color:maroon">Required Field</p>-->
+        <input type="text" class="form-control" name="opsComplianceContacts" id="opsComplianceContacts" ng-model="cxBuDetails.opsComplianceContacts" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section3.opsComplianceContacts.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -53,24 +51,21 @@
 
     <div class="col-md-4 mb-3">
         <label for="cwUatContactName">Cw UAT Contact Name*</label>
-        <input type="text" class="form-control" name="cwUatContactName" id="cwUatContactName" ng-model="cxBuDetails.cwUatContactName" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section3.cwUatContactName.$invalid && section3.cwUatContactName.$dirty" style="color:maroon">Required Field</p>-->
+        <input type="text" class="form-control" name="cwUatContactName" id="cwUatContactName" ng-model="cxBuDetails.cwUatContactName" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section3.cwUatContactName.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-4 mb-3">
         <label for="sourceTechContact">Source Tech Contact*</label>
-        <input type="text" class="form-control" name="sourceTechContact" id="sourceTechContact" ng-model="cxBuDetails.sourceTechContact" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section3.sourceTechContact.$invalid && section3.sourceTechContact.$dirty" style="color:maroon">Required Field</p>-->
+        <input type="text" class="form-control" name="sourceTechContact" id="sourceTechContact" ng-model="cxBuDetails.sourceTechContact" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section3.sourceTechContact.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-4 mb-3">
         <label for="impactToBusiness">Impact to Business*</label>
-        <input type="text" class="form-control" name="impactToBusiness" id="impactToBusiness" ng-model="cxBuDetails.impactToBusiness" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section3.impactToBusiness.$invalid && section3.impactToBusiness.$dirty" style="color:maroon">Required Field</p>-->
+        <input type="text" class="form-control" name="impactToBusiness" id="impactToBusiness" ng-model="cxBuDetails.impactToBusiness" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section3.impactToBusiness.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -79,24 +74,21 @@
 <div class="form-row">
     <div class="col-md-5 mb-3">
         <label for="businessEscalationPointOfContact">Business Escalation Point of Contact*</label>
-        <input type="text" class="form-control" name="businessEscalationPointOfContact" id="businessEscalationPointOfContact" ng-model="cxBuDetails.businessEscalationPointOfContact" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section3.businessEscalationPointOfContact.$invalid && section3.businessEscalationPointOfContact.$dirty" style="color:maroon">Required Field</p>-->
+        <input type="text" class="form-control" name="businessEscalationPointOfContact" id="businessEscalationPointOfContact" ng-model="cxBuDetails.businessEscalationPointOfContact" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section3.businessEscalationPointOfContact.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-3 mb-3">
         <label for="timezone">Timezone*</label>
-        <input type="text" class="form-control" name="timezone" id="timezone" ng-model="cxBuDetails.timezone" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section3.timezone.$invalid && section3.timezone.$dirty" style="color:maroon">Required Field</p>-->
+        <input type="text" class="form-control" name="timezone" id="timezone" ng-model="cxBuDetails.timezone" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section3.timezone.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-4 mb-3">
         <label for="requestor">Requestor*</label>
-        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="requestorData.requestor" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section3.requestor.$invalid && section3.requestor.$dirty" style="color:maroon">Required Field</p>-->
+        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="requestorData.requestor" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section3.requestor.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
