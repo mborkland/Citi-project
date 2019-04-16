@@ -33,7 +33,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         rowHeight: 35,
         enablePaginationControls: false,
         paginationPageSize: 15,
-        showGridFooter:true,
+        showGridFooter: true,
         enableSelectAll: true,
         columnDefs: [
             {field: 'id', displayName: 'ID', width: xxsw, enableSorting: false, enableHiding: false},

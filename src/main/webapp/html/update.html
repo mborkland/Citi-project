@@ -26,10 +26,10 @@
         <hr class="my-4" />
         <div class="container grid-box">
             <div class="row px-3 py-2"></div>
-            <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns ui-grid-selection
-                 ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'CUSTOMER'"></div>
-            <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns ui-grid-selection
-                 ui-grid-exporter ui-grid-edit ui-grid-row-edit ng-if="recordType === 'TRANSACTION'"></div>
+            <div id="grid1" class="update-grid" ui-grid="gridOptions1" ui-grid-resize-columns
+                 ui-grid-exporter ui-grid-edit ui-grid-row-edit ui-grid-cellNav ng-if="recordType === 'CUSTOMER'"></div>
+            <div id="grid2" class="update-grid" ui-grid="gridOptions2" ui-grid-resize-columns
+                 ui-grid-exporter ui-grid-edit ui-grid-row-edit ui-grid-cellNav ng-if="recordType === 'TRANSACTION'"></div>
             <div class="row px-3 py-2"></div>
         </div>
         <br>
@@ -83,7 +83,7 @@
 <script src="https://cdn.jsdelivr.net/gh/angular-ui/bower-ui-grid/ui-grid.min.js"></script>
 <script>
     'use strict';
-    var app = angular.module('update', ['ui.grid', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.exporter',
+    var app = angular.module('update', ['ui.grid', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.exporter',
         'ui.grid.edit', 'ui.grid.rowEdit', 'ui.bootstrap']);
 
     app.controller('AppController', ['$window', '$scope', 'uiGridConstants', '$interval', '$uibModal',
@@ -212,10 +212,8 @@
             enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
             enableColumnResizing: true,
             enableSorting: true,
-            enableFullRowSelection: true,
             selectionRowHeaderWidth: 35,
             rowHeight: 35,
-            enableSelectAll: true,
             rowEditWaitInterval: -1,
             onRegisterApi: function (gridApi) {
                 $scope.grid1Api = gridApi;
@@ -229,12 +227,6 @@
         $scope.saveRow = function(rowEntity) {
             console.log(rowEntity);
         };
-
-        $scope.gridOptions1.columnDefs = $window.opener.parentScope.gridOptions1.columnDefs;
-        $scope.gridOptions1.columnDefs[0].enableCellEdit = false;
-        var numCxColumns = $scope.gridOptions1.columnDefs.length;
-        $scope.gridOptions1.columnDefs[numCxColumns - 1].enableCellEdit = false;
-        $scope.gridOptions1.columnDefs[numCxColumns - 1].cellTemplate = historyCellTemplate;
 
         $scope.gridOptions2 = {
             enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
@@ -256,11 +248,23 @@
             data: $scope.rowData
         };
 
+        $scope.gridOptions1.columnDefs = $window.opener.parentScope.gridOptions1.columnDefs;
         $scope.gridOptions2.columnDefs = $window.opener.parentScope.gridOptions2.columnDefs;
-        $scope.gridOptions2.columnDefs[0].enableCellEdit = false;
-        var numTxColumns = $scope.gridOptions2.columnDefs.length;
-        $scope.gridOptions2.columnDefs[numTxColumns - 1].enableCellEdit = false;
-        $scope.gridOptions2.columnDefs[numTxColumns - 1].cellTemplate = historyCellTemplate;
+        var uneditableFields = ['id', 'region', 'gomCompliant', 'workflowFlag', 'anyBatchComponent', 'history'];
+
+        function customizeColumnDefs(columnDefs) {
+            angular.forEach(columnDefs, function (value, key) {
+                if (uneditableFields.includes(value.field)) {
+                    value.enableCellEdit = false;
+                    if (value.field === 'history') {
+                        value.cellTemplate = historyCellTemplate;
+                    }
+                }
+            });
+        }
+
+        customizeColumnDefs($scope.gridOptions1.columnDefs);
+        customizeColumnDefs($scope.gridOptions2.columnDefs);
 
         $scope.cancel = function () {
             $window.close();
