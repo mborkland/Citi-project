@@ -94,6 +94,16 @@
         var lw = 4 * xsw;
         var xlw = 4.5 * xsw;
 
+        function formatHistoryString(historyString) {
+            var split = historyString.split(';');
+            var formattedHistoryString = '';
+            angular.forEach(split, function (value, key) {
+                formattedHistoryString += (value + '\n');
+            });
+
+            return formattedHistoryString;
+        }
+
         function getHistory(id) {
             var history = null;
             angular.forEach($scope.rowData, function(value, key) {
@@ -102,7 +112,7 @@
                 }
             });
 
-            return history;
+            return formatHistoryString(history);
         }
 
         $scope.showHistoryModal = function(id) {

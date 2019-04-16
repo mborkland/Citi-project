@@ -143,6 +143,16 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
     };
 
+    function formatHistoryString(historyString) {
+        var split = historyString.split(';');
+        var formattedHistoryString = '';
+        angular.forEach(split, function (value, key) {
+            formattedHistoryString += (value + '\n');
+        });
+
+        return formattedHistoryString;
+    }
+
     function getHistory(id) {
         var history = null;
         angular.forEach($scope.rowData, function(value, key) {
@@ -151,7 +161,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             }
         });
 
-        return history;
+        return formatHistoryString(history);
     }
 
     function getDeletionDetails(id) {
