@@ -15,23 +15,20 @@
         <div ng-messages="section2.region.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.region.$invalid && section2.region.$dirty" style="color:maroon">Required Field</p>-->
     </div>
     <div class="col-md-3 mb-4">
         <label for="country">Country*</label>
-        <input type="text" class="form-control" name="country" id="country" ng-model="cxBuDetails.country" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <input type="text" class="form-control" name="country" id="country" ng-model="cxBuDetails.country" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section2.country.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.country.$invalid && section2.country.$dirty" style="color:maroon">Required Field</p>-->
     </div>
     <div class="col-md-3 mb-4">
         <label for="sector">Sector*</label>
-        <input type="text" class="form-control" name="sector" id="sector" ng-model="cxBuDetails.sector" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <input type="text" class="form-control" name="sector" id="sector" ng-model="cxBuDetails.sector" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section2.sector.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.sector.$invalid && section2.sector.$dirty" style="color:maroon">Required Field</p>-->
     </div>
     <div class="col-md-3 mb-4 text-center">
         Workflow Flag*<br />
@@ -51,53 +48,47 @@
 <div class="form-row">
     <div class="col-md-3 mb-3">
         <label for="workflowInstance">Workflow Instance*</label>
-        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="cxBuDetails.workflowInstance" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <input type="text" class="form-control" name="workflowInstance" id="workflowInstance" ng-model="cxBuDetails.workflowInstance" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section2.workflowInstance.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.workflowInstance.$invalid && section2.workflowInstance.$dirty" style="color:maroon">Required Field</p>-->
     </div>
     <div class="col-md-5 mb-3">
         <label for="wfBusinessUnitNameDisplayValue">WF Business Unit Name Display Value*</label>
-        <input type="text" class="form-control" name="wfBusinessUnitNameDisplayValue" id="wfBusinessUnitNameDisplayValue" ng-model="cxBuDetails.wfBusinessUnitNameDisplayValue" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <input type="text" class="form-control" name="wfBusinessUnitNameDisplayValue" id="wfBusinessUnitNameDisplayValue" ng-model="cxBuDetails.wfBusinessUnitNameDisplayValue" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section2.wfBusinessUnitNameDisplayValue.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.wfBusinessUnitNameDisplayValue.$invalid && section2.wfBusinessUnitNameDisplayValue.$dirty" style="color:maroon">Required Field</p>-->
     </div>
     <div class="col-md-4 mb-3">
         <label for="wfBusinessGreenzone">WF Business Greenzone*</label>
-        <input type="text" class="form-control" name="wfBusinessGreenzone" id="wfBusinessGreenzone" ng-model="cxBuDetails.wfBusinessGreenzone" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <input type="text" class="form-control" name="wfBusinessGreenzone" id="wfBusinessGreenzone" ng-model="cxBuDetails.wfBusinessGreenzone" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section2.wfBusinessGreenzone.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.wfBusinessGreenzone.$invalid && section2.wfBusinessGreenzone.$dirty" style="color:maroon">Required Field</p>-->
     </div>
 </div>
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="connectivityProtocol">Connectivity Protocol*</label>
-        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="cxBuDetails.connectivityProtocol" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <input type="text" class="form-control" name="connectivityProtocol" id="connectivityProtocol" ng-model="cxBuDetails.connectivityProtocol" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section2.connectivityProtocol.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.connectivityProtocol.$invalid && section2.connectivityProtocol.$dirty" style="color:maroon">Required Field</p>-->
     </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceAppId">Interface App ID*</label>
-        <input type="text" class="form-control" name="interfaceAppId" id="interfaceAppId" ng-model="cxBuDetails.interfaceAppId" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <input type="text" class="form-control" name="interfaceAppId" id="interfaceAppId" ng-model="cxBuDetails.interfaceAppId" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section2.interfaceAppId.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.interfaceAppId.$invalid && section2.interfaceAppId.$dirty" style="color:maroon">Required Field</p>-->
     </div>
     <div class="col-md-4 mb-3">
         <label for="interfaceApplicationName">Interface Application Name*</label>
-        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="cxBuDetails.interfaceApplicationName" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
+        <input type="text" class="form-control" name="interfaceApplicationName" id="interfaceApplicationName" ng-model="cxBuDetails.interfaceApplicationName" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section2.interfaceApplicationName.$error">
             <p ng-if="section2.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
-        <!--<p ng-show="section2.interfaceApplicationName.$invalid && section2.interfaceApplicationName.$dirty" style="color:maroon">Required Field</p>-->
     </div>
 </div>
 <div class="float-left">
@@ -106,9 +97,7 @@
     </a>
 </div>
 <div class="float-right">
-    <!--<a ui-sref="create-cx.section3">-->
-        <button class="btn btn-primary btn-lg font-weight-bold" ng-click="nextButton(section2)">Next</button>
-    <!--</a>-->
+    <button class="btn btn-primary btn-lg font-weight-bold" ng-click="nextButton(section2)">Next</button>
 </div>
 <div class="progress custom-progress">
     <div class="progress-bar progress-color" roles="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">33%</div>

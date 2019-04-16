@@ -6,24 +6,21 @@
 <div class="form-row">
     <div class="col-md-5 mb-4">
         <label for="businessId">Business ID*</label>
-        <input type="text" class="form-control" name="businessId" id="businessId" ng-model="txBuDetails.businessId" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section1.businessId.$invalid && section1.businessId.$touched">Please fill in the Business ID</p>-->
+        <input type="text" class="form-control" name="businessId" id="businessId" ng-model="txBuDetails.businessId" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section1.businessId.$error">
             <p ng-if="section1.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-5 mb-4">
         <label for="productID">Product ID*</label>
-        <input type="text" class="form-control" name="productID" id="productID" ng-model="txBuDetails.productId" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section1.productID.$invalid && section1.productID.$touched">Please fill in the Product ID</p>-->
+        <input type="text" class="form-control" name="productID" id="productID" ng-model="txBuDetails.productId" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section1.productID.$error">
             <p ng-if="section1.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-2 mb-4">
         <label for="csiId">CSI ID*</label>
-        <input type="text" class="form-control" name="csiId" id="csiId" ng-model="txBuDetails.csiId" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section1.csiId.$invalid && section1.csiId.$touched">Please fill in the CSI ID</p>-->
+        <input type="text" class="form-control" name="csiId" id="csiId" ng-model="txBuDetails.csiId" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section1.csiId.$error">
             <p ng-if="section1.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -32,16 +29,14 @@
 <div class="form-row">
     <div class="col-md-6 mb-3">
         <label for="uniqueProductId">Unique_Product_ID/Workflow BU ID*</label>
-        <input type="text" class="form-control" name="uniqueProductId" id="uniqueProductId" ng-model="txBuDetails.uniqueProductId" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section1.uniqueProductId.$invalid && section1.uniqueProductId.$touched">Please fill in the Unique_Product_ID/Workflow BU ID</p>-->
+        <input type="text" class="form-control" name="uniqueProductId" id="uniqueProductId" ng-model="txBuDetails.uniqueProductId" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section1.uniqueProductId.$error">
             <p ng-if="section1.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-6 mb-3">
         <label for="txScreeningBusinessUnitName">Tx Screening Business Unit Name*</label>
-        <input type="text" class="form-control" name="txScreeningBusinessUnitName" id="txScreeningBusinessUnitName" ng-model="txBuDetails.txScreeningBusinessUnitName" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section1.txScreeningBusinessUnitName.$invalid && section1.txScreeningBusinessUnitName.$touched">Please fill in the Tx Screening Business Unit Name</p>-->
+        <input type="text" class="form-control" name="txScreeningBusinessUnitName" id="txScreeningBusinessUnitName" ng-model="txBuDetails.txScreeningBusinessUnitName" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section1.txScreeningBusinessUnitName.$error">
             <p ng-if="section1.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -50,8 +45,7 @@
 <div class="form-row">
     <div class="col-md-4 mb-3">
         <label for="rulesetMapped">Ruleset Mapped*</label>
-        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="txBuDetails.rulesetMapped" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section1.rulesetMapped.$invalid && section1.rulesetMapped.$touched">Please fill in the Ruleset Mapped</p>-->
+        <input type="text" class="form-control" name="rulesetMapped" id="rulesetMapped" ng-model="txBuDetails.rulesetMapped" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section1.rulesetMapped.$error">
             <p ng-if="section1.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
@@ -64,23 +58,19 @@
             <option value="LATAM">LATAM</option>
             <option value="NAM">NAM</option>
         </select>
-        <!--<p ng-show="section1.region.$invalid && section1.region.$touched">Please fill in the Region</p>-->
         <div ng-messages="section1.region.$error">
             <p ng-if="section1.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
     <div class="col-md-4 mb-3">
         <label for="country">Country*</label>
-        <input type="text" class="form-control" name="country" id="country" ng-model="txBuDetails.country" pattern="^$|^[A-Za-z0-9, ]+$" ng-pattern-restrict required>
-        <!--<p ng-show="section1.country.$invalid && section1.country.$touched">Please fill in the Country</p>-->
+        <input type="text" class="form-control" name="country" id="country" ng-model="txBuDetails.country" ng-pattern-restrict="{{pattern}}" required>
         <div ng-messages="section1.country.$error">
             <p ng-if="section1.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>
 </div>
 <div class="float-right">
-    <!--<a ui-sref="create-tx.section2">-->
-        <button class="btn btn-primary btn-lg font-weight-bold" ng-click="nextButton(section1)">Next</button>
-    <!--</a>-->
+    <button class="btn btn-primary btn-lg font-weight-bold" ng-click="nextButton(section1)">Next</button>
 </div>
 </ng-form>
