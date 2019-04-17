@@ -2,10 +2,8 @@ app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConsta
 function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $window, $timeout, tableService) {
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
-
     $scope.recordType = 'CUSTOMER';
     $scope.rowsSelected = [];
-
     var numRecentRows = 100;
     $scope.rowData = [];
     populateWithRecentRows(numRecentRows);
@@ -51,8 +49,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     };
 
     $scope.export = function() {
-        console.log($scope.rowsSelected);
-        console.log($scope.grid1Api);
         $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.exporter.csvExport('selected', 'all') : $scope.grid2Api.exporter.csvExport('selected', 'all');
     };
 
@@ -248,7 +244,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             url: url,
             data: data
         }).then (function (response) {
-            console.log(response);
             timedRefresh(3000);
         }, function (error) {
             console.log(error);

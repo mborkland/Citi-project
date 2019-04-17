@@ -105,11 +105,11 @@ function ($rootScope, $scope, $cookies, $http, $state) {
 app.run(['$rootScope', '$state', '$cookies', '$http', function ($rootScope, $state, $cookies, $http) {
     $rootScope.isUser = function() {
         return $cookies.get('isUser') === 'true';
-    }
+    };
 
     $rootScope.isAdmin = function() {
         return $cookies.get('isAdmin') === 'true';
-    }
+    };
 
     if ($cookies.get('token')) {
         $http.defaults.headers.common.Authorization = 'Bearer ' + $cookies.get('token');
@@ -124,89 +124,89 @@ app.factory('tableService', function() {
     service.booleanFields = ['gomCompliant', 'workflowFlag', 'anyBatchComponent'];
     var historyCellTemplate = '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>';
 
-    var xsmWidth = 90;
-    var smWidth = 2 * xsmWidth;
-    var mdWidth = 3 * xsmWidth;
-    var lgWidth = 4 * xsmWidth;
-    var xlgWidth = 4.5 * xsmWidth;
+    service.xsmWidth = 90;
+    service.smWidth = 2 * service.xsmWidth;
+    service.mdWidth = 3 * service.xsmWidth;
+    service.lgWidth = 4 * service.xsmWidth;
+    service.xlgWidth = 4.5 * service.xsmWidth;
     
     service.cxColumnDefs = [
-        {field: 'id', displayName: 'ID', width: xsmWidth, enableSorting: false, enableHiding: false},
-        {field: 'csiId', displayName: 'CSI ID', width: xsmWidth, enableHiding: false},
-        {field: 'csInstance', displayName: 'CS Instance', width: smWidth, enableHiding: false},
-        {field: 'businessId', displayName: 'BUSINESS ID', width: smWidth, enableHiding: false},
-        {field: 'bizUnitId', displayName: 'BIZ UNIT ID', width: smWidth, enableHiding: false},
-        {field: 'productId', displayName: 'PRODUCT ID', width: smWidth, enableHiding: false},
-        {field: 'bizProdId', displayName: 'BIZ PROD ID', width: smWidth, enableHiding: false},
-        {field: 'cxScreeningBusinessUnitName', displayName: 'Cx Screening Business Unit Name', width: lgWidth, enableHiding: false},
-        {field: 'cxBusinessGreenzone', displayName: 'Cx Business Greenzone', width: mdWidth, enableHiding: false},
-        {field: 'rulesetMapped', displayName: 'Ruleset Mapped', width: smWidth, enableHiding: false},
-        {field: 'region', displayName: 'Region', width: xsmWidth, enableHiding: false},
-        {field: 'country', displayName: 'Country', width: smWidth, enableHiding: false},
-        {field: 'sector', displayName: 'Sector', width: xsmWidth, enableHiding: false},
-        {field: 'workflowFlag', displayName: 'Workflow Flag', width: smWidth, enableHiding: false},
-        {field: 'workflowInstance', displayName: 'Workflow Instance', width: smWidth, enableHiding: false},
-        {field: 'wfBusinessUnitNameDisplayValue', displayName: 'WF Business Unit Name Display Value', width: lgWidth, enableHiding: false},
-        {field: 'wfBusinessGreenzone', displayName: 'WF Business Greenzone', width: mdWidth, enableHiding: false},
-        {field: 'connectivityProtocol', displayName: 'Connectivity Protocol', width: mdWidth, enableHiding: false},
-        {field: 'interfaceAppId', displayName: 'Interface App ID', width: smWidth, enableHiding: false},
-        {field: 'interfaceApplicationName', displayName: 'Interface Application Name', width: mdWidth, enableHiding: false},
-        {field: 'operationEntity', displayName: 'Operation Entity', width: smWidth, enableHiding: false},
-        {field: 'opsComplianceContacts', displayName: 'Ops Compliance Contacts', width: mdWidth, enableHiding: false},
-        {field: 'cwVersion', displayName: 'Cw V1/V2', width: 1.5 * xsmWidth, enableHiding: false},
-        {field: 'gomCompliant', displayName: 'GOM Compliant?', width: smWidth, enableHiding: false},
-        {field: 'cwUatContactName', displayName: 'Cw UAT Contact Name', width: mdWidth, enableHiding: false},
-        {field: 'sourceTechContact', displayName: 'Source Tech Contact', width: mdWidth, enableHiding: false},
-        {field: 'impactToBusiness', displayName: 'Impact To Business', width: mdWidth, enableHiding: false},
-        {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lgWidth, enableHiding: false},
-        {field: 'timezone', displayName: 'Timezone', width: smWidth, enableHiding: false},
-        {field: 'history', displayName: 'History', width: smWidth, enableHiding: false,
+        {field: 'id', displayName: 'ID', width: service.xsmWidth, enableSorting: false, enableHiding: false},
+        {field: 'csiId', displayName: 'CSI ID', width: service.xsmWidth, enableHiding: false},
+        {field: 'csInstance', displayName: 'CS Instance', width: service.smWidth, enableHiding: false},
+        {field: 'businessId', displayName: 'BUSINESS ID', width: service.smWidth, enableHiding: false},
+        {field: 'bizUnitId', displayName: 'BIZ UNIT ID', width: service.smWidth, enableHiding: false},
+        {field: 'productId', displayName: 'PRODUCT ID', width: service.smWidth, enableHiding: false},
+        {field: 'bizProdId', displayName: 'BIZ PROD ID', width: service.smWidth, enableHiding: false},
+        {field: 'cxScreeningBusinessUnitName', displayName: 'Cx Screening Business Unit Name', width: service.lgWidth, enableHiding: false},
+        {field: 'cxBusinessGreenzone', displayName: 'Cx Business Greenzone', width: service.mdWidth, enableHiding: false},
+        {field: 'rulesetMapped', displayName: 'Ruleset Mapped', width: service.smWidth, enableHiding: false},
+        {field: 'region', displayName: 'Region', width: service.xsmWidth, enableHiding: false},
+        {field: 'country', displayName: 'Country', width: service.smWidth, enableHiding: false},
+        {field: 'sector', displayName: 'Sector', width: service.xsmWidth, enableHiding: false},
+        {field: 'workflowFlag', displayName: 'Workflow Flag', width: service.smWidth, enableHiding: false},
+        {field: 'workflowInstance', displayName: 'Workflow Instance', width: service.smWidth, enableHiding: false},
+        {field: 'wfBusinessUnitNameDisplayValue', displayName: 'WF Business Unit Name Display Value', width: service.lgWidth, enableHiding: false},
+        {field: 'wfBusinessGreenzone', displayName: 'WF Business Greenzone', width: service.mdWidth, enableHiding: false},
+        {field: 'connectivityProtocol', displayName: 'Connectivity Protocol', width: service.mdWidth, enableHiding: false},
+        {field: 'interfaceAppId', displayName: 'Interface App ID', width: service.smWidth, enableHiding: false},
+        {field: 'interfaceApplicationName', displayName: 'Interface Application Name', width: service.mdWidth, enableHiding: false},
+        {field: 'operationEntity', displayName: 'Operation Entity', width: service.smWidth, enableHiding: false},
+        {field: 'opsComplianceContacts', displayName: 'Ops Compliance Contacts', width: service.mdWidth, enableHiding: false},
+        {field: 'cwVersion', displayName: 'Cw V1/V2', width: 1.5 * service.xsmWidth, enableHiding: false},
+        {field: 'gomCompliant', displayName: 'GOM Compliant?', width: service.smWidth, enableHiding: false},
+        {field: 'cwUatContactName', displayName: 'Cw UAT Contact Name', width: service.mdWidth, enableHiding: false},
+        {field: 'sourceTechContact', displayName: 'Source Tech Contact', width: service.mdWidth, enableHiding: false},
+        {field: 'impactToBusiness', displayName: 'Impact To Business', width: service.mdWidth, enableHiding: false},
+        {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: service.lgWidth, enableHiding: false},
+        {field: 'timezone', displayName: 'Timezone', width: service.smWidth, enableHiding: false},
+        {field: 'history', displayName: 'History', width: service.smWidth, enableHiding: false,
             cellTemplate: historyCellTemplate}
     ];
     
     service.txColumnDefs = [
-        {field: 'id', displayName: 'ID', width: xsmWidth, enableSorting: false, enableHiding: false},
-        {field: 'businessId', displayName: 'BUSINESS ID', width: smWidth, enableHiding: false},
-        {field: 'productId', displayName: 'PRODUCT ID', width: smWidth, enableHiding: false},
-        {field: 'csiId', displayName: 'CSI ID', width: xsmWidth, enableHiding: false},
-        {field: 'uniqueProductId', displayName: 'Unique Product ID', width: smWidth, enableHiding: false},
-        {field: 'txScreeningBusinessUnitName', displayName: 'Tx Screening Business Unit Name', width: lgWidth, enableHiding: false},
-        {field: 'rulesetMapped', displayName: 'Ruleset Mapped', width: smWidth, enableHiding: false},
-        {field: 'region', displayName: 'Region', width: xsmWidth, enableHiding: false},
-        {field: 'country', displayName: 'Country', width: smWidth, enableHiding: false},
-        {field: 'sector', displayName: 'Sector', width: xsmWidth, enableHiding: false},
-        {field: 'workflowFlag', displayName: 'Workflow Flag', width: smWidth, enableHiding: false},
-        {field: 'workflowInstance', displayName: 'Workflow Instance', width: smWidth, enableHiding: false},
-        {field: 'wfBusinessGreenzone', displayName: 'WF Business Greenzone', width: mdWidth, enableHiding: false},
-        {field: 'interfaceAppId', displayName: 'Interface App ID', width: smWidth, enableHiding: false},
-        {field: 'interfaceApplicationName', displayName: 'Interface Application Name', width: mdWidth, enableHiding: false},
-        {field: 'operationEntity', displayName: 'Operation Entity', width: smWidth, enableHiding: false},
-        {field: 'connectivityProtocol', displayName: 'Connectivity Protocol', width: mdWidth, enableHiding: false},
-        {field: 'workflowOperationsContacts', displayName: 'Workflow Operations Contacts', width: mdWidth, enableHiding: false},
-        {field: 'sourceTechContacts', displayName: 'Source Tech Contacts', width: mdWidth, enableHiding: false},
-        {field: 'businessHotline', displayName: 'Business Hotline', width: mdWidth, enableHiding: false},
-        {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lgWidth, enableHiding: false},
-        {field: 'impactToProductProcessor', displayName: 'Impact to Product Processor', width: mdWidth, enableHiding: false},
-        {field: 'productProcessor', displayName: 'Product Processor', width: smWidth, enableHiding: false},
-        {field: 'hotlineNumber', displayName: 'Hotline Number', width: smWidth, enableHiding: false},
-        {field: 'escalationPath1stLevelSupport', displayName: 'Escalation Path 1st Level Support', width: lgWidth, enableHiding: false},
-        {field: 'escalationPath2ndLevelSupport', displayName: 'Escalation Path 2nd Level Support', width: lgWidth, enableHiding: false},
-        {field: 'firstLevelEscalation', displayName: '1st Level Escalation', width: mdWidth, enableHiding: false},
-        {field: 'secondLevelEscalation', displayName: '2nd Level Escalation', width: mdWidth, enableHiding: false},
-        {field: 'productProcessorGroupDl', displayName: 'Product Processor Group DL', width: mdWidth, enableHiding: false},
-        {field: 'productProcessorSnowGroupName', displayName: 'Product Processor SNOW Group Name', width: lgWidth, enableHiding: false},
-        {field: 'productProcessorScreeningResponseCutoffTime', displayName: 'Product Processor Screening Response Cutoff Time', width: xlgWidth, enableHiding: false},
-        {field: 'productProcessorStandardGreenzones', displayName: 'Product Processor Standard Greenzones', width: lgWidth, enableHiding: false},
-        {field: 'interfaceConnectivityDoc', displayName: 'Interface Connectivity Doc', width: mdWidth, enableHiding: false},
-        {field: 'retryMechanism', displayName: 'Retry Mechanism', width: smWidth, enableHiding: false},
-        {field: 'dailyOnlineVolumesExpected', displayName: 'Daily Online Volumes Expected', width: mdWidth, enableHiding: false},
-        {field: 'scheduleForRealtimeVolumes', displayName: 'Schedule For Realtime Volumes', width: mdWidth, enableHiding: false},
-        {field: 'batchesOrPeaksForRealtimeVolumes', displayName: 'Batches or Peaks for Realtime Volumes', width: lgWidth, enableHiding: false},
-        {field: 'initialScreeningResponseSla', displayName: 'Initial Screening Response SLA', width: mdWidth, enableHiding: false},
-        {field: 'thresholdSetForTimeouts', displayName: 'Threshold Set for Timeouts', width: mdWidth, enableHiding: false},
-        {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mdWidth, enableHiding: false},
-        {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lgWidth, enableHiding: false},
-        {field: 'history', displayName: 'History', width: smWidth, enableHiding: false,
+        {field: 'id', displayName: 'ID', width: service.xsmWidth, enableSorting: false, enableHiding: false},
+        {field: 'businessId', displayName: 'BUSINESS ID', width: service.smWidth, enableHiding: false},
+        {field: 'productId', displayName: 'PRODUCT ID', width: service.smWidth, enableHiding: false},
+        {field: 'csiId', displayName: 'CSI ID', width: service.xsmWidth, enableHiding: false},
+        {field: 'uniqueProductId', displayName: 'Unique Product ID', width: service.smWidth, enableHiding: false},
+        {field: 'txScreeningBusinessUnitName', displayName: 'Tx Screening Business Unit Name', width: service.lgWidth, enableHiding: false},
+        {field: 'rulesetMapped', displayName: 'Ruleset Mapped', width: service.smWidth, enableHiding: false},
+        {field: 'region', displayName: 'Region', width: service.xsmWidth, enableHiding: false},
+        {field: 'country', displayName: 'Country', width: service.smWidth, enableHiding: false},
+        {field: 'sector', displayName: 'Sector', width: service.xsmWidth, enableHiding: false},
+        {field: 'workflowFlag', displayName: 'Workflow Flag', width: service.smWidth, enableHiding: false},
+        {field: 'workflowInstance', displayName: 'Workflow Instance', width: service.smWidth, enableHiding: false},
+        {field: 'wfBusinessGreenzone', displayName: 'WF Business Greenzone', width: service.mdWidth, enableHiding: false},
+        {field: 'interfaceAppId', displayName: 'Interface App ID', width: service.smWidth, enableHiding: false},
+        {field: 'interfaceApplicationName', displayName: 'Interface Application Name', width: service.mdWidth, enableHiding: false},
+        {field: 'operationEntity', displayName: 'Operation Entity', width: service.smWidth, enableHiding: false},
+        {field: 'connectivityProtocol', displayName: 'Connectivity Protocol', width: service.mdWidth, enableHiding: false},
+        {field: 'workflowOperationsContacts', displayName: 'Workflow Operations Contacts', width: service.mdWidth, enableHiding: false},
+        {field: 'sourceTechContacts', displayName: 'Source Tech Contacts', width: service.mdWidth, enableHiding: false},
+        {field: 'businessHotline', displayName: 'Business Hotline', width: service.mdWidth, enableHiding: false},
+        {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: service.lgWidth, enableHiding: false},
+        {field: 'impactToProductProcessor', displayName: 'Impact to Product Processor', width: service.mdWidth, enableHiding: false},
+        {field: 'productProcessor', displayName: 'Product Processor', width: service.smWidth, enableHiding: false},
+        {field: 'hotlineNumber', displayName: 'Hotline Number', width: service.smWidth, enableHiding: false},
+        {field: 'escalationPath1stLevelSupport', displayName: 'Escalation Path 1st Level Support', width: service.lgWidth, enableHiding: false},
+        {field: 'escalationPath2ndLevelSupport', displayName: 'Escalation Path 2nd Level Support', width: service.lgWidth, enableHiding: false},
+        {field: 'firstLevelEscalation', displayName: '1st Level Escalation', width: service.mdWidth, enableHiding: false},
+        {field: 'secondLevelEscalation', displayName: '2nd Level Escalation', width: service.mdWidth, enableHiding: false},
+        {field: 'productProcessorGroupDl', displayName: 'Product Processor Group DL', width: service.mdWidth, enableHiding: false},
+        {field: 'productProcessorSnowGroupName', displayName: 'Product Processor SNOW Group Name', width: service.lgWidth, enableHiding: false},
+        {field: 'productProcessorScreeningResponseCutoffTime', displayName: 'Product Processor Screening Response Cutoff Time', width: service.xlgWidth, enableHiding: false},
+        {field: 'productProcessorStandardGreenzones', displayName: 'Product Processor Standard Greenzones', width: service.lgWidth, enableHiding: false},
+        {field: 'interfaceConnectivityDoc', displayName: 'Interface Connectivity Doc', width: service.mdWidth, enableHiding: false},
+        {field: 'retryMechanism', displayName: 'Retry Mechanism', width: service.smWidth, enableHiding: false},
+        {field: 'dailyOnlineVolumesExpected', displayName: 'Daily Online Volumes Expected', width: service.mdWidth, enableHiding: false},
+        {field: 'scheduleForRealtimeVolumes', displayName: 'Schedule For Realtime Volumes', width: service.mdWidth, enableHiding: false},
+        {field: 'batchesOrPeaksForRealtimeVolumes', displayName: 'Batches or Peaks for Realtime Volumes', width: service.lgWidth, enableHiding: false},
+        {field: 'initialScreeningResponseSla', displayName: 'Initial Screening Response SLA', width: service.mdWidth, enableHiding: false},
+        {field: 'thresholdSetForTimeouts', displayName: 'Threshold Set for Timeouts', width: service.mdWidth, enableHiding: false},
+        {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: service.mdWidth, enableHiding: false},
+        {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: service.lgWidth, enableHiding: false},
+        {field: 'history', displayName: 'History', width: service.smWidth, enableHiding: false,
             cellTemplate: historyCellTemplate}
     ];
 
