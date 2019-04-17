@@ -56,7 +56,7 @@ public class CustomerRecordService implements RecordService {
     public String createRecord(CreatedRecord record) {
         CxBuDetails cxBuDetails = (CxBuDetails) record.getBuDetails();
         LocalDateTime now = LocalDateTime.now();
-        cxBuDetails.setHistory("Record created on " + now.format(formatter) + " by " + record.getRequestor());
+        cxBuDetails.setHistory("Record created on " + now.format(formatter) + " by " + record.getSoeid());
         CustomerRecord customerRecord = new CustomerRecord();
         customerRecord.setBuDetails(cxBuDetails);
         customerRecord.setCreationDate(Timestamp.valueOf(now));
@@ -136,14 +136,14 @@ public class CustomerRecordService implements RecordService {
     public String updateRecord(List<? extends UpdatedRecord> records) {
         for (UpdatedRecord record : records) {
             CustomerRecord customerRecord = (CustomerRecord) record.getRecord();
-            String requestor = record.getRequestor();
+            String soeid = record.getSoeid();
             String reason = record.getReason();
             String updatedFields = String.join(", ", record.getUpdatedFields());
             StringBuilder history = new StringBuilder(((CxBuDetails) customerRecord.getBuDetails()).getHistory());
             LocalDateTime now = LocalDateTime.now();
             history.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
-                    .append(now.format(formatter)).append(" by ").append(requestor)
-                    .append(" because ").append(reason);
+                    .append(now.format(formatter)).append(" by ").append(soeid)
+                    .append(". Reason: ").append(reason);
             ((CxBuDetails) customerRecord.getBuDetails()).setHistory(history.toString());
             customerRecordRepository.save(customerRecord);
         }
@@ -167,13 +167,13 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String requestor, String reason) {
+    public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String soeid, String reason) {
         DeletedCustomerRecord deletedCustomerRecord = new DeletedCustomerRecord();
         deletedCustomerRecord.setBuDetails((CxBuDetails) buDetails);
         deletedCustomerRecord.setCreationDate(creationDate);
         LocalDateTime now = LocalDateTime.now();
         deletedCustomerRecord.setDeletionDetails("Record deleted on " + now.format(formatter) +
-                " by " + requestor + ". Reason: " + reason);
+                " by " + soeid + ". Reason: " + reason);
         deletedCustomerRecordRepository.save(deletedCustomerRecord);
         return "Deleted record saved successfully";
     }
@@ -189,7 +189,7 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String restoreDeletedRecord(Integer id, String requestor)
+    public String restoreDeletedRecord(Integer id, String soeid)
     {
         DeletedCustomerRecord deletedCustomerRecord = deletedCustomerRecordRepository.findOne(id);
         String deletionDetails = deletedCustomerRecord.getDeletionDetails();
@@ -200,7 +200,7 @@ public class CustomerRecordService implements RecordService {
         StringBuilder history = new StringBuilder(cxBuDetails.getHistory());
         LocalDateTime now = LocalDateTime.now();
         history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter).append("Record restored on ")
-                .append(now.format(formatter)).append(" by ").append(requestor);
+                .append(now.format(formatter)).append(" by ").append(soeid);
         cxBuDetails.setHistory(history.toString());
         customerRecord.setBuDetails(cxBuDetails);
         customerRecord.setCreationDate(creationDate);

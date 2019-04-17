@@ -6,8 +6,8 @@ public interface CreatedRecord {
 
     BuDetails getBuDetails();
 
-    String getRequestor();
+    String getSoeid();
 
-    void setRequestor(String requestor);
+    void setSoeid(String soeid);
 
 }

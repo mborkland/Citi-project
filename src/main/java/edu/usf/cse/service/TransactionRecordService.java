@@ -53,7 +53,7 @@ public class TransactionRecordService implements RecordService {
     public String createRecord(CreatedRecord record) {
         TxBuDetails txBuDetails = (TxBuDetails) record.getBuDetails();
         LocalDateTime now = LocalDateTime.now();
-        txBuDetails.setHistory("Record created on " + now.format(formatter) + " by " + record.getRequestor());
+        txBuDetails.setHistory("Record created on " + now.format(formatter) + " by " + record.getSoeid());
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setBuDetails(txBuDetails);
         transactionRecord.setCreationDate(Timestamp.valueOf(now));
@@ -125,14 +125,14 @@ public class TransactionRecordService implements RecordService {
     public String updateRecord(List<? extends UpdatedRecord> records) {
         for (UpdatedRecord record : records) {
             TransactionRecord transactionRecord = (TransactionRecord) record.getRecord();
-            String requestor = record.getRequestor();
+            String soeid = record.getSoeid();
             String reason = record.getReason();
             String updatedFields = String.join(", ", record.getUpdatedFields());
             StringBuilder history = new StringBuilder(((TxBuDetails) transactionRecord.getBuDetails()).getHistory());
             LocalDateTime now = LocalDateTime.now();
             history.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
-                    .append(now.format(formatter)).append(" by ").append(requestor)
-                    .append(" because ").append(reason);
+                    .append(now.format(formatter)).append(" by ").append(soeid)
+                    .append(". Reason: ").append(reason);
             ((TxBuDetails) transactionRecord.getBuDetails()).setHistory(history.toString());
             transactionRecordRepository.save(transactionRecord);
         }
@@ -166,13 +166,13 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String requestor, String reason) {
+    public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String soeid, String reason) {
         DeletedTransactionRecord deletedTransactionRecord = new DeletedTransactionRecord();
         deletedTransactionRecord.setBuDetails((TxBuDetails) buDetails);
         deletedTransactionRecord.setCreationDate(creationDate);
         LocalDateTime now = LocalDateTime.now();
         deletedTransactionRecord.setDeletionDetails("Record deleted on " + now.format(formatter) +
-                " by " + requestor + ". Reason: " + reason);
+                " by " + soeid + ". Reason: " + reason);
         deletedTransactionRecordRepository.save(deletedTransactionRecord);
         return "Deleted record saved successfully";
     }
@@ -188,7 +188,7 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String restoreDeletedRecord(Integer id, String requestor)
+    public String restoreDeletedRecord(Integer id, String soeid)
     {
         DeletedTransactionRecord deletedTransactionRecord = deletedTransactionRecordRepository.findOne(id);
         String deletionDetails = deletedTransactionRecord.getDeletionDetails();
@@ -199,7 +199,7 @@ public class TransactionRecordService implements RecordService {
         StringBuilder history = new StringBuilder(txBuDetails.getHistory());
         LocalDateTime now = LocalDateTime.now();
         history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter)
-                .append("Record restored on ").append(now.format(formatter)).append(" by ").append(requestor);
+                .append("Record restored on ").append(now.format(formatter)).append(" by ").append(soeid);
         txBuDetails.setHistory(history.toString());
         transactionRecord.setBuDetails(txBuDetails);
         transactionRecord.setCreationDate(creationDate);

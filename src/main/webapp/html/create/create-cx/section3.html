@@ -83,9 +83,9 @@
         </div>
     </div>
     <div class="col-md-4 mb-3">
-        <label for="requestor">Requestor*</label>
-        <input type="text" class="form-control" name="requestor" id="requestor" ng-model="requestorData.requestor" ng-pattern-restrict="{{pattern}}" required>
-        <div ng-messages="section3.requestor.$error">
+        <label for="soeid">SOEID*</label>
+        <input type="text" class="form-control" name="soeid" id="soeid" ng-model="soeidData.soeid" ng-pattern-restrict="{{pattern}}" required>
+        <div ng-messages="section3.soeid.$error">
             <p ng-if="section3.$submitted" ng-message="required" style="color:maroon" role="alert">Required Field</p>
         </div>
     </div>

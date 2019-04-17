@@ -6,9 +6,9 @@ public interface UpdatedRecord {
 
     Record getRecord();
 
-    String getRequestor();
+    String getSoeid();
 
-    void setRequestor(String requestor);
+    void setSoeid(String soeid);
 
     void setReason(String newReason);
 

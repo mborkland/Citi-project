@@ -301,7 +301,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
                 id: updatedRecord.entity.id,
                 buDetails: {}
             },
-            requestor: SOEID,
+            soeid: SOEID,
             reason: newReason,
             updatedFields: updatedRecord.updatedFields
         };

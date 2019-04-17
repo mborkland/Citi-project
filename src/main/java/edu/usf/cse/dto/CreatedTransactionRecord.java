@@ -7,7 +7,7 @@ public class CreatedTransactionRecord implements CreatedRecord {
 
     private TxBuDetails buDetails;
 
-    private String requestor;
+    private String soeid;
 
     @Override
     public BuDetails getBuDetails() {
@@ -19,12 +19,12 @@ public class CreatedTransactionRecord implements CreatedRecord {
     }
 
     @Override
-    public String getRequestor() {
-        return requestor;
+    public String getSoeid() {
+        return soeid;
     }
 
     @Override
-    public void setRequestor(String requestor) {
-        this.requestor = requestor;
+    public void setSoeid(String soeid) {
+        this.soeid = soeid;
     }
 }

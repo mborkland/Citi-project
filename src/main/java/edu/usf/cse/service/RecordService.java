@@ -26,11 +26,11 @@ public interface RecordService {
 
     List<Record> getArchive();
 
-    String saveDeletedRecord(BuDetails buDetails, Date creationDate, String requestor, String reason);
+    String saveDeletedRecord(BuDetails buDetails, Date creationDate, String soeid, String reason);
 
     String clearDeletedRecords(List<Integer> ids);
 
-    String restoreDeletedRecord(Integer id, String requestor);
+    String restoreDeletedRecord(Integer id, String soeid);
 
     List<Record> findDuplicateRecords(BuDetails detailsToMatch);
 }

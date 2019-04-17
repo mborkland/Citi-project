@@ -86,14 +86,14 @@ public class MainController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String requestor, @RequestParam String reason) {
+    public ResponseEntity<String> delete(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String soeid, @RequestParam String reason) {
         RecordService recordService = getRecordService(recordType);
         for (Integer id : ids) {
             Record record = recordService.getRecordById(id);
             BuDetails buDetails = record.getBuDetails();
             Date creationDate = record.getCreationDate();
             recordService.deleteRecord(id);
-            recordService.saveDeletedRecord(buDetails, creationDate, requestor, reason);
+            recordService.saveDeletedRecord(buDetails, creationDate, soeid, reason);
         }
 
         return new ResponseEntity<String>("{\"result\":\"Record(s) deleted and archived successfully.\"}", HttpStatus.OK);
@@ -113,10 +113,10 @@ public class MainController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/restore", method = RequestMethod.PATCH)
-    public ResponseEntity<String> restore(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String requestor) {
+    public ResponseEntity<String> restore(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String soeid) {
         RecordService recordService = getRecordService(recordType);
         for (Integer id : ids) {
-            recordService.restoreDeletedRecord(id, requestor);
+            recordService.restoreDeletedRecord(id, soeid);
         }
 
         return new ResponseEntity<String>("{\"result\":\"Record(s) restored successfully.\"}", HttpStatus.OK);

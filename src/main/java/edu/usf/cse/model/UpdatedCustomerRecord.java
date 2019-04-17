@@ -6,7 +6,7 @@ public class UpdatedCustomerRecord implements UpdatedRecord {
 
     private CustomerRecord record;
 
-    private String requestor;
+    private String soeid;
 
     private String reason;
 
@@ -22,13 +22,13 @@ public class UpdatedCustomerRecord implements UpdatedRecord {
     }
 
     @Override
-    public String getRequestor() {
-        return requestor;
+    public String getSoeid() {
+        return soeid;
     }
 
     @Override
-    public void setRequestor(String requestor) {
-        this.requestor = requestor;
+    public void setSoeid(String soeid) {
+        this.soeid = soeid;
     }
 
     @Override

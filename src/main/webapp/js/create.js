@@ -2,7 +2,7 @@ app.controller('CreateController', ['$scope', '$http', '$state', '$window', '$ui
 function($scope, $http, $state, $window, $uibModal) {
     $scope.cxBuDetails = $scope.cxBuDetails || {};
     $scope.txBuDetails = $scope.txBuDetails || {};
-    $scope.requestorData = $scope.requestorData || {};
+    $scope.soeidData = $scope.soeidData || {};
     $scope.pattern = "^[a-zA-Z0-9.:;, ]*$";
 
     $scope.duplicateRows = [];
@@ -11,8 +11,7 @@ function($scope, $http, $state, $window, $uibModal) {
         $scope.$broadcast('$validate');
         if(!ngForm.$invalid) {
             return true;
-        }
-        else {
+        } else {
             ngForm.$dirty = true;
             for(var i in ngForm) {
                 if(ngForm[i] && ngForm[i].hasOwnProperty && ngForm[i].hasOwnProperty('$dirty')) {
@@ -57,7 +56,7 @@ function($scope, $http, $state, $window, $uibModal) {
     $scope.createCx = function(force) {
         var data = {
             buDetails: $scope.cxBuDetails,
-            requestor: $scope.requestorData.requestor
+            soeid: $scope.soeidData.soeid
         };
 
         if ($scope.isFormValid($scope['section3'])) {
@@ -101,7 +100,7 @@ function($scope, $http, $state, $window, $uibModal) {
     $scope.createTx = function(force) {
         var data = {
             buDetails: $scope.txBuDetails,
-            requestor: $scope.requestorData.requestor
+            soeid: $scope.soeidData.soeid
         };
 
         if ($scope.isFormValid($scope['section7'])) {

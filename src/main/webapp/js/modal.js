@@ -28,8 +28,7 @@ function($scope, $http, $uibModalInstance, modalData) {
     };
 
     $scope.delete = function () {
-        //var requestorString = $scope.SOEID + ", Reason: " + $scope.reason;
-        var url = '/delete?recordType=' + modalData.recordType + '&requestor=' + $scope.SOEID + "&reason=" + $scope.reason;
+        var url = '/delete?recordType=' + modalData.recordType + '&soeid=' + $scope.SOEID + "&reason=" + $scope.reason;
         angular.forEach(deleteData, function(value, key) {
             url += ('&ids=' + value.id);
         });
@@ -55,7 +54,7 @@ function($scope, $http, $uibModalInstance, modalData) {
     };
 
     $scope.restore = function() {
-        var url = '/restore?recordType=' + modalData.recordType + '&requestor=' + $scope.SOEID;
+        var url = '/restore?recordType=' + modalData.recordType + '&soeid=' + $scope.SOEID;
         angular.forEach(restoreData, function(value, key) {
             url += ('&ids=' + value.id);
         });
