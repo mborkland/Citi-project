@@ -1,55 +1,63 @@
-app.controller('ReadController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$uibModal', '$compile', '$window', '$timeout', 'tableService',
-function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $window, $timeout, tableService) {
+app.controller('ArchiveController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$uibModal', 'tableService',
+function ($rootScope, $scope, $http, uiGridConstants, $uibModal, tableService) {
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
     $scope.recordType = 'CUSTOMER';
     $scope.rowsSelected = [];
-    var numRecentRows = 100;
+    var deletionDetailsCellTemplate = '<div align="center" style="margin-top: 3px;"><a ng-click="grid.appScope.showDeletionDetailsModal(row.entity.id)"><img src="images/deletion-details-img.png" height="28" width="26"></a></div>';
+
     $scope.rowData = [];
-    populateWithRecentRows(numRecentRows);
+    populateWithArchiveRows();
 
     $scope.$watch('recordType', function(newValue, oldValue) {
-        populateWithRecentRows(numRecentRows);
+        populateWithArchiveRows();
     });
+
+    var deletionDetailsField = {
+        field: 'deletionDetails', displayName: 'Deletion Details', width: tableService.smWidth, enableHiding: false,
+        cellTemplate: deletionDetailsCellTemplate
+    };
+
+    var cxColumnDefs = tableService.cxColumnDefs.concat([deletionDetailsField]);
 
     $scope.gridOptions1 = {
         enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         enableColumnResizing: true,
         enableSorting: true,
-        selectionRowHeaderWidth: 35,
-        rowHeight: 35,
-        enablePaginationControls: false,
-        paginationPageSize: 15,
-        showGridFooter: true,
-        enableSelectAll: true,
-        columnDefs: tableService.cxColumnDefs,
-        onRegisterApi: function (gridApi) {
-            $scope.grid1Api = gridApi;
-        },
-        data: $scope.rowData
-    };
-
-    $scope.gridOptions2 = {
-        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
-        enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
-        enableColumnResizing: true,
-        enableSorting: true,
+        enableFullRowSelection: false,
         selectionRowHeaderWidth: 35,
         rowHeight: 35,
         enablePaginationControls: false,
         paginationPageSize: 15,
         showGridFooter:true,
         enableSelectAll: true,
-        columnDefs: tableService.txColumnDefs,
+        columnDefs: cxColumnDefs,
         onRegisterApi: function (gridApi) {
-            $scope.grid2Api = gridApi;
+            $scope.grid1Api = gridApi;
         },
         data: $scope.rowData
     };
 
-    $scope.export = function() {
-        $scope.recordType === 'CUSTOMER' ? $scope.grid1Api.exporter.csvExport('selected', 'all') : $scope.grid2Api.exporter.csvExport('selected', 'all');
+    var txColumnDefs = tableService.txColumnDefs.concat([deletionDetailsField]);
+
+    $scope.gridOptions2 = {
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+        enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+        enableColumnResizing: true,
+        enableSorting: true,
+        enableFullRowSelection: true,
+        selectionRowHeaderWidth: 35,
+        rowHeight: 35,
+        enablePaginationControls: false,
+        paginationPageSize: 15,
+        showGridFooter:true,
+        enableSelectAll: true,
+        columnDefs: txColumnDefs,
+        onRegisterApi: function (gridApi) {
+            $scope.grid2Api = gridApi;
+        },
+        data: $scope.rowData
     };
 
     $scope.areRowsSelected = function() {
@@ -77,13 +85,24 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return formatHistoryString(history);
     }
 
+    function getDeletionDetails(id) {
+        var deletionDetails = null;
+        angular.forEach($scope.rowData, function(value, key) {
+            if (value.id === id) {
+                deletionDetails = value.deletionDetails;
+            }
+        });
+
+        return deletionDetails;
+    }
+
     $scope.showHistoryModal = function(id) {
         var history = getHistory(id);
         var historyModalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'html/history-modal.html',
+            templateUrl: 'views/modals/history.html',
             controller: 'ModalController',
             size: 'md',
             resolve: {
@@ -94,10 +113,21 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         });
     };
 
-    $scope.showUpdateWindow = function() {
-        var selectedRowData = $scope.getSelectedRowData();
-        $window.parentScope = $scope;
-        $window.open('html/update.html', 'Update Records', 'width=1000,height=600');
+    $scope.showDeletionDetailsModal = function(id) {
+        var deletionDetails = getDeletionDetails(id);
+        var deletionDetailsModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'views/modals/deletion-details.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    deletionDetailsData: deletionDetails
+                }
+            }
+        });
     };
 
     $scope.showDeleteModal = function() {
@@ -106,9 +136,9 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'html/delete-confirmation-modal.html',
+            templateUrl: 'views/modals/delete-confirmation.html',
             controller: 'ModalController',
-            size: 'lg',
+            size: 'md',
             resolve: {
                 modalData: {
                     deleteData: selectedRowData,
@@ -118,56 +148,73 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         });
 
         deleteModalInstance.result.then(function() {
-            $scope.showDeleteConfirmationModal($uibModal);
+           timedRefresh(3000);
         });
     };
 
-    $scope.showDeleteConfirmationModal = function(modal) {
-        var count = $scope.getSelectedRowData().length;
-        var deleteConfirmationModalInstance = modal.open({
+    $scope.showClearModal = function() {
+        var selectedRowData = $scope.getSelectedRowData();
+        var clearModalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'html/delete-confirmation-modal2.html',
+            templateUrl: 'views/modals/clear-confirmation.html',
             controller: 'ModalController',
             size: 'md',
             resolve: {
                 modalData: {
-                    num: count
+                    clearData: selectedRowData,
+                    recordType: $scope.recordType
                 }
             }
         });
 
-        deleteConfirmationModalInstance.result.then(
-            function () {
-                timedRefresh(3000);
-            },
-            function () {
-                timedRefresh(3000);
+        clearModalInstance.result.then(function() {
+            timedRefresh(3000);
+        });
+    };
+
+    $scope.showRestoreModal = function() {
+        var selectedRowData = $scope.getSelectedRowData();
+        var restoreModalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'views/modals/restore-confirmation.html',
+            controller: 'ModalController',
+            size: 'md',
+            resolve: {
+                modalData: {
+                    restoreData: selectedRowData,
+                    recordType: $scope.recordType
+                }
             }
-        );
+        });
+
+        restoreModalInstance.result.then(function() {
+            timedRefresh(3000);
+        });
     };
 
     function timedRefresh(timeoutPeriod) {
-        $timeout(function() {
-            $window.location.reload(true);
-        }, timeoutPeriod);
+        setTimeout("location.reload(true);",timeoutPeriod);
     }
 
     $scope.any = true;
     $scope.exactMatch = false;
 
     $scope.search = function () {
-        var url = '/read?recordType=';
+        var url = '/read-archive?recordType=';
         if ($scope.searchTerms) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch
                 + '&any=' + $scope.any).then(function (response) {
-                handleResponse(response, false);
+                handleResponse(response);
+                console.log(response);
             }, function (error) {
                 console.log(error);
             });
         } else {
-            populateWithRecentRows(numRecentRows);
+            populateWithArchiveRows();
         }
     };
 
@@ -182,76 +229,25 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return selected;
     };
 
-    function handleResponse(response, isRecent) {
+    function handleResponse(response) {
         $scope.rowData.length = 0;
         angular.forEach(response.data, function (value, key) {
-            $scope.rowData.push(convertResponseData(value, $scope.recordType, isRecent));
+            $scope.rowData.push(convertResponseData(value, $scope.recordType));
         });
     }
 
-    function populateWithRecentRows(numRecentRows) {
-        var url = '/read-recent?recordType=';
-        $http.get(url + $scope.recordType + '&numRecentRecords=' + numRecentRows).then(function (response) {
-            handleResponse(response, true);
+    function populateWithArchiveRows() {
+        var url = '/archive?recordType=';
+        $http.get(url + $scope.recordType).then(function (response) {
+            handleResponse(response);
         }, function (error) {
             console.log(error);
         });
     }
 
-    function convertResponseData(record, recordType, isRecent) {
-        if (recordType === 'CUSTOMER') {
-            return tableService.convertCxData(record, isRecent);
-        } else {
-            return tableService.convertTxData(record, isRecent);
-        }
-    }
-
-    function jsonifyUpdatedRecord(updatedRecord, SOEID, newReason) {
-        var jsonifiedRecord = {
-            record: {
-                id: updatedRecord.entity.id,
-                buDetails: {}
-            },
-            soeid: SOEID,
-            reason: newReason,
-            updatedFields: updatedRecord.updatedFields
-        };
-
-        angular.forEach(updatedRecord.entity, function(value, key) {
-            if (key !== '$$hashKey' && key !== 'id') {
-                var convertedValue = tableService.booleanFields.includes(key) ? convertCharToBoolean(value) : value;
-                jsonifiedRecord.record.buDetails[key] = convertedValue;
-            }
-        });
-
-        return jsonifiedRecord;
-    }
-
-    function jsonifyUpdatedRecords(updatedRecords, SOEID, newReason) {
-        var jsonified = [];
-        angular.forEach(updatedRecords, function (value, key) {
-            jsonified.push(jsonifyUpdatedRecord(value, SOEID, newReason));
-        });
-
-        return jsonified;
-    }
-
-    $scope.updateRecords = function (updatedRecords, SOEID, newReason) {
-        var url = $scope.recordType === "CUSTOMER" ? '/update-customer' : '/update-transaction';
-        var data = jsonifyUpdatedRecords(updatedRecords, SOEID, newReason);
-        $http({
-            method: 'PATCH',
-            url: url,
-            data: data
-        }).then (function (response) {
-            timedRefresh(3000);
-        }, function (error) {
-            console.log(error);
-            timedRefresh(3000);
-        });
-    };
-
-    function convertCharToBoolean(char) {
-        return !!'Y';
+    function convertResponseData(record, recordType) {
+        var data = recordType === 'CUSTOMER' ? tableService.convertCxData(record, false) : tableService.convertTxData(record, false);
+        data.deletionDetails = record.deletionDetails;
+        return data;
     }
 }]);

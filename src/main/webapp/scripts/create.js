@@ -143,7 +143,7 @@ function($scope, $http, $state, $window, $uibModal) {
 
     $scope.openDuplicateWindow = function() {
         $window.parentScope = $scope;
-        $window.open('html/duplicate-records.html', 'Duplicate Records', 'width=1000,height=600');
+        $window.open('views/windows/duplicate-records.html', 'Duplicate Records', 'width=1000,height=600');
     };
 
     function showDuplicateModal(forceCreate, openDuplicateWindow) {
@@ -152,7 +152,7 @@ function($scope, $http, $state, $window, $uibModal) {
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'html/duplicate-modal.html',
+            templateUrl: 'views/modals/duplicate.html',
             controller: function ($scope) {
                 $scope.forceCreate = function() {
                     $scope.$close();
@@ -174,7 +174,7 @@ function($scope, $http, $state, $window, $uibModal) {
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'html/history-modal.html',
+            templateUrl: 'views/modals/history.html',
             controller: 'ModalController',
             size: 'md',
             resolve: {

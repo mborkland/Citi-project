@@ -10,79 +10,79 @@ function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('login', {
             url: '/',
-            templateUrl: 'html/login.html',
+            templateUrl: 'views/login.html',
             controller: 'LoginController'
         })
         .state('read', {
             url: '/read',
-            templateUrl: 'html/read.html',
+            templateUrl: 'views/read.html',
             controller: 'ReadController'
         })
         .state('create-cx', {
             url: '/create-cx',
             abstract: true,
-            templateUrl: 'html/create/create-cx/create-cx.html',
+            templateUrl: 'views/create-forms/create-cx/create-cx.html',
             controller: 'CreateController'
         })
         .state('create-cx.section1', {
             url: '',
-            templateUrl: 'html/create/create-cx/section1.html',
+            templateUrl: 'views/create-forms/create-cx/section1.html',
             controller: 'CreateController'
         })
         .state('create-cx.section2', {
             url: '/section2',
-            templateUrl: 'html/create/create-cx/section2.html',
+            templateUrl: 'views/create-forms/create-cx/section2.html',
             controller: 'CreateController'
         })
         .state('create-cx.section3', {
             url: '/section3',
-            templateUrl: 'html/create/create-cx/section3.html',
+            templateUrl: 'views/create-forms/create-cx/section3.html',
             controller: 'CreateController'
         })
         .state('create-tx', {
             url: '/create-tx',
             abstract: true,
-            templateUrl: 'html/create/create-tx/create-tx.html',
+            templateUrl: 'views/create-forms/create-tx/create-tx.html',
             controller: 'CreateController'
         })
         .state('create-tx.section1', {
             url: '',
-            templateUrl: 'html/create/create-tx/section1.html',
+            templateUrl: 'views/create-forms/create-tx/section1.html',
             controller: 'CreateController'
         })
         .state('create-tx.section2', {
             url: '/section2',
-            templateUrl: 'html/create/create-tx/section2.html',
+            templateUrl: 'views/create-forms/create-tx/section2.html',
             controller: 'CreateController'
         })
         .state('create-tx.section3', {
             url: '/section3',
-            templateUrl: 'html/create/create-tx/section3.html',
+            templateUrl: 'views/create-forms/create-tx/section3.html',
             controller: 'CreateController'
         })
         .state('create-tx.section4', {
             url: '/section4',
-            templateUrl: 'html/create/create-tx/section4.html',
+            templateUrl: 'views/create-forms/create-tx/section4.html',
             controller: 'CreateController'
         })
         .state('create-tx.section5', {
             url: '/section5',
-            templateUrl: 'html/create/create-tx/section5.html',
+            templateUrl: 'views/create-forms/create-tx/section5.html',
             controller: 'CreateController'
         })
         .state('create-tx.section6', {
             url: '/section6',
-            templateUrl: 'html/create/create-tx/section6.html',
+            templateUrl: 'views/create-forms/create-tx/section6.html',
             controller: 'CreateController'
         })
         .state('create-tx.section7', {
             url: '/section7',
-            templateUrl: 'html/create/create-tx/section7.html',
+            templateUrl: 'views/create-forms/create-tx/section7.html',
             controller: 'CreateController'
         })
         .state('archive', {
             url: '/archive',
-            templateUrl: 'html/archive.html',
+            templateUrl: 'views/archive.html',
             controller: 'ArchiveController'
         });
 }]);

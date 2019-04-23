@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/user/login").permitAll()
+                .antMatchers("views/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().fullyAuthenticated();
 
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
@@ -37,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/configuration/security", "/swagger-ui.html", "/webjars/**",
                 "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security");
 
-        web.ignoring().antMatchers("/js/**", "/css/**", "/html/**", "/images/**", "/favicon.ico", "/",
-                "/index.html", "user/login", "/ap-mesa/**", "/fonts/**");
+        web.ignoring().antMatchers("/scripts/**", "/styles/**", "/views/login.html", "/images/**", "/favicon.ico", "/",
+                "/index.html", "user/login", "/views/windows/**");
     }
 
     @Bean

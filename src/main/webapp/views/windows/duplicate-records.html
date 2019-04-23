@@ -10,8 +10,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ui-bootstrap4@3.0.6/dist/ui-bootstrap-csp.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/angular-ui/bower-ui-grid/ui-grid.min.css">
-    <link rel="stylesheet" href="../css/button.css">
-    <link rel="stylesheet" href="../css/main-styles.css">
+    <link rel="stylesheet" href="../../styles/button.css">
+    <link rel="stylesheet" href="../../styles/main-styles.css">
     <style type="text/css">
         [ng\:cloak], [ng-cloak], .ng-cloak {
             display: none !important;
@@ -179,7 +179,7 @@
                 {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: lw, enableHiding: false},
                 {field: 'timezone', displayName: 'Timezone', width: sw, enableHiding: false},
                 {field: 'history', displayName: 'History', width: sw, enableHiding: false,
-                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>'}
+                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../../images/history-img.png" height="34" width="34"></a></div>'}
             ],
             onRegisterApi: function (gridApi) {
                 $scope.grid1Api = gridApi;
@@ -240,7 +240,7 @@
                 {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: mw, enableHiding: false},
                 {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: lw, enableHiding: false},
                 {field: 'history', displayName: 'History', width: sw, enableHiding: false,
-                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../images/history-img.png" height="34" width="34"></a></div>'}
+                    cellTemplate: '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="../../images/history-img.png" height="34" width="34"></a></div>'}
             ],
             onRegisterApi: function (gridApi) {
                 $scope.grid2Api = gridApi;
