@@ -33,7 +33,6 @@ function($scope, $http, $uibModalInstance, modalData) {
             url += ('&ids=' + value.id);
         });
         $http.delete(url).then (function (response) {
-            console.log(response);
         }, function (error) {
             console.log(error);
         });
@@ -46,7 +45,6 @@ function($scope, $http, $uibModalInstance, modalData) {
            url += ('&ids=' + value.id);
         });
         $http.delete(url).then (function (response) {
-            console.log(response);
         }, function (error) {
             console.log(error);
         });
@@ -59,7 +57,6 @@ function($scope, $http, $uibModalInstance, modalData) {
             url += ('&ids=' + value.id);
         });
         $http.patch(url).then (function (response) {
-            console.log(response);
         }, function (error) {
             console.log(error);
         });

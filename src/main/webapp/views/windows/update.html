@@ -119,7 +119,6 @@
                 updatedFields: [colDef.field]
             };
             updatedColumns.push(updatedColumn);
-            console.log(updatedColumn);
         }
 
         function getUpdatedFields(id) {
@@ -132,9 +131,21 @@
             return null;
         }
 
+        function convertTimestampToDate(timestamp) {
+            var date = new Date(timestamp);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hours = ('0' + date.getHours()).substr(-2);
+            var minutes = ('0' + date.getMinutes()).substr(-2);
+            var seconds = ('0' + date.getSeconds()).substr(-2);
+            return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+        }
+
         function aggregateUpdateData(dirtyRows) {
             var updatedRecords = [];
             angular.forEach(dirtyRows, function(value, key) {
+                value.entity.creationDate = convertTimestampToDate(value.entity.creationDate);
                 updatedRecords.push({
                     entity: value.entity,
                     updatedFields: getUpdatedFields(value.entity.id)
@@ -193,7 +204,7 @@
                 animation: true,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
-                templateUrl: 'update-confirmation-modal.html',
+                templateUrl: '../modals/update-confirmation.html',
                 controller: function($uibModalInstance, $scope, modalData) {
                     var num = modalData.numUpdatedRecords;
 
@@ -248,10 +259,6 @@
                 });
             },
             data: $scope.rowData
-        };
-
-        $scope.saveRow = function(rowEntity) {
-            console.log(rowEntity);
         };
 
         $scope.gridOptions2 = {
@@ -317,7 +324,7 @@
         $scope.validate = function () {
             return (($scope.checkReason()) || ($scope.checkSOEID()));
         };
-        }]);
+    }]);
 </script>
 </body>
 </html>

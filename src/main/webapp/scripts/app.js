@@ -160,8 +160,8 @@ app.factory('tableService', function() {
         {field: 'impactToBusiness', displayName: 'Impact To Business', width: service.mdWidth, enableHiding: false},
         {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: service.lgWidth, enableHiding: false},
         {field: 'timezone', displayName: 'Timezone', width: service.smWidth, enableHiding: false},
-        {field: 'history', displayName: 'History', width: service.smWidth, enableHiding: false,
-            cellTemplate: historyCellTemplate}
+        {field: 'history', displayName: 'History', width: service.smWidth, enableHiding: false, cellTemplate: historyCellTemplate},
+        {field: 'creationDate', visible: false}
     ];
     
     service.txColumnDefs = [
@@ -206,8 +206,8 @@ app.factory('tableService', function() {
         {field: 'thresholdSetForTimeouts', displayName: 'Threshold Set for Timeouts', width: service.mdWidth, enableHiding: false},
         {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: service.mdWidth, enableHiding: false},
         {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: service.lgWidth, enableHiding: false},
-        {field: 'history', displayName: 'History', width: service.smWidth, enableHiding: false,
-            cellTemplate: historyCellTemplate}
+        {field: 'history', displayName: 'History', width: service.smWidth, enableHiding: false, cellTemplate: historyCellTemplate},
+        {field: 'creationDate', visible: false}
     ];
 
     function convertBooleanToChar(boolean) {
@@ -249,6 +249,7 @@ app.factory('tableService', function() {
             cxData.wfBusinessUnitNameDisplayValue = record[27];
             cxData.workflowFlag = convertBooleanToChar(record[28]);
             cxData.workflowInstance = record[29];
+            cxData.creationDate = record[30];
         } else {
             angular.forEach(record.buDetails, function (value, key) {
                 cxData[key] = value;
@@ -305,6 +306,7 @@ app.factory('tableService', function() {
             txData.workflowInstance = record[39];
             txData.workflowOperationsContacts = record[40];
             txData.workflowOperationsWorkSchedule = record[41];
+            txData.creationDate = record[42];
         } else {
             angular.forEach(record.buDetails, function (value, key) {
                 txData[key] = value;

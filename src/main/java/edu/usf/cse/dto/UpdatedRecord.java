@@ -1,4 +1,6 @@
-package edu.usf.cse.model;
+package edu.usf.cse.dto;
+
+import edu.usf.cse.model.Record;
 
 import java.util.List;
 

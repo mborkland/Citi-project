@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security");
 
         web.ignoring().antMatchers("/scripts/**", "/styles/**", "/views/login.html", "/images/**", "/favicon.ico", "/",
-                "/index.html", "/user/login", "/views/windows/**");
+                "/index.html", "/user/login", "/views/windows/**", "/views/modals/update-confirmation.html");
     }
 
     @Bean

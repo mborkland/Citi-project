@@ -210,6 +210,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         var jsonifiedRecord = {
             record: {
                 id: updatedRecord.entity.id,
+                creationDate: updatedRecord.entity.creationDate,
                 buDetails: {}
             },
             soeid: SOEID,
@@ -218,7 +219,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         };
 
         angular.forEach(updatedRecord.entity, function(value, key) {
-            if (key !== '$$hashKey' && key !== 'id') {
+            if (key !== '$$hashKey' && key !== 'id' && key !== 'creationDate') {
                 var convertedValue = tableService.booleanFields.includes(key) ? convertCharToBoolean(value) : value;
                 jsonifiedRecord.record.buDetails[key] = convertedValue;
             }
@@ -247,7 +248,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             timedRefresh(3000);
         }, function (error) {
             console.log(error);
-            timedRefresh(3000);
         });
     };
 

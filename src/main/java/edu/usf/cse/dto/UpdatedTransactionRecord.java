@@ -1,4 +1,7 @@
-package edu.usf.cse.model;
+package edu.usf.cse.dto;
+
+import edu.usf.cse.model.Record;
+import edu.usf.cse.model.TransactionRecord;
 
 import java.util.List;
 

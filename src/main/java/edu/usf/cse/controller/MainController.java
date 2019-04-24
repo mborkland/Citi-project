@@ -2,6 +2,8 @@ package edu.usf.cse.controller;
 
 import edu.usf.cse.dto.CreatedCustomerRecord;
 import edu.usf.cse.dto.CreatedTransactionRecord;
+import edu.usf.cse.dto.UpdatedCustomerRecord;
+import edu.usf.cse.dto.UpdatedTransactionRecord;
 import edu.usf.cse.model.*;
 import edu.usf.cse.service.CustomerRecordService;
 import edu.usf.cse.service.RecordService;

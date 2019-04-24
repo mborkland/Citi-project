@@ -209,7 +209,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, tableService) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch
                 + '&any=' + $scope.any).then(function (response) {
                 handleResponse(response);
-                console.log(response);
             }, function (error) {
                 console.log(error);
             });

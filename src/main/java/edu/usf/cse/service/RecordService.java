@@ -3,7 +3,7 @@ package edu.usf.cse.service;
 import edu.usf.cse.dto.CreatedRecord;
 import edu.usf.cse.model.BuDetails;
 import edu.usf.cse.model.Record;
-import edu.usf.cse.model.UpdatedRecord;
+import edu.usf.cse.dto.UpdatedRecord;
 
 import java.util.Date;
 import java.util.List;

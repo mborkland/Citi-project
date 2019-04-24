@@ -1,5 +1,8 @@
 package edu.usf.cse.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import edu.usf.cse.utility.CreationDateDeserializer;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,6 +18,7 @@ public class TransactionRecord implements Record {
     @Embedded
     private TxBuDetails buDetails;
 
+    @JsonDeserialize(using = CreationDateDeserializer.class)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="Creation_Date")
     private Date creationDate;

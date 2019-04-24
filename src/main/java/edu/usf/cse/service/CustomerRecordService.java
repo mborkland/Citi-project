@@ -1,6 +1,7 @@
 package edu.usf.cse.service;
 
 import edu.usf.cse.dto.CreatedRecord;
+import edu.usf.cse.dto.UpdatedRecord;
 import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.CustomerRecordRepository;
 import edu.usf.cse.persistence.DeletedCustomerRecordRepository;
