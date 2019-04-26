@@ -216,7 +216,8 @@ app.factory('tableService', function() {
 
     service.convertCxData = function (record, isRecent) {
         var cxData = {
-            id: isRecent ? record[0] : record.id
+            id: isRecent ? record[0] : record.id,
+            creationDate: isRecent ? record[30] : record.creationDate
         };
         
         if (isRecent) {
@@ -249,7 +250,6 @@ app.factory('tableService', function() {
             cxData.wfBusinessUnitNameDisplayValue = record[27];
             cxData.workflowFlag = convertBooleanToChar(record[28]);
             cxData.workflowInstance = record[29];
-            cxData.creationDate = record[30];
         } else {
             angular.forEach(record.buDetails, function (value, key) {
                 cxData[key] = value;
@@ -261,7 +261,8 @@ app.factory('tableService', function() {
     
     service.convertTxData = function (record, isRecent) {
         var txData = {
-            id: isRecent ? record[0] : record.id
+            id: isRecent ? record[0] : record.id,
+            creationDate: isRecent ? record[42] : record.creationDate
         };
         
         if (isRecent) {
@@ -306,7 +307,6 @@ app.factory('tableService', function() {
             txData.workflowInstance = record[39];
             txData.workflowOperationsContacts = record[40];
             txData.workflowOperationsWorkSchedule = record[41];
-            txData.creationDate = record[42];
         } else {
             angular.forEach(record.buDetails, function (value, key) {
                 txData[key] = value;
