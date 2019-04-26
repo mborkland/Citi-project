@@ -1,6 +1,7 @@
 package edu.usf.cse.service;
 
 import edu.usf.cse.dto.CreatedRecord;
+import edu.usf.cse.dto.UpdatedField;
 import edu.usf.cse.dto.UpdatedRecord;
 import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.CustomerRecordRepository;
@@ -31,7 +32,7 @@ public class CustomerRecordService implements RecordService {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    private static final char historyDelimiter = ';';
+    private static final char historyDelimiter = '#';
 
     private static final String searchDelimiter = ",";
     
@@ -139,12 +140,16 @@ public class CustomerRecordService implements RecordService {
             CustomerRecord customerRecord = (CustomerRecord) record.getRecord();
             String soeid = record.getSoeid();
             String reason = record.getReason();
-            String updatedFields = String.join(", ", record.getUpdatedFields());
             StringBuilder history = new StringBuilder(((CxBuDetails) customerRecord.getBuDetails()).getHistory());
             LocalDateTime now = LocalDateTime.now();
-            history.append(historyDelimiter).append(updatedFields).append(" fields updated on ")
-                    .append(now.format(formatter)).append(" by ").append(soeid)
-                    .append(". Reason: ").append(reason);
+            history.append(historyDelimiter).append("Updated on ")
+                    .append(now.format(formatter)).append(" by ").append(soeid).append(". ");
+            for (UpdatedField updatedField : record.getUpdatedFields()) {
+                history.append(updatedField.getField()).append(" - ").append("New value: ").append(updatedField.getNewValue())
+                        .append(", Old value: ").append(updatedField.getOldValue()).append("; ");
+            }
+
+            history.append("Reason: ").append(reason);
             ((CxBuDetails) customerRecord.getBuDetails()).setHistory(history.toString());
             customerRecordRepository.save(customerRecord);
         }

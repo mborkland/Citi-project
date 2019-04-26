@@ -7,27 +7,42 @@ function($window, $scope, uiGridConstants, $interval, $uibModal, tableService) {
     $scope.recordType = $window.opener.parentScope.recordType;
     $scope.rowData = $window.opener.parentScope.getSelectedRowData();
     $scope.numberOfEditedRecords = 0;
-    var updatedColumns = [];
+    var updatedRows = [];
 
-    function trackColumnUpdate(rowEntity, colDef) {
-        for (var i = 0; i < updatedColumns.length; ++i) {
-            if (updatedColumns[i].id === rowEntity.id) {
-                updatedColumns[i].updatedFields.push(colDef.field);
+    function trackColumnUpdate(rowEntity, colDef, newValue, oldValue) {
+        for (var i = 0; i < updatedRows.length; ++i) {
+            if (updatedRows[i].id === rowEntity.id) {
+                for (var j = 0; j < updatedRows[i].updatedFields.length; ++j) {
+                    if (updatedRows[i].updatedFields[j].field === colDef.field) {
+                        updatedRows[i].updatedFields[j].newValue = newValue;
+                        return;
+                    }
+                }
+
+                updatedRows[i].updatedFields.push({
+                    field: colDef.field,
+                    oldValue: oldValue,
+                    newValue: newValue
+                });
+
                 return;
             }
         }
 
-        var updatedColumn = {
+        updatedRows.push({
             id: rowEntity.id,
-            updatedFields: [colDef.field]
-        };
-        updatedColumns.push(updatedColumn);
+            updatedFields: [{
+                field: colDef.field,
+                oldValue: oldValue,
+                newValue: newValue
+            }]
+        });
     }
 
     function getUpdatedFields(id) {
-        for (var i = 0; i < updatedColumns.length; ++i) {
-            if (updatedColumns[i].id === id) {
-                return updatedColumns[i].updatedFields;
+        for (var i = 0; i < updatedRows.length; ++i) {
+            if (updatedRows[i].id === id) {
+                return updatedRows[i].updatedFields;
             }
         }
 
@@ -136,8 +151,8 @@ function($window, $scope, uiGridConstants, $interval, $uibModal, tableService) {
         rowEditWaitInterval: -1,
         onRegisterApi: function (gridApi) {
             $scope.grid1Api = gridApi;
-            gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef) {
-                trackColumnUpdate(rowEntity, colDef);
+            gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
+                trackColumnUpdate(rowEntity, colDef, newValue, oldValue);
             });
         },
         data: $scope.rowData
@@ -158,8 +173,8 @@ function($window, $scope, uiGridConstants, $interval, $uibModal, tableService) {
         onRegisterApi: function (gridApi) {
             $scope.grid2Api = gridApi;
 
-            gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef) {
-                trackColumnUpdate(rowEntity, colDef);
+            gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
+                trackColumnUpdate(rowEntity, colDef, newValue, oldValue);
             });
         },
         data: $scope.rowData

@@ -1,5 +1,6 @@
 package edu.usf.cse.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.usf.cse.model.Record;
 import edu.usf.cse.model.TransactionRecord;
 
@@ -13,7 +14,8 @@ public class UpdatedTransactionRecord implements UpdatedRecord {
 
     private String reason;
 
-    private List<String> updatedFields;
+    @JsonProperty("updatedFields")
+    private List<UpdatedField> updatedFields;
 
     @Override
     public Record getRecord() {
@@ -35,12 +37,12 @@ public class UpdatedTransactionRecord implements UpdatedRecord {
     }
 
     @Override
-    public List<String> getUpdatedFields() {
+    public List<UpdatedField> getUpdatedFields() {
         return updatedFields;
     }
 
     @Override
-    public void setUpdatedFields(List<String> updatedFields) {
+    public void setUpdatedFields(List<UpdatedField> updatedFields) {
         this.updatedFields = updatedFields;
     }
 

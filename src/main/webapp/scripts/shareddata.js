@@ -204,7 +204,7 @@ app.factory('tableService', function() {
             }
         });
 
-        return history ? history.split(';') : null;
+        return history ? history.split('#') : null;
     };
 
     return service;

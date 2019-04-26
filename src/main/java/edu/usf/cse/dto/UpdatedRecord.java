@@ -16,8 +16,8 @@ public interface UpdatedRecord {
 
     String getReason();
 
-    List<String> getUpdatedFields();
+    List<UpdatedField> getUpdatedFields();
 
-    void setUpdatedFields(List<String> updatedFields);
+    void setUpdatedFields(List<UpdatedField> updatedFields);
 
 }
