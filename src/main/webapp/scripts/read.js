@@ -56,29 +56,8 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
     };
 
-    function formatHistoryString(historyString) {
-        var split = historyString.split(';');
-        var formattedHistoryString = '';
-        angular.forEach(split, function (value, key) {
-            formattedHistoryString += (value + '\n');
-        });
-
-        return formattedHistoryString;
-    }
-
-    function getHistory(id) {
-        var history = null;
-        angular.forEach($scope.rowData, function(value, key) {
-            if (value.id === id) {
-                history = value.history;
-            }
-        });
-
-        return formatHistoryString(history);
-    }
-
     $scope.showHistoryModal = function(id) {
-        var history = getHistory(id);
+        var history = tableService.getHistory($scope.rowData, id);
         var historyModalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -108,7 +87,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             ariaDescribedBy: 'modal-body',
             templateUrl: 'views/modals/delete-confirmation.html',
             controller: 'ModalController',
-            size: 'lg',
+            size: 'md',
             resolve: {
                 modalData: {
                     deleteData: selectedRowData,

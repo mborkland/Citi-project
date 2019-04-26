@@ -3,7 +3,7 @@ function($scope, $http, $state, $window, $uibModal, tableService) {
     $scope.cxBuDetails = $scope.cxBuDetails || {};
     $scope.txBuDetails = $scope.txBuDetails || {};
     $scope.soeidData = $scope.soeidData || {};
-    $scope.pattern = "^[a-zA-Z0-9.:;, ]*$";
+    $scope.pattern = "^[a-zA-Z0-9.:;,@/_() -]*$";
 
     $scope.duplicateRows = [];
 
@@ -54,86 +54,96 @@ function($scope, $http, $state, $window, $uibModal, tableService) {
     };
 
     $scope.createCx = function(force) {
+        if (!$scope.isFormValid($scope['section3'])) {
+            return;
+        }
+
         var data = {
             buDetails: $scope.cxBuDetails,
             soeid: $scope.soeidData.soeid
         };
 
-        if ($scope.isFormValid($scope['section3'])) {
-            if (force) {
-                $http({
-                    method: 'POST',
-                    url: '/create-cx',
-                    data: data
-                }).then(function (response) {
-                    alert(response.data.result);
-                    $state.go('read');
-                }, function (error) {
-                    console.log(error);
-                    alert('There was an error');
-                });
-            } else {
-                $scope.recordType = 'CUSTOMER';
-                $http({
-                    method: 'POST',
-                    url: '/duplicate-cx',
+        if (force) {
+            $http({
+                method: 'POST',
+                url: '/create-cx',
+                data: data
+            }).then(function (response) {
+                $state.go('creation-summary', {
+                    recordType: 'CUSTOMER',
+                    soeid: $scope.soeidData.soeid,
                     data: $scope.cxBuDetails
-                }).then(function (response) {
-                    if (response.data.length) {
-                        $scope.duplicateRows.length = 0;
-                        angular.forEach(response.data, function (value, key) {
-                            $scope.duplicateRows.push(convertResponseData(value));
-                        });
-                        showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
-                    } else {
-                        $scope.createCx(true);
-                    }
-                }, function (error) {
-                    console.log(error);
                 });
-            }
+            }, function (error) {
+                console.log(error);
+                alert('There was an error');
+            });
+        } else {
+            $scope.recordType = 'CUSTOMER';
+            $http({
+                method: 'POST',
+                url: '/duplicate-cx',
+                data: $scope.cxBuDetails
+            }).then(function (response) {
+                if (response.data.length) {
+                    $scope.duplicateRows.length = 0;
+                    angular.forEach(response.data, function (value, key) {
+                        $scope.duplicateRows.push(convertResponseData(value));
+                    });
+                    showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
+                } else {
+                    $scope.createCx(true);
+                }
+            }, function (error) {
+                console.log(error);
+            });
         }
     };
 
     $scope.createTx = function(force) {
+        if (!$scope.isFormValid($scope['section7'])) {
+            return;
+        }
+
         var data = {
             buDetails: $scope.txBuDetails,
             soeid: $scope.soeidData.soeid
         };
 
-        if ($scope.isFormValid($scope['section7'])) {
-            if (force) {
-                $http({
-                    method: 'POST',
-                    url: '/create-tx',
-                    data: data
-                }).then(function (response) {
-                    alert(response.data.result);
-                    $state.go('read');
-                }, function (error) {
-                    console.log(error);
-                    alert('There was an error');
-                });
-            } else {
-                $scope.recordType = 'TRANSACTION';
-                $http({
-                    method: 'POST',
-                    url: '/duplicate-tx',
+        if (force) {
+            $http({
+                method: 'POST',
+                url: '/create-tx',
+                data: data
+            }).then(function (response) {
+                $state.go('creation-summary', {
+                    recordType: 'TRANSACTION',
+                    soeid: $scope.soeidData.soeid,
                     data: $scope.txBuDetails
-                }).then(function (response) {
-                    if (response.data.length) {
-                        $scope.duplicateRows.length = 0;
-                        angular.forEach(response.data, function (value, key) {
-                            $scope.duplicateRows.push(convertResponseData(value));
-                        });
-                        showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
-                    } else {
-                        $scope.createTx(true);
-                    }
-                }, function (error) {
-                    console.log(error);
                 });
-            }
+            }, function (error) {
+                console.log(error);
+                alert('There was an error');
+            });
+        } else {
+            $scope.recordType = 'TRANSACTION';
+            $http({
+                method: 'POST',
+                url: '/duplicate-tx',
+                data: $scope.txBuDetails
+            }).then(function (response) {
+                if (response.data.length) {
+                    $scope.duplicateRows.length = 0;
+                    angular.forEach(response.data, function (value, key) {
+                        $scope.duplicateRows.push(convertResponseData(value));
+                    });
+                    showDuplicateModal($scope.forceCreate, $scope.openDuplicateWindow);
+                } else {
+                    $scope.createTx(true);
+                }
+            }, function (error) {
+                console.log(error);
+            });
         }
     };
 

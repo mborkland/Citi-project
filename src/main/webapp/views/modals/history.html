@@ -4,8 +4,12 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<div class="modal-body multi-lines-text">
-    <p>{{historyData}}</p>
+<div class="modal-body">
+    <ul>
+        <li ng-repeat="data in historyData">
+            {{data}}
+        </li>
+    </ul>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" ng-click="ok()">Close</button>

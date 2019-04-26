@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
 
         web.ignoring().antMatchers("/scripts/**", "/styles/**", "/views/login.html", "/images/**", "/favicon.ico", "/",
-                "/index.html", "/user/login", "/views/windows/**", "/views/modals/update-confirmation.html", "/dependencies/**");
+                "/index.html", "/user/login", "/views/windows/**", "/views/modals/**", "/dependencies/**");
     }
 
     @Bean

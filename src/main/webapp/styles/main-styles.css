@@ -79,7 +79,3 @@ body {
     min-height: 38px;
     width: 200px;
 }
-
-.multi-lines-text {
-    white-space: pre-line;
-}

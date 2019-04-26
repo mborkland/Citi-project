@@ -1,14 +1,28 @@
 <div class="modal-header">
-    <h5 class="modal-title">Are you sure you want to delete these records?</h5>
+    <h5 class="modal-title">Delete Selected Records?</h5>
     <button type="button" class="close" aria-label="Close" ng-click="cancel()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <div class="modal-body">
-    <label for="SOEID">Please enter your SOEID: </label>
-    <input type="text" id="SOEID" name="SOEID" ng-model="SOEID" required>
-    <label for="reason">Please enter the explanation for the deletion of the records:</label>
-    <input type="text" id="reason" name="reason" ng-model="reason" required>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <label for="SOEID">SOEID:&nbsp</label>
+            </div>
+            <div class="col-md-7">
+                <textarea id="SOEID" name="SOEID" rows="1" ng-model="SOEID" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <label for="reason">Reason for deletion:&nbsp</label>
+            </div>
+            <div class="col-md-7">
+                <textarea id="reason" name="reason" rows="3" ng-model="reason" required></textarea>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary confirm-button" ng-disabled="validate()" ng-click="delete()">Confirm</button>

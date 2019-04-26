@@ -1,5 +1,5 @@
-app.controller('ArchiveController', ['$rootScope', '$scope', '$http', 'uiGridConstants', '$uibModal', 'tableService',
-function ($rootScope, $scope, $http, uiGridConstants, $uibModal, tableService) {
+app.controller('ArchiveController', ['$rootScope', '$scope', '$http', '$timeout', 'uiGridConstants', '$uibModal', 'tableService',
+function ($rootScope, $scope, $http, $timeout, uiGridConstants, $uibModal, tableService) {
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
     $scope.recordType = 'CUSTOMER';
@@ -64,27 +64,6 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, tableService) {
         return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
     };
 
-    function formatHistoryString(historyString) {
-        var split = historyString.split(';');
-        var formattedHistoryString = '';
-        angular.forEach(split, function (value, key) {
-            formattedHistoryString += (value + '\n');
-        });
-
-        return formattedHistoryString;
-    }
-
-    function getHistory(id) {
-        var history = null;
-        angular.forEach($scope.rowData, function(value, key) {
-            if (value.id === id) {
-                history = value.history;
-            }
-        });
-
-        return formatHistoryString(history);
-    }
-
     function getDeletionDetails(id) {
         var deletionDetails = null;
         angular.forEach($scope.rowData, function(value, key) {
@@ -97,7 +76,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, tableService) {
     }
 
     $scope.showHistoryModal = function(id) {
-        var history = getHistory(id);
+        var history = tableService.getHistory($scope.rowData, id);
         var historyModalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -197,7 +176,9 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, tableService) {
     };
 
     function timedRefresh(timeoutPeriod) {
-        setTimeout("location.reload(true);",timeoutPeriod);
+        $timeout(function() {
+            $window.location.reload(true);
+        }, timeoutPeriod);
     }
 
     $scope.any = true;
