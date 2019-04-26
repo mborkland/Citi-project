@@ -1,7 +1,8 @@
 ﻿'use strict';
 
-var app = angular.module('app', ['ui.router', 'ngAnimate', 'ngTouch', 'ngCookies', 'ui.grid', 'ui.grid.resizeColumns',
-    'ui.grid.pagination', 'ui.grid.selection', 'ui.grid.exporter', 'ui.bootstrap', 'ui.grid.cellNav', 'ngPatternRestrict', 'ngMessages']);
+var app = angular.module('app', ['ui.router', 'ngAnimate', 'ngTouch', 'ngCookies', 'ui.grid',
+    'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.selection', 'ui.grid.exporter', 'ui.bootstrap', 'ui.grid.cellNav',
+    'ngPatternRestrict', 'ngMessages']);
 
 app.config(['$stateProvider', '$urlRouterProvider',
 function ($stateProvider, $urlRouterProvider) {
