@@ -35,7 +35,9 @@ public class TransactionRecordService implements RecordService {
 
     private static final String searchDelimiter = ",";
 
-    private static final int numberOfFields = 40;
+    private static final int numberOfFields = 42;
+
+    private static final double duplicateRecordPercentage = 50.0;
 
     private static final String[] searchableFields = {
             "businessId", "productId", "csiId", "uniqueProductId", "txScreeningBusinessUnitName",
@@ -341,7 +343,7 @@ public class TransactionRecordService implements RecordService {
                 count++;
             }
 
-            if (count >= numberOfFields / 2) {
+            if (count >= (int) ((duplicateRecordPercentage / 100) * numberOfFields)) {
                 duplicateRecords.add(record);
             }
         }

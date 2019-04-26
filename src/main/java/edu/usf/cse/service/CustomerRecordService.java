@@ -37,7 +37,7 @@ public class CustomerRecordService implements RecordService {
     
     private static final int numberOfFields = 28;
 
-    private static final int duplicatedRecordPercentage = 50;
+    private static final double duplicateRecordPercentage = 50.0;
 
     private static final String[] searchableFields = {
             "csiId", "csInstance", "businessId", "bizUnitId", "productId", "bizProdId",
@@ -306,7 +306,7 @@ public class CustomerRecordService implements RecordService {
                 count++;
             }
 
-            if (count >= numberOfFields / 2) {
+            if (count >= (int) ((duplicateRecordPercentage / 100) * numberOfFields)) {
                 duplicateRecords.add(record);
             }
         }
