@@ -133,14 +133,14 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
         }, timeoutPeriod);
     }
 
-    $scope.any = true;
+    $scope.or = true;
     $scope.exactMatch = false;
 
     $scope.search = function () {
         var url = '/read?recordType=';
         if ($scope.searchTerms) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch
-                + '&any=' + $scope.any).then(function (response) {
+                + '&or=' + $scope.or).then(function (response) {
                 handleResponse(response, false);
             }, function (error) {
                 console.log(error);

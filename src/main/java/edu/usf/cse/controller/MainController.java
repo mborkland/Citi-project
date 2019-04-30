@@ -57,8 +57,8 @@ public class MainController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/read")
     public ResponseEntity<List<Record>> read(@RequestParam RecordType recordType, @RequestParam String searchTerms,
-                                             @RequestParam boolean any, @RequestParam boolean exactMatch) {
-        return new ResponseEntity<List<Record>>(getRecordService(recordType).getRecords(searchTerms, any, exactMatch), HttpStatus.OK);
+                                             @RequestParam boolean or, @RequestParam boolean exactMatch) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getRecords(searchTerms, or, exactMatch), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
@@ -70,8 +70,8 @@ public class MainController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/read-archive")
     public ResponseEntity<List<Record>> readArchive(@RequestParam RecordType recordType, @RequestParam String searchTerms,
-                                                    @RequestParam boolean any, @RequestParam boolean exactMatch) {
-        return new ResponseEntity<List<Record>>(getRecordService(recordType).getArchivedRecords(searchTerms, any, exactMatch), HttpStatus.OK);
+                                                    @RequestParam boolean or, @RequestParam boolean exactMatch) {
+        return new ResponseEntity<List<Record>>(getRecordService(recordType).getArchivedRecords(searchTerms, or, exactMatch), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

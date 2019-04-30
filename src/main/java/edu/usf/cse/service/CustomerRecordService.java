@@ -72,12 +72,12 @@ public class CustomerRecordService implements RecordService {
     }
     
     @Override
-    public List<Record> getRecords(String searchTerms, boolean any, boolean exactMatch) {
+    public List<Record> getRecords(String searchTerms, boolean or, boolean exactMatch) {
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<CustomerRecord> criteriaQuery = builder.createQuery(CustomerRecord.class);
         Root<CustomerRecord> root = criteriaQuery.from(CustomerRecord.class);
-        criteriaQuery.where(getFinalPredicate(searchTermsSplit, any, exactMatch, builder, root));
+        criteriaQuery.where(getFinalPredicate(searchTermsSplit, or, exactMatch, builder, root));
         Query query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }
@@ -92,9 +92,9 @@ public class CustomerRecordService implements RecordService {
         }
     }
 
-    private Predicate getFinalPredicate(String[] searchTermsSplit, boolean any, boolean exactMatch, CriteriaBuilder builder,
+    private Predicate getFinalPredicate(String[] searchTermsSplit, boolean or, boolean exactMatch, CriteriaBuilder builder,
                                      Root<? extends Record> root) {
-        if (any) {
+        if (or) {
             List<Predicate> predicates = new ArrayList<>();
             for (String searchTerm : searchTermsSplit) {
                 for (String searchableField : searchableFields) {
@@ -123,12 +123,12 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public List<Record> getArchivedRecords(String searchTerms, boolean any, boolean exactMatch) {
+    public List<Record> getArchivedRecords(String searchTerms, boolean or, boolean exactMatch) {
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<DeletedCustomerRecord> criteriaQuery = builder.createQuery(DeletedCustomerRecord.class);
         Root<DeletedCustomerRecord> root = criteriaQuery.from(DeletedCustomerRecord.class);
-        criteriaQuery.where(getFinalPredicate(searchTermsSplit, any, exactMatch, builder, root));
+        criteriaQuery.where(getFinalPredicate(searchTermsSplit, or, exactMatch, builder, root));
         Query query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }

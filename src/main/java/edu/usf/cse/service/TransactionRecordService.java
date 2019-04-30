@@ -71,12 +71,12 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public List<Record> getRecords(String searchTerms, boolean any, boolean exactMatch) {
+    public List<Record> getRecords(String searchTerms, boolean or, boolean exactMatch) {
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<TransactionRecord> criteriaQuery = builder.createQuery(TransactionRecord.class);
         Root<TransactionRecord> root = criteriaQuery.from(TransactionRecord.class);
-        Query query = entityManager.createQuery(buildQuery(searchTermsSplit, any, exactMatch, builder, criteriaQuery, root));
+        Query query = entityManager.createQuery(buildQuery(searchTermsSplit, or, exactMatch, builder, criteriaQuery, root));
         return query.getResultList();
     }
 
@@ -90,9 +90,9 @@ public class TransactionRecordService implements RecordService {
         }
     }
 
-    private CriteriaQuery<? extends Record> buildQuery(String[] searchTermsSplit, boolean any, boolean exactMatch, CriteriaBuilder builder,
+    private CriteriaQuery<? extends Record> buildQuery(String[] searchTermsSplit, boolean or, boolean exactMatch, CriteriaBuilder builder,
                                                        CriteriaQuery<? extends Record> criteriaQuery, Root<? extends Record> root) {
-        if (any) {
+        if (or) {
             List<Predicate> predicates = new ArrayList<>();
             for (String searchTerm : searchTermsSplit) {
                 for (String searchableField : searchableFields) {
@@ -149,12 +149,12 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public List<Record> getArchivedRecords(String searchTerms, boolean any, boolean exactMatch) {
+    public List<Record> getArchivedRecords(String searchTerms, boolean or, boolean exactMatch) {
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<DeletedTransactionRecord> criteriaQuery = builder.createQuery(DeletedTransactionRecord.class);
         Root<DeletedTransactionRecord> root = criteriaQuery.from(DeletedTransactionRecord.class);
-        Query query = entityManager.createQuery(buildQuery(searchTermsSplit, any, exactMatch, builder, criteriaQuery, root));
+        Query query = entityManager.createQuery(buildQuery(searchTermsSplit, or, exactMatch, builder, criteriaQuery, root));
         return query.getResultList();
     }
 

@@ -181,14 +181,14 @@ function ($rootScope, $scope, $http, $timeout, uiGridConstants, $uibModal, table
         }, timeoutPeriod);
     }
 
-    $scope.any = true;
+    $scope.or = true;
     $scope.exactMatch = false;
 
     $scope.search = function () {
         var url = '/read-archive?recordType=';
         if ($scope.searchTerms) {
             $http.get(url + $scope.recordType + '&searchTerms=' + $scope.searchTerms + '&exactMatch=' + $scope.exactMatch
-                + '&any=' + $scope.any).then(function (response) {
+                + '&or=' + $scope.or).then(function (response) {
                 handleResponse(response);
             }, function (error) {
                 console.log(error);
