@@ -6,4 +6,8 @@ public interface BuDetails {
 
     void setCsiId(String csiId);
 
+    String getHistory();
+
+    void setHistory(String history);
+
 }

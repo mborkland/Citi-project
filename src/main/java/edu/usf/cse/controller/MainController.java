@@ -76,13 +76,13 @@ public class MainController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update-customer", method = RequestMethod.PATCH)
     public ResponseEntity<String> updateCustomerRecord(@RequestBody List<UpdatedCustomerRecord> records) {
-        return new ResponseEntity<String>("{\"result\":\"" + customerRecordService.updateRecord(records) + "\"}", HttpStatus.OK);
+        return new ResponseEntity<String>("{\"result\":\"" + customerRecordService.updateRecords(records) + "\"}", HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/update-transaction", method = RequestMethod.PATCH)
     public ResponseEntity<String> updateTransactionRecord(@RequestBody List<UpdatedTransactionRecord> records) {
-        return new ResponseEntity<String>("{\"result\":\"" + transactionRecordService.updateRecord(records) + "\"}", HttpStatus.OK);
+        return new ResponseEntity<String>("{\"result\":\"" + transactionRecordService.updateRecords(records) + "\"}", HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

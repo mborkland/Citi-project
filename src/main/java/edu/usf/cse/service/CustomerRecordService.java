@@ -22,23 +22,15 @@ import javax.persistence.Query;
 import javax.persistence.criteria.*;
 
 @Component
-public class CustomerRecordService implements RecordService {
+public class CustomerRecordService extends RecordService {
 
     private CustomerRecordRepository customerRecordRepository;
 
     private DeletedCustomerRecordRepository deletedCustomerRecordRepository;
 
     private EntityManager entityManager;
-
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    private static final char historyDelimiter = '#';
-
-    private static final String searchDelimiter = ",";
     
     private static final int numberOfFields = 28;
-
-    private static final double duplicateRecordPercentage = 50.0;
 
     private static final String[] searchableFields = {
             "csiId", "csInstance", "businessId", "bizUnitId", "productId", "bizProdId",
@@ -73,49 +65,7 @@ public class CustomerRecordService implements RecordService {
     
     @Override
     public List<Record> getRecords(String searchTerms, boolean or, boolean exactMatch) {
-        String[] searchTermsSplit = searchTerms.split(searchDelimiter);
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<CustomerRecord> criteriaQuery = builder.createQuery(CustomerRecord.class);
-        Root<CustomerRecord> root = criteriaQuery.from(CustomerRecord.class);
-        criteriaQuery.where(getFinalPredicate(searchTermsSplit, or, exactMatch, builder, root));
-        Query query = entityManager.createQuery(criteriaQuery);
-        return query.getResultList();
-    }
-
-    private Predicate getMatchTypePredicate(boolean exactMatch, String searchableField, String searchTerm,
-                                            CriteriaBuilder builder, Root<? extends Record> root) {
-        if (exactMatch) {
-            return builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim());
-        } else {
-            Expression<Integer> index = builder.locate(root.get("buDetails").get(searchableField), searchTerm.trim());
-            return builder.notEqual(index, 0);
-        }
-    }
-
-    private Predicate getFinalPredicate(String[] searchTermsSplit, boolean or, boolean exactMatch, CriteriaBuilder builder,
-                                     Root<? extends Record> root) {
-        if (or) {
-            List<Predicate> predicates = new ArrayList<>();
-            for (String searchTerm : searchTermsSplit) {
-                for (String searchableField : searchableFields) {
-                    predicates.add(getMatchTypePredicate(exactMatch, searchableField, searchTerm, builder, root));
-                }
-            }
-
-            return builder.or(predicates.toArray(new Predicate[0]));
-        } else {
-            List<Predicate> outerPredicates = new ArrayList<>();
-            for (String searchTerm : searchTermsSplit) {
-                List<Predicate> innerPredicates = new ArrayList<>();
-                for (String searchableField : searchableFields) {
-                    innerPredicates.add(getMatchTypePredicate(exactMatch, searchableField, searchTerm, builder, root));
-                }
-
-                outerPredicates.add(builder.or(innerPredicates.toArray(new Predicate[0])));
-            }
-
-            return outerPredicates.size() == 1 ? outerPredicates.get(0) : builder.and(outerPredicates.toArray(new Predicate[0]));
-        }
+        return getRecordsImpl(RecordType.CUSTOMER, false, entityManager, searchTerms, searchableFields, or, exactMatch);
     }
 
     public List<Record> getRecentRecords(int numRecentRecords)  {
@@ -124,36 +74,13 @@ public class CustomerRecordService implements RecordService {
 
     @Override
     public List<Record> getArchivedRecords(String searchTerms, boolean or, boolean exactMatch) {
-        String[] searchTermsSplit = searchTerms.split(searchDelimiter);
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<DeletedCustomerRecord> criteriaQuery = builder.createQuery(DeletedCustomerRecord.class);
-        Root<DeletedCustomerRecord> root = criteriaQuery.from(DeletedCustomerRecord.class);
-        criteriaQuery.where(getFinalPredicate(searchTermsSplit, or, exactMatch, builder, root));
-        Query query = entityManager.createQuery(criteriaQuery);
-        return query.getResultList();
+        return getRecordsImpl(RecordType.CUSTOMER, true, entityManager, searchTerms, searchableFields, or, exactMatch);
     }
 
     @Override
     @Transactional
-    public String updateRecord(List<? extends UpdatedRecord> records) {
-        for (UpdatedRecord record : records) {
-            CustomerRecord customerRecord = (CustomerRecord) record.getRecord();
-            String soeid = record.getSoeid();
-            String reason = record.getReason();
-            StringBuilder history = new StringBuilder(((CxBuDetails) customerRecord.getBuDetails()).getHistory());
-            LocalDateTime now = LocalDateTime.now();
-            history.append(historyDelimiter).append("Updated on ")
-                    .append(now.format(formatter)).append(" by ").append(soeid).append(". ");
-            for (UpdatedField updatedField : record.getUpdatedFields()) {
-                history.append(updatedField.getField()).append(" - ").append("New value: ").append(updatedField.getNewValue())
-                        .append(", Old value: ").append(updatedField.getOldValue()).append("; ");
-            }
-
-            history.append("Reason: ").append(reason);
-            ((CxBuDetails) customerRecord.getBuDetails()).setHistory(history.toString());
-            customerRecordRepository.save(customerRecord);
-        }
-
+    public String updateRecords(List<? extends UpdatedRecord> updatedRecords) {
+        updateRecordsImpl(updatedRecords, customerRecordRepository);
         return "Customer record(s) updated successfully";
     }
 

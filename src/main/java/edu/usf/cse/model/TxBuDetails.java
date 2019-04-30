@@ -451,10 +451,12 @@ public class TxBuDetails implements BuDetails {
         this.workflowOperationsWorkSchedule = workflowOperationsWorkSchedule;
     }
 
+    @Override
     public String getHistory() {
         return history;
     }
 
+    @Override
     public void setHistory(String history) {
         this.history = history;
     }

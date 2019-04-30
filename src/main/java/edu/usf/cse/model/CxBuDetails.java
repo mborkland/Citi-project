@@ -319,10 +319,12 @@ public class CxBuDetails implements BuDetails {
         this.timezone = timezone;
     }
 
+    @Override
     public String getHistory() {
         return history;
     }
 
+    @Override
     public void setHistory(String history) {
         this.history = history;
     }

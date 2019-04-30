@@ -22,7 +22,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.*;
 
 @Component
-public class TransactionRecordService implements RecordService {
+public class TransactionRecordService extends RecordService {
 
     private TransactionRecordRepository transactionRecordRepository;
 
@@ -30,15 +30,7 @@ public class TransactionRecordService implements RecordService {
     
     private EntityManager entityManager;
 
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-	private static final char historyDelimiter = '#';
-
-    private static final String searchDelimiter = ",";
-
     private static final int numberOfFields = 42;
-
-    private static final double duplicateRecordPercentage = 50.0;
 
     private static final String[] searchableFields = {
             "businessId", "productId", "csiId", "uniqueProductId", "txScreeningBusinessUnitName",
@@ -72,52 +64,7 @@ public class TransactionRecordService implements RecordService {
 
     @Override
     public List<Record> getRecords(String searchTerms, boolean or, boolean exactMatch) {
-        String[] searchTermsSplit = searchTerms.split(searchDelimiter);
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<TransactionRecord> criteriaQuery = builder.createQuery(TransactionRecord.class);
-        Root<TransactionRecord> root = criteriaQuery.from(TransactionRecord.class);
-        Query query = entityManager.createQuery(buildQuery(searchTermsSplit, or, exactMatch, builder, criteriaQuery, root));
-        return query.getResultList();
-    }
-
-    private Predicate getMatchTypePredicate(boolean exactMatch, String searchableField, String searchTerm,
-                                            CriteriaBuilder builder, Root<? extends Record> root) {
-        if (exactMatch) {
-            return builder.equal(root.get("buDetails").get(searchableField), searchTerm.trim());
-        } else {
-            Expression<Integer> index = builder.locate(root.get("buDetails").get(searchableField), searchTerm.trim());
-            return builder.notEqual(index, 0);
-        }
-    }
-
-    private CriteriaQuery<? extends Record> buildQuery(String[] searchTermsSplit, boolean or, boolean exactMatch, CriteriaBuilder builder,
-                                                       CriteriaQuery<? extends Record> criteriaQuery, Root<? extends Record> root) {
-        if (or) {
-            List<Predicate> predicates = new ArrayList<>();
-            for (String searchTerm : searchTermsSplit) {
-                for (String searchableField : searchableFields) {
-                    predicates.add(getMatchTypePredicate(exactMatch, searchableField, searchTerm, builder, root));
-                }
-            }
-
-            criteriaQuery.where(builder.or(predicates.toArray(new Predicate[predicates.size()])));
-        } else {
-            List<Predicate> outerPredicates = new ArrayList<>();
-            for (String searchTerm : searchTermsSplit) {
-                List<Predicate> innerPredicates = new ArrayList<>();
-                for (String searchableField : searchableFields) {
-                    innerPredicates.add(getMatchTypePredicate(exactMatch, searchableField, searchTerm, builder, root));
-                }
-
-                outerPredicates.add(builder.or(innerPredicates.toArray(new Predicate[innerPredicates.size()])));
-            }
-
-            Predicate finalPredicate = outerPredicates.size() == 1 ? outerPredicates.get(0) :
-                    builder.and(outerPredicates.toArray(new Predicate[outerPredicates.size()]));
-            criteriaQuery.where(finalPredicate);
-        }
-
-        return criteriaQuery;
+        return getRecordsImpl(RecordType.TRANSACTION, false, entityManager, searchTerms, searchableFields, or, exactMatch);
     }
 
     public List<Record> getRecentRecords(int numRecentRecords)  {
@@ -126,36 +73,14 @@ public class TransactionRecordService implements RecordService {
 
     @Override
     @Transactional
-    public String updateRecord(List<? extends UpdatedRecord> records) {
-        for (UpdatedRecord record : records) {
-            TransactionRecord transactionRecord = (TransactionRecord) record.getRecord();
-            String soeid = record.getSoeid();
-            String reason = record.getReason();
-            StringBuilder history = new StringBuilder(((TxBuDetails) transactionRecord.getBuDetails()).getHistory());
-            LocalDateTime now = LocalDateTime.now();
-            history.append(historyDelimiter).append("Updated on ")
-                    .append(now.format(formatter)).append(" by ").append(soeid).append(". ");
-            for (UpdatedField updatedField : record.getUpdatedFields()) {
-                history.append(updatedField.getField()).append(" - ").append("New value: ").append(updatedField.getNewValue())
-                        .append(", Old value: ").append(updatedField.getOldValue()).append("; ");
-            }
-
-            history.append("Reason: ").append(reason);
-            ((TxBuDetails) transactionRecord.getBuDetails()).setHistory(history.toString());
-            transactionRecordRepository.save(transactionRecord);
-        }
-
-        return "Customer record(s) updated successfully";
+    public String updateRecords(List<? extends UpdatedRecord> updatedRecords) {
+        updateRecordsImpl(updatedRecords, transactionRecordRepository);
+        return "Transaction record(s) updated successfully";
     }
 
     @Override
     public List<Record> getArchivedRecords(String searchTerms, boolean or, boolean exactMatch) {
-        String[] searchTermsSplit = searchTerms.split(searchDelimiter);
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<DeletedTransactionRecord> criteriaQuery = builder.createQuery(DeletedTransactionRecord.class);
-        Root<DeletedTransactionRecord> root = criteriaQuery.from(DeletedTransactionRecord.class);
-        Query query = entityManager.createQuery(buildQuery(searchTermsSplit, or, exactMatch, builder, criteriaQuery, root));
-        return query.getResultList();
+        return getRecordsImpl(RecordType.TRANSACTION, true, entityManager, searchTerms, searchableFields, or, exactMatch);
     }
 
     @Override
