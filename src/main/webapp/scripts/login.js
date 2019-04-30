@@ -4,7 +4,13 @@ function($scope, $http, $state, $cookies) {
         $state.go('read');
     }
 
+    if ($cookies.get('username')) {
+        $scope.username = $cookies.get('username');
+        $scope.rememberMe = true;
+    }
+
     $scope.login = function() {
+        $scope.rememberMe ? saveUsername($scope.username) : clearUsername();
         var url = '/user/login?username=' + $scope.username + '&password=' + $scope.password;
         $http.post(url).then(function (response) {
             if (response.data.token) {
@@ -13,19 +19,34 @@ function($scope, $http, $state, $cookies) {
                 $cookies.put('token', token);
                 $cookies.put('isUser', 'true');
                 return $http.get('/user/current');
-            } else {
-                alert('Username or password is incorrect');
             }
+        }, function (error) {
+            console.log(error);
+            alert('Username and/or password is incorrect');
         }).then(function (response) {
-            var user = response.data;
-            $cookies.put('currentUser', JSON.stringify(user));
-            angular.forEach(user.roles, function (value, key) {
-                if (value === 'ROLE_ADMIN') {
-                    $cookies.put('isAdmin', 'true');
-                }
-            });
+            if (response) {
+                var user = response.data;
+                $cookies.put('currentUser', JSON.stringify(user));
+                angular.forEach(user.roles, function (value, key) {
+                    if (value === 'ROLE_ADMIN') {
+                        $cookies.put('isAdmin', 'true');
+                    }
+                });
 
-            $state.go('read');
+                $state.go('read');
+            }
+        }, function (error) {
+            console.log(error);
         });
+    };
+
+    function saveUsername(username) {
+        $cookies.put('username', username);
+        $scope.rememberMe = true;
+    }
+
+    function clearUsername() {
+        $cookies.remove('username');
+        $scope.rememberMe = false;
     }
 }]);
