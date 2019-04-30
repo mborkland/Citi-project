@@ -160,8 +160,13 @@ public class TransactionRecordService implements RecordService {
 
     @Override
     public String deleteRecords(List<Integer> ids, String soeid, String reason) {
-        transactionRecordRepository.delete(id);
-        return "Transaction record deleted successfully";
+        for (Integer id : ids) {
+            Record record = getRecordById(id);
+            saveDeletedRecord(record.getBuDetails(), record.getCreationDate(), soeid, reason);
+            transactionRecordRepository.delete(id);
+        }
+
+        return "Transaction record(s) deleted and archived successfully";
     }
 
     @Override

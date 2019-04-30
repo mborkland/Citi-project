@@ -165,7 +165,7 @@ public class CustomerRecordService implements RecordService {
             customerRecordRepository.delete(id);
         }
 
-        return "Customer record deleted successfully";
+        return "Customer record(s) deleted and archived successfully";
     }
 
     @Override
