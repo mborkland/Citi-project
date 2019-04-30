@@ -52,4 +52,5 @@ public class CustomerRecord implements Record {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
 }

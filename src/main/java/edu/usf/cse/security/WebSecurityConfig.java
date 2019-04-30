@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/views/**").hasAnyRole("ADMIN", "USER")
+                /*.antMatchers("/views/**").hasAnyRole("ADMIN", "USER")*/
                 .anyRequest().fullyAuthenticated();
 
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));

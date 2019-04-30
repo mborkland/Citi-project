@@ -30,7 +30,7 @@ public interface RecordService {
 
     String clearDeletedRecords(List<Integer> ids);
 
-    String restoreDeletedRecord(Integer id, String soeid);
+    String restoreDeletedRecords(List<Integer> ids, String soeid);
 
     List<Record> findDuplicateRecords(BuDetails detailsToMatch);
 }

@@ -1,6 +1,7 @@
 package edu.usf.cse.model;
 
 public enum RecordType {
+
     CUSTOMER("CUSTOMER"),
     TRANSACTION("TRANSACTION");
 
@@ -17,4 +18,5 @@ public enum RecordType {
             return TRANSACTION;
         }
     }
+
 }

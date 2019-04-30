@@ -200,24 +200,27 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String restoreDeletedRecord(Integer id, String soeid)
+    public String restoreDeletedRecords(List<Integer> ids, String soeid)
     {
-        DeletedCustomerRecord deletedCustomerRecord = deletedCustomerRecordRepository.findOne(id);
-        String deletionDetails = deletedCustomerRecord.getDeletionDetails();
-        CxBuDetails cxBuDetails = (CxBuDetails) deletedCustomerRecord.getBuDetails();
-        Date creationDate = deletedCustomerRecord.getCreationDate();
+        for (Integer id : ids) {
+            DeletedCustomerRecord deletedCustomerRecord = deletedCustomerRecordRepository.findOne(id);
+            String deletionDetails = deletedCustomerRecord.getDeletionDetails();
+            CxBuDetails cxBuDetails = (CxBuDetails) deletedCustomerRecord.getBuDetails();
+            Date creationDate = deletedCustomerRecord.getCreationDate();
 
-        CustomerRecord customerRecord = new CustomerRecord();
-        StringBuilder history = new StringBuilder(cxBuDetails.getHistory());
-        LocalDateTime now = LocalDateTime.now();
-        history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter).append("Record restored on ")
-                .append(now.format(formatter)).append(" by ").append(soeid);
-        cxBuDetails.setHistory(history.toString());
-        customerRecord.setBuDetails(cxBuDetails);
-        customerRecord.setCreationDate(creationDate);
-        customerRecordRepository.save(customerRecord);
-        deletedCustomerRecordRepository.delete(id);
-        return "Deleted record restored successfully";
+            CustomerRecord customerRecord = new CustomerRecord();
+            StringBuilder history = new StringBuilder(cxBuDetails.getHistory());
+            LocalDateTime now = LocalDateTime.now();
+            history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter).append("Record restored on ")
+                    .append(now.format(formatter)).append(" by ").append(soeid);
+            cxBuDetails.setHistory(history.toString());
+            customerRecord.setBuDetails(cxBuDetails);
+            customerRecord.setCreationDate(creationDate);
+            customerRecordRepository.save(customerRecord);
+            deletedCustomerRecordRepository.delete(id);
+        }
+
+        return "Deleted record(s) restored successfully";
     }
 
     @Override

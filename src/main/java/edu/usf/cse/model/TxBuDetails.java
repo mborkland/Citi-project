@@ -458,4 +458,5 @@ public class TxBuDetails implements BuDetails {
     public void setHistory(String history) {
         this.history = history;
     }
+
 }

@@ -326,4 +326,5 @@ public class CxBuDetails implements BuDetails {
     public void setHistory(String history) {
         this.history = history;
     }
+
 }

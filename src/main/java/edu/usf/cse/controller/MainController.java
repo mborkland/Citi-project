@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -107,12 +106,7 @@ public class MainController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/restore", method = RequestMethod.PATCH)
     public ResponseEntity<String> restore(@RequestParam RecordType recordType, @RequestParam List<Integer> ids, @RequestParam String soeid) {
-        RecordService recordService = getRecordService(recordType);
-        for (Integer id : ids) {
-            recordService.restoreDeletedRecord(id, soeid);
-        }
-
-        return new ResponseEntity<String>("{\"result\":\"Record(s) restored successfully.\"}", HttpStatus.OK);
+        return new ResponseEntity<String>("{\"result\":\"" + getRecordService(recordType).restoreDeletedRecords(ids, soeid) + "\"}", HttpStatus.OK);
     }
 
     private RecordService getRecordService(RecordType recordType) {
