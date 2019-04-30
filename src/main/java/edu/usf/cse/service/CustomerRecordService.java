@@ -158,8 +158,13 @@ public class CustomerRecordService implements RecordService {
     }
 
     @Override
-    public String deleteRecord(Integer id) {
-        customerRecordRepository.delete(id);
+    public String deleteRecords(List<Integer> ids, String soeid, String reason) {
+        for (Integer id : ids) {
+            Record record = getRecordById(id);
+            saveDeletedRecord(record.getBuDetails(), record.getCreationDate(), soeid, reason);
+            customerRecordRepository.delete(id);
+        }
+
         return "Customer record deleted successfully";
     }
 

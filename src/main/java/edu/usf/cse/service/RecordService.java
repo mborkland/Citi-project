@@ -22,7 +22,7 @@ public interface RecordService {
 
     List<Record> getArchivedRecords(String searchTerms, boolean or, boolean exactMatch);
 
-    String deleteRecord(Integer id);
+    String deleteRecords(List<Integer> ids, String soeid, String reason);
 
     List<Record> getArchive();
 

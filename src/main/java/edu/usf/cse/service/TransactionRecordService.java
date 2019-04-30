@@ -159,7 +159,7 @@ public class TransactionRecordService implements RecordService {
     }
 
     @Override
-    public String deleteRecord(Integer id) {
+    public String deleteRecords(List<Integer> ids, String soeid, String reason) {
         transactionRecordRepository.delete(id);
         return "Transaction record deleted successfully";
     }
