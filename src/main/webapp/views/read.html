@@ -2,7 +2,7 @@
 
 <div class="container grid-box">
     <div class="row px-3 py-2" style="">
-        <div class="m-2 p-1" style="width: auto;">
+        <div class="m-2 p-1" style="width: auto; display: flex; align-items: center;">
             <select class="bootstrap-select form-control form-control-sm" name="recordType" ng-model="recordType">
                 <option value="CUSTOMER">Customer Screening</option>
                 <option value="TRANSACTION">Transaction Screening</option>
@@ -11,10 +11,10 @@
         <div style="width: auto;">
             <form name="form" class="form-signin" ng-submit="search()" roles="form">
                 <div class="row">
-                    <div class="my-2 ml-2 p-1" style="width: auto;">
+                    <div class="my-2 ml-2 p-1" style="width: auto; display: flex; align-items: center;">
                         <input class="form-control" type="text" name="searchTerms" ng-model="searchTerms" placeholder="Enter search terms">
                     </div>
-                    <div class="my-2 mr-4 p-1 pr-5" style="width: auto;">
+                    <div class="my-2 mr-4 p-1 pr-5" style="width: auto; display: flex; align-items: center;">
                         <button type="submit" style="border-radius: 10px;">Search</button>
                     </div>
                     <div class="my-2 p-1 pr-5 form-check">
@@ -27,7 +27,7 @@
                             AND
                         </label>
                     </div>
-                    <div class="my-2 p-1 pr-5 form-group">
+                    <div class="my-2 p-1 pr-5 form-group" style="display: flex; align-items: center;">
                         <span class="switch switch-sm">
                             <input type="checkbox" class="switch" id="switch-sm" ng-model="exactMatch">
                             <label for="switch-sm">Exact Match</label>
