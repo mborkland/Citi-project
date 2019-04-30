@@ -1,5 +1,5 @@
-app.controller('ArchiveController', ['$rootScope', '$scope', '$http', '$timeout', 'uiGridConstants', '$uibModal', 'tableService',
-function ($rootScope, $scope, $http, $timeout, uiGridConstants, $uibModal, tableService) {
+app.controller('ArchiveController', ['$rootScope', '$scope', '$http', '$timeout', 'uiGridConstants', '$uibModal', 'tableService', '$window',
+function ($rootScope, $scope, $http, $timeout, uiGridConstants, $uibModal, tableService, $window) {
     $scope.isUser = $rootScope.isUser;
     $scope.isAdmin = $rootScope.isAdmin;
     $scope.recordType = 'CUSTOMER';
