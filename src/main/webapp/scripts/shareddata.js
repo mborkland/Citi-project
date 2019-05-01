@@ -41,7 +41,7 @@ app.factory('tableService', function($window, $timeout) {
         {field: 'businessEscalationPointOfContact', displayName: 'Business Escalation Point of Contact', width: service.lgWidth, enableHiding: false},
         {field: 'timezone', displayName: 'Timezone', width: service.smWidth, enableHiding: false},
         {field: 'history', displayName: 'History', width: service.smWidth, enableHiding: false, cellTemplate: historyCellTemplate},
-        {field: 'creationDate', visible: false}
+        {field: 'creationDate', visible: false, exporterSuppressExport: true}
     ];
 
     service.txColumnDefs = [
@@ -87,7 +87,7 @@ app.factory('tableService', function($window, $timeout) {
         {field: 'anyBatchComponent', displayName: 'Any Batch Component?', width: service.mdWidth, enableHiding: false},
         {field: 'workflowOperationsWorkSchedule', displayName: 'Workflow Operations Work Schedule', width: service.lgWidth, enableHiding: false},
         {field: 'history', displayName: 'History', width: service.smWidth, enableHiding: false, cellTemplate: historyCellTemplate},
-        {field: 'creationDate', visible: false}
+        {field: 'creationDate', visible: false, exporterSuppressExport: true}
     ];
 
     service.convertBooleanToChar = function (boolean) {
