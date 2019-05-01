@@ -1,7 +1,6 @@
 package edu.usf.cse.service;
 
 import edu.usf.cse.dto.CreatedRecord;
-import edu.usf.cse.dto.UpdatedField;
 import edu.usf.cse.dto.UpdatedRecord;
 import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.DeletedTransactionRecordRepository;
@@ -10,16 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.criteria.*;
 
 @Component
 public class TransactionRecordService extends RecordService {
@@ -46,14 +39,8 @@ public class TransactionRecordService extends RecordService {
     }
 
     @Override
-    public String createRecord(CreatedRecord record) {
-        TxBuDetails txBuDetails = (TxBuDetails) record.getBuDetails();
-        LocalDateTime now = LocalDateTime.now();
-        txBuDetails.setHistory("Record created on " + now.format(formatter) + " by " + record.getSoeid());
-        TransactionRecord transactionRecord = new TransactionRecord();
-        transactionRecord.setBuDetails(txBuDetails);
-        transactionRecord.setCreationDate(Timestamp.valueOf(now));
-        transactionRecordRepository.save(transactionRecord);
+    public String createRecord(CreatedRecord createdRecord) {
+        createRecordImpl(createdRecord, transactionRecordRepository);
         return "Transaction record created successfully";
     }
 
@@ -85,25 +72,13 @@ public class TransactionRecordService extends RecordService {
 
     @Override
     public String deleteRecords(List<Integer> ids, String soeid, String reason) {
-        deleteRecordsImpl(ids, soeid, reason, transactionRecordRepository);
+        deleteRecordsImpl(ids, soeid, reason, transactionRecordRepository, deletedTransactionRecordRepository);
         return "Transaction record(s) deleted and archived successfully";
     }
 
     @Override
     public List<Record> getArchive() {
         return getArchiveImpl(deletedTransactionRecordRepository);
-    }
-
-    @Override
-    public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String soeid, String reason) {
-        DeletedTransactionRecord deletedTransactionRecord = new DeletedTransactionRecord();
-        deletedTransactionRecord.setBuDetails((TxBuDetails) buDetails);
-        deletedTransactionRecord.setCreationDate(creationDate);
-        LocalDateTime now = LocalDateTime.now();
-        deletedTransactionRecord.setDeletionDetails("Record deleted on " + now.format(formatter) +
-                " by " + soeid + ". Reason: " + reason);
-        deletedTransactionRecordRepository.save(deletedTransactionRecord);
-        return "Deleted record saved successfully";
     }
 
     @Override

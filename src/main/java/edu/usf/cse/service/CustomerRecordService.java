@@ -1,7 +1,6 @@
 package edu.usf.cse.service;
 
 import edu.usf.cse.dto.CreatedRecord;
-import edu.usf.cse.dto.UpdatedField;
 import edu.usf.cse.dto.UpdatedRecord;
 import edu.usf.cse.model.*;
 import edu.usf.cse.persistence.CustomerRecordRepository;
@@ -10,16 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.criteria.*;
 
 @Component
 public class CustomerRecordService extends RecordService {
@@ -47,14 +40,8 @@ public class CustomerRecordService extends RecordService {
     }
 
     @Override
-    public String createRecord(CreatedRecord record) {
-        CxBuDetails cxBuDetails = (CxBuDetails) record.getBuDetails();
-        LocalDateTime now = LocalDateTime.now();
-        cxBuDetails.setHistory("Record created on " + now.format(formatter) + " by " + record.getSoeid());
-        CustomerRecord customerRecord = new CustomerRecord();
-        customerRecord.setBuDetails(cxBuDetails);
-        customerRecord.setCreationDate(Timestamp.valueOf(now));
-        customerRecordRepository.save(customerRecord);
+    public String createRecord(CreatedRecord createdRecord) {
+        createRecordImpl(createdRecord, customerRecordRepository);
         return "Customer record created successfully";
     }
 
@@ -86,25 +73,13 @@ public class CustomerRecordService extends RecordService {
 
     @Override
     public String deleteRecords(List<Integer> ids, String soeid, String reason) {
-        deleteRecordsImpl(ids, soeid, reason, customerRecordRepository);
+        deleteRecordsImpl(ids, soeid, reason, customerRecordRepository, deletedCustomerRecordRepository);
         return "Customer record(s) deleted and archived successfully";
     }
 
     @Override
     public List<Record> getArchive() {
         return getArchiveImpl(deletedCustomerRecordRepository);
-    }
-
-    @Override
-    public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String soeid, String reason) {
-        DeletedCustomerRecord deletedCustomerRecord = new DeletedCustomerRecord();
-        deletedCustomerRecord.setBuDetails((CxBuDetails) buDetails);
-        deletedCustomerRecord.setCreationDate(creationDate);
-        LocalDateTime now = LocalDateTime.now();
-        deletedCustomerRecord.setDeletionDetails("Record deleted on " + now.format(formatter) +
-                " by " + soeid + ". Reason: " + reason);
-        deletedCustomerRecordRepository.save(deletedCustomerRecord);
-        return "Deleted record saved successfully";
     }
 
     @Override

@@ -1,17 +1,20 @@
 package edu.usf.cse.service;
 
+import edu.usf.cse.dto.CreatedCustomerRecord;
 import edu.usf.cse.dto.CreatedRecord;
 import edu.usf.cse.dto.UpdatedField;
 import edu.usf.cse.model.*;
 import edu.usf.cse.dto.UpdatedRecord;
 import edu.usf.cse.persistence.CustomerRecordRepository;
 import edu.usf.cse.persistence.DeletedCustomerRecordRepository;
+import edu.usf.cse.persistence.DeletedTransactionRecordRepository;
 import edu.usf.cse.persistence.TransactionRecordRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,7 +31,29 @@ public abstract class RecordService {
 
     protected static final double duplicateRecordPercentage = 50.0;
 
-    abstract public String createRecord(CreatedRecord record);
+    abstract public String createRecord(CreatedRecord createdRecord);
+
+    public void createRecordImpl(CreatedRecord createdRecord, CrudRepository<? extends Record, Integer> repository) {
+        BuDetails buDetails = createdRecord.getBuDetails();
+        LocalDateTime now = LocalDateTime.now();
+        buDetails.setHistory("Record created on " + now.format(formatter) + " by " + createdRecord.getSoeid());
+        Record record;
+
+        if (createdRecord instanceof CreatedCustomerRecord) {
+            record = new CustomerRecord();
+            ((CustomerRecord) record).setBuDetails((CxBuDetails) buDetails);
+        } else {
+            record = new TransactionRecord();
+            ((TransactionRecord) record).setBuDetails((TxBuDetails) buDetails);
+        }
+        record.setCreationDate(Timestamp.valueOf(now));
+
+        if (record instanceof CustomerRecord) {
+            ((CustomerRecordRepository) repository).save((CustomerRecord) record);
+        } else {
+            ((TransactionRecordRepository) repository).save((TransactionRecord) record);
+        }
+    }
 
     abstract protected Record getRecordById(Integer id);
 
@@ -81,11 +106,39 @@ public abstract class RecordService {
 
     abstract public String deleteRecords(List<Integer> ids, String soeid, String reason);
 
-    protected void deleteRecordsImpl(List<Integer> ids, String soeid, String reason, CrudRepository<? extends Record, Integer> repository) {
+    protected void deleteRecordsImpl(List<Integer> ids, String soeid, String reason, CrudRepository<? extends Record, Integer> repository,
+                                     CrudRepository<? extends DeletedRecord, Integer> deletedRepository) {
         for (Integer id : ids) {
             Record record = getRecordById(id);
-            saveDeletedRecord(record.getBuDetails(), record.getCreationDate(), soeid, reason);
+            if (deletedRepository instanceof DeletedCustomerRecordRepository) {
+                saveDeletedRecord(new DeletedCustomerRecord(), record.getBuDetails(), record.getCreationDate(), soeid, reason,
+                        deletedRepository);
+            } else {
+                saveDeletedRecord(new DeletedTransactionRecord(), record.getBuDetails(), record.getCreationDate(), soeid, reason,
+                        deletedRepository);
+            }
+
             repository.delete(id);
+        }
+    }
+
+    protected void saveDeletedRecord(DeletedRecord deletedRecord, BuDetails buDetails, Date creationDate, String soeid, String reason,
+                                     CrudRepository<? extends DeletedRecord, Integer> deletedRepository) {
+        if (deletedRecord instanceof CustomerRecord) {
+            ((CustomerRecord) deletedRecord).setBuDetails((CxBuDetails) buDetails);
+        } else {
+            ((TransactionRecord) deletedRecord).setBuDetails((TxBuDetails) buDetails);
+        }
+
+        ((Record) deletedRecord).setCreationDate(creationDate);
+        LocalDateTime now = LocalDateTime.now();
+        deletedRecord.setDeletionDetails("Record deleted on " + now.format(formatter) +
+                " by " + soeid + ". Reason: " + reason);
+
+        if (deletedRecord instanceof CustomerRecord) {
+            ((DeletedCustomerRecordRepository) deletedRepository).save((DeletedCustomerRecord) deletedRecord);
+        } else {
+            ((DeletedTransactionRecordRepository) deletedRepository).save((DeletedTransactionRecord) deletedRecord);
         }
     }
 
@@ -98,8 +151,6 @@ public abstract class RecordService {
         }
         return records;
     }
-
-    abstract public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String soeid, String reason);
 
     abstract public String clearDeletedRecords(List<Integer> ids);
 
