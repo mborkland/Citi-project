@@ -163,7 +163,6 @@ function($window, $scope, uiGridConstants, $interval, $uibModal, tableService) {
         enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         enableColumnResizing: true,
         enableSorting: true,
-        enableFullRowSelection: true,
         selectionRowHeaderWidth: 35,
         rowHeight: 35,
         enablePaginationControls: false,
@@ -172,7 +171,6 @@ function($window, $scope, uiGridConstants, $interval, $uibModal, tableService) {
         rowEditWaitInterval: -1,
         onRegisterApi: function (gridApi) {
             $scope.grid2Api = gridApi;
-
             gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
                 trackColumnUpdate(rowEntity, colDef, newValue, oldValue);
             });
@@ -191,6 +189,8 @@ function($window, $scope, uiGridConstants, $interval, $uibModal, tableService) {
                 if (value.field === 'history') {
                     value.cellTemplate = historyCellTemplate;
                 }
+            } else {
+                value.enableCellEdit = true;
             }
         });
     }
