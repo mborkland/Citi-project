@@ -27,7 +27,6 @@ package edu.usf.cse.security;
 import edu.usf.cse.model.User;
 import edu.usf.cse.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

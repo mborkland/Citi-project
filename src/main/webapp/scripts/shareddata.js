@@ -1,5 +1,5 @@
 var app = angular.module('shared.data', []);
-app.factory('tableService', function() {
+app.factory('tableService', function($window, $timeout) {
     var service = {};
     service.booleanFields = ['gomCompliant', 'workflowFlag', 'anyBatchComponent'];
     var historyCellTemplate = '<div align="center"><a ng-click="grid.appScope.showHistoryModal(row.entity.id)"><img src="images/history-img.png" height="34" width="34"></a></div>';
@@ -206,6 +206,18 @@ app.factory('tableService', function() {
 
         return history ? history.split('#') : null;
     };
+
+    service.areRowsSelected = function(gridApi) {
+        return gridApi ? gridApi.grid.selection.selectedCount > 0 : false;
+    };
+
+    service.timedRefresh = function(timeoutPeriod) {
+        $timeout(function() {
+            $window.location.reload(true);
+        }, timeoutPeriod);
+    };
+
+
 
     return service;
 });

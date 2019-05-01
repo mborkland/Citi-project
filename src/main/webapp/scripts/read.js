@@ -53,19 +53,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     };
 
     $scope.areRowsSelected = function() {
-        if ($scope.recordType === 'CUSTOMER') {
-            if ($scope.grid1Api) {
-                return $scope.grid1Api.grid.selection.selectedCount > 0;
-            } else {
-                return false;
-            }
-        } else {
-            if ($scope.grid2Api) {
-                return $scope.grid2Api.grid.selection.selectedCount > 0;
-            } else {
-                return false;
-            }
-        }
+        return $scope.recordType === 'CUSTOMER' ? tableService.areRowsSelected($scope.grid1Api) : tableService.areRowsSelected($scope.grid2Api);
     };
 
     $scope.showHistoryModal = function(id) {
@@ -131,19 +119,13 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
 
         deleteConfirmationModalInstance.result.then(
             function () {
-                timedRefresh(3000);
+                tableService.timedRefresh(3000);
             },
             function () {
-                timedRefresh(3000);
+                tableService.timedRefresh(3000);
             }
         );
     };
-
-    function timedRefresh(timeoutPeriod) {
-        $timeout(function() {
-            $window.location.reload(true);
-        }, timeoutPeriod);
-    }
 
     $scope.or = true;
     $scope.exactMatch = false;
@@ -236,7 +218,7 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
             url: url,
             data: data
         }).then (function (response) {
-            timedRefresh(3000);
+            tableService.timedRefresh(3000);
         }, function (error) {
             console.log(error);
         });

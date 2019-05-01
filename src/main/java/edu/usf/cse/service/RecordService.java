@@ -62,8 +62,8 @@ public abstract class RecordService {
     protected List<Record> getRecordsImpl(RecordType recordType, boolean isArchive, EntityManager entityManager, String searchTerms,
                                        String[] searchableFields, boolean or, boolean exactMatch) {
         Class<? extends Record> recordClass =
-                isArchive ? recordType == RecordType.CUSTOMER ? CustomerRecord.class : TransactionRecord.class
-                          : recordType == RecordType.CUSTOMER ? DeletedCustomerRecord.class : DeletedTransactionRecord.class;
+                isArchive ? (recordType == RecordType.CUSTOMER ? DeletedCustomerRecord.class : DeletedTransactionRecord.class)
+                          : (recordType == RecordType.CUSTOMER ? CustomerRecord.class : TransactionRecord.class);
         String[] searchTermsSplit = searchTerms.split(searchDelimiter);
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<? extends Record> criteriaQuery = builder.createQuery(recordClass);

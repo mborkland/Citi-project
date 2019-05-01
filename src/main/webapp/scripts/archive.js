@@ -59,7 +59,7 @@ function ($rootScope, $scope, $http, $timeout, uiGridConstants, $uibModal, table
     };
 
     $scope.areRowsSelected = function() {
-        return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
+        return $scope.recordType === 'CUSTOMER' ? tableService.areRowsSelected($scope.grid1Api) : tableService.areRowsSelected($scope.grid2Api);
     };
 
     function getDeletionDetails(id) {
@@ -107,28 +107,6 @@ function ($rootScope, $scope, $http, $timeout, uiGridConstants, $uibModal, table
         });
     };
 
-    $scope.showDeleteModal = function() {
-        var selectedRowData = $scope.getSelectedRowData();
-        var deleteModalInstance = $uibModal.open({
-            animation: true,
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: 'views/modals/delete-confirmation.html',
-            controller: 'ModalController',
-            size: 'md',
-            resolve: {
-                modalData: {
-                    deleteData: selectedRowData,
-                    recordType: $scope.recordType
-                }
-            }
-        });
-
-        deleteModalInstance.result.then(function() {
-           timedRefresh(3000);
-        });
-    };
-
     $scope.showClearModal = function() {
         var selectedRowData = $scope.getSelectedRowData();
         var clearModalInstance = $uibModal.open({
@@ -147,7 +125,7 @@ function ($rootScope, $scope, $http, $timeout, uiGridConstants, $uibModal, table
         });
 
         clearModalInstance.result.then(function() {
-            timedRefresh(3000);
+            tableService.timedRefresh(3000);
         });
     };
 
@@ -169,15 +147,9 @@ function ($rootScope, $scope, $http, $timeout, uiGridConstants, $uibModal, table
         });
 
         restoreModalInstance.result.then(function() {
-            timedRefresh(3000);
+            tableService.timedRefresh(3000);
         });
     };
-
-    function timedRefresh(timeoutPeriod) {
-        $timeout(function() {
-            $window.location.reload(true);
-        }, timeoutPeriod);
-    }
 
     $scope.or = true;
     $scope.exactMatch = false;
