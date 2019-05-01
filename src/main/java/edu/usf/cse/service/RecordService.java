@@ -124,10 +124,10 @@ public abstract class RecordService {
 
     protected void saveDeletedRecord(DeletedRecord deletedRecord, BuDetails buDetails, Date creationDate, String soeid, String reason,
                                      CrudRepository<? extends DeletedRecord, Integer> deletedRepository) {
-        if (deletedRecord instanceof CustomerRecord) {
-            ((CustomerRecord) deletedRecord).setBuDetails((CxBuDetails) buDetails);
+        if (deletedRecord instanceof DeletedCustomerRecord) {
+            ((DeletedCustomerRecord) deletedRecord).setBuDetails((CxBuDetails) buDetails);
         } else {
-            ((TransactionRecord) deletedRecord).setBuDetails((TxBuDetails) buDetails);
+            ((DeletedTransactionRecord) deletedRecord).setBuDetails((TxBuDetails) buDetails);
         }
 
         ((Record) deletedRecord).setCreationDate(creationDate);
@@ -135,7 +135,7 @@ public abstract class RecordService {
         deletedRecord.setDeletionDetails("Record deleted on " + now.format(formatter) +
                 " by " + soeid + ". Reason: " + reason);
 
-        if (deletedRecord instanceof CustomerRecord) {
+        if (deletedRecord instanceof DeletedCustomerRecord) {
             ((DeletedCustomerRecordRepository) deletedRepository).save((DeletedCustomerRecord) deletedRecord);
         } else {
             ((DeletedTransactionRecordRepository) deletedRepository).save((DeletedTransactionRecord) deletedRecord);
