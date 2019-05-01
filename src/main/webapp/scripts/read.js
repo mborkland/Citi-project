@@ -53,7 +53,19 @@ function ($rootScope, $scope, $http, uiGridConstants, $uibModal, $compile, $wind
     };
 
     $scope.areRowsSelected = function() {
-        return ($scope.recordType === 'CUSTOMER' ? $scope.grid1Api.grid.selection.selectedCount : $scope.grid2Api.grid.selection.selectedCount) > 0;
+        if ($scope.recordType === 'CUSTOMER') {
+            if ($scope.grid1Api) {
+                return $scope.grid1Api.grid.selection.selectedCount > 0;
+            } else {
+                return false;
+            }
+        } else {
+            if ($scope.grid2Api) {
+                return $scope.grid2Api.grid.selection.selectedCount > 0;
+            } else {
+                return false;
+            }
+        }
     };
 
     $scope.showHistoryModal = function(id) {

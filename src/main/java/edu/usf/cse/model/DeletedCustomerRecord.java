@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="DELETED_CX_BU_DETAILS")
-public class DeletedCustomerRecord implements Record {
+public class DeletedCustomerRecord implements Record, DeletedRecord {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -42,10 +42,12 @@ public class DeletedCustomerRecord implements Record {
         return buDetails;
     }
 
+    @Override
     public void setDeletionDetails(String deletionDetails) {
         this.deletionDetails = deletionDetails;
     }
 
+    @Override
     public String getDeletionDetails() {
         return deletionDetails;
     }

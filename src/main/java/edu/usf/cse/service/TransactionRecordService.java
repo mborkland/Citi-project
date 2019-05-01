@@ -85,22 +85,13 @@ public class TransactionRecordService extends RecordService {
 
     @Override
     public String deleteRecords(List<Integer> ids, String soeid, String reason) {
-        for (Integer id : ids) {
-            Record record = getRecordById(id);
-            saveDeletedRecord(record.getBuDetails(), record.getCreationDate(), soeid, reason);
-            transactionRecordRepository.delete(id);
-        }
-
+        deleteRecordsImpl(ids, soeid, reason, transactionRecordRepository);
         return "Transaction record(s) deleted and archived successfully";
     }
 
     @Override
     public List<Record> getArchive() {
-        List<Record> records = new ArrayList<>();
-        for (Record record : deletedTransactionRecordRepository.findAll()) {
-            records.add(record);
-        }
-        return records;
+        return getArchiveImpl(deletedTransactionRecordRepository);
     }
 
     @Override
@@ -118,34 +109,14 @@ public class TransactionRecordService extends RecordService {
     @Override
     public String clearDeletedRecords(List<Integer> ids)
     {
-        for (Integer id : ids) {
-            deletedTransactionRecordRepository.delete(id);
-        }
-
+        clearDeletedRecordsImpl(ids, deletedTransactionRecordRepository);
         return "Deleted record(s) cleared successfully";
     }
 
     @Override
     public String restoreDeletedRecords(List<Integer> ids, String soeid)
     {
-        for (Integer id : ids) {
-            DeletedTransactionRecord deletedTransactionRecord = deletedTransactionRecordRepository.findOne(id);
-            String deletionDetails = deletedTransactionRecord.getDeletionDetails();
-            TxBuDetails txBuDetails = (TxBuDetails) deletedTransactionRecord.getBuDetails();
-            Date creationDate = deletedTransactionRecord.getCreationDate();
-
-            TransactionRecord transactionRecord = new TransactionRecord();
-            StringBuilder history = new StringBuilder(txBuDetails.getHistory());
-            LocalDateTime now = LocalDateTime.now();
-            history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter)
-                    .append("Record restored on ").append(now.format(formatter)).append(" by ").append(soeid);
-            txBuDetails.setHistory(history.toString());
-            transactionRecord.setBuDetails(txBuDetails);
-            transactionRecord.setCreationDate(creationDate);
-            transactionRecordRepository.save(transactionRecord);
-            deletedTransactionRecordRepository.delete(id);
-        }
-
+        restoreDeletedRecordsImpl(ids, soeid, deletedTransactionRecordRepository, transactionRecordRepository);
         return "Deleted record(s) restored successfully";
     }
 

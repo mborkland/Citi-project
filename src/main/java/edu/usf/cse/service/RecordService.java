@@ -5,6 +5,7 @@ import edu.usf.cse.dto.UpdatedField;
 import edu.usf.cse.model.*;
 import edu.usf.cse.dto.UpdatedRecord;
 import edu.usf.cse.persistence.CustomerRecordRepository;
+import edu.usf.cse.persistence.DeletedCustomerRecordRepository;
 import edu.usf.cse.persistence.TransactionRecordRepository;
 import org.springframework.data.repository.CrudRepository;
 
@@ -33,7 +34,7 @@ public abstract class RecordService {
 
     abstract public List<Record> getRecords(String searchTerms, boolean or, boolean exactMatch);
 
-    public List<Record> getRecordsImpl(RecordType recordType, boolean isArchive, EntityManager entityManager, String searchTerms,
+    protected List<Record> getRecordsImpl(RecordType recordType, boolean isArchive, EntityManager entityManager, String searchTerms,
                                        String[] searchableFields, boolean or, boolean exactMatch) {
         Class<? extends Record> recordClass =
                 isArchive ? recordType == RecordType.CUSTOMER ? CustomerRecord.class : TransactionRecord.class
@@ -51,7 +52,7 @@ public abstract class RecordService {
 
     abstract public String updateRecords(List<? extends UpdatedRecord> updatedRecords);
 
-    public void updateRecordsImpl(List<? extends UpdatedRecord> updatedRecords, CrudRepository<? extends Record, Integer> repository) {
+    protected void updateRecordsImpl(List<? extends UpdatedRecord> updatedRecords, CrudRepository<? extends Record, Integer> repository) {
         for (UpdatedRecord updatedRecord : updatedRecords) {
             Record record = updatedRecord.getRecord();
             String soeid = updatedRecord.getSoeid();
@@ -80,13 +81,73 @@ public abstract class RecordService {
 
     abstract public String deleteRecords(List<Integer> ids, String soeid, String reason);
 
+    protected void deleteRecordsImpl(List<Integer> ids, String soeid, String reason, CrudRepository<? extends Record, Integer> repository) {
+        for (Integer id : ids) {
+            Record record = getRecordById(id);
+            saveDeletedRecord(record.getBuDetails(), record.getCreationDate(), soeid, reason);
+            repository.delete(id);
+        }
+    }
+
     abstract public List<Record> getArchive();
+
+    protected List<Record> getArchiveImpl(CrudRepository<? extends Record, Integer> repository) {
+        List<Record> records = new ArrayList<>();
+        for (Record record : repository.findAll()) {
+            records.add(record);
+        }
+        return records;
+    }
 
     abstract public String saveDeletedRecord(BuDetails buDetails, Date creationDate, String soeid, String reason);
 
     abstract public String clearDeletedRecords(List<Integer> ids);
 
+    protected void clearDeletedRecordsImpl(List<Integer> ids, CrudRepository<? extends DeletedRecord, Integer> repository) {
+        for (Integer id : ids) {
+            repository.delete(id);
+        }
+    }
+
     abstract public String restoreDeletedRecords(List<Integer> ids, String soeid);
+
+    protected void restoreDeletedRecordsImpl(List<Integer> ids, String soeid, CrudRepository<? extends DeletedRecord, Integer> deletedRepository,
+                                             CrudRepository<? extends Record, Integer> repository) {
+        for (Integer id : ids) {
+            DeletedRecord deletedRecord = deletedRepository.findOne(id);
+            String deletionDetails = deletedRecord.getDeletionDetails();
+            BuDetails buDetails = ((Record) deletedRecord).getBuDetails();
+            Date creationDate = ((Record) deletedRecord).getCreationDate();
+            if (deletedRepository instanceof DeletedCustomerRecordRepository) {
+                restoreRecord(new CustomerRecord(), buDetails, deletionDetails, creationDate, soeid, repository);
+            } else {
+                restoreRecord(new TransactionRecord(), buDetails, deletionDetails, creationDate, soeid, repository);
+            }
+            deletedRepository.delete(id);
+        }
+    }
+
+    private void restoreRecord(Record record, BuDetails buDetails, String deletionDetails, Date creationDate, String soeid,
+                               CrudRepository<? extends Record, Integer> repository) {
+        StringBuilder history = new StringBuilder(buDetails.getHistory());
+        LocalDateTime now = LocalDateTime.now();
+        history.append(historyDelimiter).append(deletionDetails).append(historyDelimiter)
+                .append("Record restored on ").append(now.format(formatter)).append(" by ").append(soeid);
+        buDetails.setHistory(history.toString());
+
+        if (record instanceof CustomerRecord) {
+            ((CustomerRecord) record).setBuDetails((CxBuDetails) buDetails);
+        } else {
+            ((TransactionRecord) record).setBuDetails((TxBuDetails) buDetails);
+        }
+
+        record.setCreationDate(creationDate);
+        if (record instanceof CustomerRecord) {
+            ((CustomerRecordRepository) repository).save((CustomerRecord) record);
+        } else {
+            ((TransactionRecordRepository) repository).save((TransactionRecord) record);
+        }
+    }
 
     abstract public List<Record> findDuplicateRecords(BuDetails detailsToMatch);
 
